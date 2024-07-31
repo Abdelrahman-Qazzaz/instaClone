@@ -1,0 +1,108 @@
+/*
+#4564dc blueish
+#aa2cc0 purple
+#ec0075	pink
+#ff6903 orange  
+#ffd366 yellow
+*/  
+
+
+
+
+
+.backgroundGradient{
+  background-image: linear-gradient(45deg,#aa2cc0,#ff6903,#ec0075);
+}
+.backgroundGradient2{
+  background-image: linear-gradient(45deg,#aa2cc0,#ff6903,#ec0075);
+}
+
+.zenLoop {
+  font-family: "Zen Loop", cursive;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 1.5rem;
+}
+
+.inputFieldText{
+    font-size: 0.6rem;
+}
+
+.inputField{
+    background-color: transparent;
+
+    border:none;
+    outline: none;
+    color:black
+    
+    }
+
+    .inputFieldContainer{
+        opacity: 0.7;
+        position: relative;
+        border-radius: 5%;
+        background-color: #D7D7D7;
+        width: 290px;
+        height:45px
+    }
+   
+    .outerCircle {
+        width: 35px; /* Adjust width and height as needed */
+        height: 35px;
+        border-radius: 50%; /* Set to 50% for a perfect circle */
+        overflow: hidden; /* This hides the overflowing content */
+        background: linear-gradient(45deg,#ffd366,#ff6903,#ec0075);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+      }
+      
+      .innerCircle {
+        width: 93%; /* Match width and height of outer circle */
+        height: 93%;
+        border-radius: 50%;
+        background-color: white; /* Makes the inner circle invisible */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .storyIcon{
+        padding:1.5px;
+        background-image: linear-gradient(45deg,#ffd366,#ff6903,#ec0075);
+      }
+      .innerStoryIcon{
+        padding:0.7px;
+        background-color: white;
+      }
+
+      /* .storyResponsiveMinWidth{
+        width: 30vw;
+      }
+
+      @media (max-width: 1000px){
+        .storyResponsiveMinWidth{
+          width: 40vw
+        }
+
+      }
+
+      @media (max-width: 800px){
+        .storyResponsiveMinWidth{
+          width: 60vw
+        }
+
+      }
+
+      @media (max-width: 500px){
+        .storyResponsiveMinWidth{
+          width: 100%
+        }
+
+      }
+
+
+/*
+
+*/ 

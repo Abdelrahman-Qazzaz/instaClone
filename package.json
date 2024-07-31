@@ -1,0 +1,17 @@
+{
+  "name": "instagram",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"sh Frontend/my-app/start_frontend_server.sh\" \"sh Backend/start_backend_server.sh\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@mui/styles": "^5.15.21",
+    "concurrently": "^8.2.2"
+  }
+}
