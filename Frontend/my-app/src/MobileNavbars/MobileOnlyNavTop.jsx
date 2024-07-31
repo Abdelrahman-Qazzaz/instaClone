@@ -47,7 +47,7 @@ function getAndSetpeopleYouFollowThatFollowTheSuggestedUser(searchSuggestion){
 
   
   return (
-    <div style={{position:'fixed',top:0,left:0,height:"100vh",width:'100vw',zIndex:7}} className='d-flex flex-column'>
+    <div style={{position:'fixed',top:0,left:0,height:"100vh",width:'100vw',zIndex:4}} className='d-flex flex-column'>
       <navbar className='d-md-none d-block m-0 p-0' style={{height:'60px',backgroundColor:'white',border:'',zIndex:4}}>
           <div className="container p-0 m-0" style={{width:'100%',height:'100%',maxWidth:'100%',}}>
               <div className="row m-0 p-1" style={{width:'100%',height:'100%',width:'100%',display:'flex'}}>

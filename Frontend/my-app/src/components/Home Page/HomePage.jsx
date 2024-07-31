@@ -14,7 +14,7 @@ function HomePage() {//if the user isnt following anyone
   return (
     <div className='d-flex flex-column flex-md-row' style={{ width:'100%',border:' blue',minHeight:'100vh'}}>
       
-      {user.following.length && !showSuggestedPage ? <Feed/> : <SuggestedPage/>}
+      {!user.following.length && !showSuggestedPage ? <Feed/> : <SuggestedPage/>}
     </div>
   )
 }

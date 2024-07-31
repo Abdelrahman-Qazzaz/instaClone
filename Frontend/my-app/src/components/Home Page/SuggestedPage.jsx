@@ -25,12 +25,12 @@ function SuggestedPage(props) {
   return (
 
     <>
-    <div style={{position:'fixed',top:"2%",left:'80%',zIndex:1}}>
-       <button onClick={()=> props.onClick() ? props.onClick() : setShowSuggestedPage(false)} className='p-0' style={{backgroundColor:"transparent",border:"none",}}>
+    <div style={{position:'fixed',top:"2%",left:'80%',zIndex:10}}>
+       <button onClick={()=> props.onClick() ? props.onClick() : setShowSuggestedPage(false)} className='p-0' style={{backgroundColor:"transparent",border:"none"}}>
          <XIcon width='40'/>
        </button>
     </div>
-    <div  className={styles.c} style={{width:'100%',height:'100%',backgroundColor:'white',position:'fixed',left:'0',display:'flex',justifyContent:'center'}}>
+    <div  className={styles.c} style={{width:'100%',height:'100%',backgroundColor:'white',position:'fixed',left:'0',display:'flex',justifyContent:'center',zIndex:10}}>
         <div className={`${styles.s}`} style={{width:'100%',maxWidth:'630px',}}>
             <div className='mx-3 my-4' style={{height:'fit-content'}}>
                 <text style={{fontWeight:'650'}}>Suggested for you</text>

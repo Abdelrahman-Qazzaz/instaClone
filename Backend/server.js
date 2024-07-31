@@ -34,7 +34,7 @@ const port = 4000
 
 app.use(cors(
   {
-  origin: '*',
+  origin: 'http://localhost:3000',
   credentials: true
 }));
 
@@ -71,12 +71,18 @@ async function checkAuth(req,res,next){
   }
   else{
 
-    if(req.path == '/login' || req.path == '/pending_users' || req.path == '/users' || req.path == '/' || req.path.startsWith('/posts') || req.path.startsWith('/users') || req.path == '/suggested-posts')
+    if(req.path == '/temp'||req.path == '/login' || req.path == '/pending_users' || req.path == '/users' || req.path == '/' || req.path.startsWith('/posts') || req.path.startsWith('/users') || req.path == '/suggested-posts')
       {next()} // skip authentication
     else{res.sendStatus(401)}
   }
 }
 //
+app.get('/temp',async(req,res)=>{
+  // const Users = db.collection("Users")
+  // await Users.deleteMany({})
+  const TEST = process.env.TEST
+  res.json({TEST})
+})
 
 
 
@@ -429,6 +435,7 @@ app.post('/users',async(req,res)=>{// make sure to not apply the check authentic
     user.followedBy_ids = []//array of strings
     user.posts_ids = []//array of strings
     user.chats_ids = []//array of strings
+    user.savedPosts_ids = []
     user.password = await hash(req.body.password)
     await users.insertOne(user)
     res.sendStatus(201)

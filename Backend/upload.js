@@ -125,7 +125,7 @@ else
           let filter = {_id: ObjectId.createFromHexString(req.params.user_id)}
           const owner = await Users.findOne(filter)
    
-          const { insertedId } = await Posts.insertOne({owner,firebasePathURLs:urls, caption: text, creationDate: Date.now()})
+          const { insertedId } = await Posts.insertOne({owner,firebasePathURLs:urls, caption: text, creationDate: Date.now(),likes:[],comments:[]})
           let update = {$push:{posts_ids: insertedId}}
           await Users.updateOne(filter,update)
           res.status(201).json({posts_ids:[...owner.posts_ids,insertedId] ,newPost:{owner,firebasePathURLs:urls, caption: text, creationDate: Date.now(),comments:[]}})
