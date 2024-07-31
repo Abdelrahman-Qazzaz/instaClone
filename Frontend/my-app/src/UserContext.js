@@ -78,10 +78,11 @@ export function UserContextProvider({ children,...props }) {
   async function login(username,password){
     const { data } =  await axios.post('http://localhost:4000/login',{username,password},{withCredentials:true})
     const userID = data.user_id
+    if(userID != -1){
     const result = await axios.get(`http://localhost:4000/users/${userID}`,{withCredentials:true})
     // setUser(produce((draft) => {draft = result.data.user}))
     socket.emit('auth',result.data.user._id)
-    setUser(result.data.user)
+    setUser(result.data.user)}
   }
   async function logout(){
     const { status } = await axios.get('http://localhost:4000/logout',{withCredentials:true})

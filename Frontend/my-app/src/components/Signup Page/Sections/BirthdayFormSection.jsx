@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
-import CakeIcon from '../../assets/CakeIcon'
-import BalloonIcon from '../../assets/BalloonIcon'
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-
+import axios from 'axios';
+import React, { useContext, useState } from 'react';
+import userContext from '../../../UserContext';
+import BalloonIcon from '../../assets/BalloonIcon';
+import CakeIcon from '../../assets/CakeIcon';
 
 function BirthdayFormSection(props) {
 
+  const { login } = useContext(userContext)
   const now = new Date()
   const months = [
     {name: 'January',value:'1',daysInMonth:31},
@@ -62,11 +64,16 @@ function BirthdayFormSection(props) {
     
   };
 
-  function handleBirthDay(){
+  async function handleBirthDay(){
      // if everything goes well
      const temp = {...props.formData,birthday:{day:date,month:month,year:year}}
      props.setFormData(temp)
-     props.setCurrentSection('confirmationCodeSection')
+     const { status } = await axios.post(`http://localhost:4000/users`,temp)
+     if(status === 201){
+
+      await login(temp.username,temp.password)
+     }
+
   }
   
   return (//height 580

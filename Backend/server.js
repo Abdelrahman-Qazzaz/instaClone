@@ -54,16 +54,16 @@ app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session()); // Use if using sessions
 //
-app.use(checkAdmin) // for postman
-async function checkAdmin(req,res,next){
-  if(req.headers.adminkey === process.env.ADMINKEY){ // pass the adminkey as header for every request you make in postman
-    const Users = db.collection("Users")
-    // const filter = {_id: ObjectId.createFromHexString('6697605adaa9c129a51aae79')}
-    req.user = await Users.findOne(filter)
-    req.user._id = req.user._id + ''
-  }
-  next()
-}
+// app.use(checkAdmin) // for postman
+// async function checkAdmin(req,res,next){
+//   if(req.headers.adminkey === process.env.ADMINKEY){ // pass the adminkey as header for every request you make in postman
+//     const Users = db.collection("Users")
+//     // const filter = {_id: ObjectId.createFromHexString('6697605adaa9c129a51aae79')}
+//     req.user = await Users.findOne(filter)
+//     req.user._id = req.user._id + ''
+//   }
+//   next()
+// }
 app.use(checkAuth)
 async function checkAuth(req,res,next){
   if(req.isAuthenticated()){  // either authenticated cuz user is logged in, or cuz req.user was set up from the checkAdmin
@@ -422,27 +422,19 @@ app.delete('/users/:user_id/following/:targetUser_id',async(req,res)=>{
 
 app.post('/users',async(req,res)=>{// make sure to not apply the check authentication middleware to this route
 
-  const numOrEmail = req.body.numOrEmail
-  const pending_users =  db.collection("Pending Users");
-  const filter = { email: numOrEmail };
-  const targetUserDocument = await pending_users.findOne(filter)
-  const {confirmation_code,_id,...rest } = targetUserDocument;
- 
-  if(confirmation_code == req.body.codeInput){
-    pending_users.deleteOne(filter)
-    const user = rest
+
+    const user = req.body
     const users = db.collection("Users");
     user.following_ids = []//array of strings
     user.followedBy_ids = []//array of strings
     user.posts_ids = []//array of strings
     user.chats_ids = []//array of strings
+    user.password = await hash(req.body.password)
     await users.insertOne(user)
-    res.status(201).json({user})
-  }
+    res.sendStatus(201)
+
     
-  else{//wrong confirmation code
-    res.sendStatus(400)
-  }
+
 
 })
 
