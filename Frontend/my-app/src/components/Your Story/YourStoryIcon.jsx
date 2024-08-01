@@ -9,7 +9,7 @@ function YourStoryIcon() {
     const [file,setFile] = useState(null)
     const [tempFile,setTempFile] = useState(null)
     const [showTextInput,setShowTextInput] = useState(false)
-    const { user,postStorySlide } = useContext(userContext)
+    const { user,postStorySlide,setIsLoading } = useContext(userContext)
     const [input,setInput] = useState('')
     const [color,setColor] = useState('#000000')
     const [currentTextFieldPosition, setCurrentTextFieldPosition] = useState({ x: 0, y: 0 });
@@ -30,6 +30,7 @@ function YourStoryIcon() {
         setShowTextInput(!showTextInput)
     }
     async function handleClick(){
+        setIsLoading(true)
         const slide = new FormData()
         slide.append('file',file)
         slide.append('text',input)
@@ -46,7 +47,7 @@ function YourStoryIcon() {
         setDuration(5)
         setCurrentTextFieldPosition({ x: 0, y: 0 })
         setColor('#000000')
-
+        setIsLoading(false)
     }
 
     function onLoadedMetadata(){
