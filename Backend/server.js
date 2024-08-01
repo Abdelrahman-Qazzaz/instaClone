@@ -17,7 +17,6 @@ import { uploadImage, uploadImagesAndVids } from "./upload.js";
 
 
 
-console.log(db)
 
 
 
