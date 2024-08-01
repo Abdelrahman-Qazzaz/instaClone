@@ -30,6 +30,7 @@ export const upload = multer({ dest: 'uploads/' });  // Configure temporary stor
 
 const app = express()
 const redisClient = new Redis();
+redisClient.connect().catch(console.error)
 const RedisStore = new connectRedis(session);
 
 const server = http.createServer(app);
