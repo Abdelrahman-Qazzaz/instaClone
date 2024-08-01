@@ -8,13 +8,12 @@ import ProfilePage from './components/Profile Page/ProfilePage';
 import SignupPage from './components/Signup Page/SignupPage';
 import userContext from './UserContext';
 
-import styles from "./rest.module.css";
-
 import Explore from './components/Explore Page/Explore';
 import Inbox from './components/Inbox';
 import ProfilePagePost from './components/Profile Page/ProfilePagePost';
 import StoryPreview from './components/StoriesPreview';
 import Layout from './Layout';
+import styles from "./rest.module.css";
 function Rest() {
 
     const { user } = useContext(userContext)
@@ -35,6 +34,8 @@ function Rest() {
   
       
       return (
+      //   fix story so that it navigates correctly 
+      //   fix axios requests from localhost4000 to a url that you get from either a .env or just the context
       <div className={styles.fadeFromOutToIn} style={{minHeight:'100vh',position:'relative'}}>
         <BrowserRouter>
 
@@ -49,16 +50,18 @@ function Rest() {
            </>
            
             :
+            <>
+            <Route path= '/p/*' element= {<ProfilePagePost/>}/>     {/*  done removing anchors*/}
             <Route path='/' element={<Layout/>}>
               <Route index  element={<HomePage/>}/> {/*done removiong anchors, (for now) done refactoring */}
               <Route path= '/accounts/emailsignup'  element={<SignupPage/>}/>  {/*done removing anchors*/}
               <Route path= '/explore' element= {<Explore/>}/>  {/* done removing anchors,done refactoring */}
               <Route path= '/direct/inbox/*' element={<Inbox/>}/>  {/* done removing anchors, PS : for exit chat socket events, do them via the useEffect clean up*/}
               <Route path= '/notFound' element= {<NotFoundPage/>}/>  {/* done removing anchors*/}
-              <Route path= '/p/*' element= {<ProfilePagePost/>}/>     {/*  done removing anchors*/}
               <Route path= '/stories/:username' element= {<StoryPreview/>}/>      {/*  done removing anchors, done refactoring? it's mediocre*/}
               <Route path= '*'  element= {<ProfilePage/>}/>       {/* done removing anchors */}
             </Route>
+            </>
             } 
           </Routes>
 

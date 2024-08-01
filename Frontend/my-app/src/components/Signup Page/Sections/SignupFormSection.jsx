@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import styles from "../signupPage.module.css"
-import FacebookIcon from "../../assets/FacebookIcon"
 import MyTextField from '../../assets/MyTextField'
+import styles from "../signupPage.module.css"
 
 
 
@@ -22,6 +21,12 @@ function handleSignup(e){
 
 }
 
+  function handleKeyDown(e){
+    const { key } = e 
+    if(key == 'Enter'){
+      props.setCurrentSection('birthdaySection')
+    }
+  }
   const [showPassword,setShowPassword] = useState(false)
   return (
     <div className='border text-center' style={{height:'fit-content',paddingBottom:'10%'}}>
@@ -30,10 +35,10 @@ function handleSignup(e){
 
           <form onSubmit={handleSignup}>
           
-          <MyTextField textFieldName={'numOrEmail'} textFieldValue={props.formData.numOrEmail} textFieldOnChange={handleChange} label={'Mobile Number or Email'}/>
-          <MyTextField textFieldName={'fullName'}   textFieldValue={props.formData.fullName} textFieldOnChange={handleChange} label={'Full Name'}/>
-          <MyTextField textFieldName={'username'}   textFieldValue={props.formData.username} textFieldOnChange={handleChange} label={'Username'}/>
-          <MyTextField textFieldName={'password'}   textFieldValue={props.formData.password} textFieldOnChange={handleChange} label={'Password'} showPassword={showPassword} setShowPassword={setShowPassword}/>
+          <MyTextField textFieldOnKeyDown={handleKeyDown} textFieldName={'numOrEmail'} textFieldValue={props.formData.numOrEmail} textFieldOnChange={handleChange} label={'Mobile Number or Email'}/>
+          <MyTextField textFieldOnKeyDown={handleKeyDown} textFieldName={'fullName'}   textFieldValue={props.formData.fullName} textFieldOnChange={handleChange} label={'Full Name'}/>
+          <MyTextField textFieldOnKeyDown={handleKeyDown} textFieldName={'username'}   textFieldValue={props.formData.username} textFieldOnChange={handleChange} label={'Username'}/>
+          <MyTextField textFieldOnKeyDown={handleKeyDown} textFieldName={'password'}   textFieldValue={props.formData.password} textFieldOnChange={handleChange} label={'Password'} showPassword={showPassword} setShowPassword={setShowPassword}/>
      
 
           <button type='submit' style={{width:'268px',height:'32px'}} className='btn btn-info text-light mt-3 py-1'>Sign up</button>

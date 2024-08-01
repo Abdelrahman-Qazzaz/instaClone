@@ -1,10 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import LeftArrowIcon from '../../assets/LeftArrowIcon'
+import React, { useContext, useState } from 'react'
 import userContext from "../../../UserContext"
-import styles from "../profilePage.module.css"
 import ImagesAndVidsPreviewCarousel from '../../ImagesAndVidsPreviewCarousel'
-import RightArrowIcon from '../../assets/RightArrowIcon'
-import PicAndVidIcon from '../../assets/PicAndVidIcon'
+import LeftArrowIcon from '../../assets/LeftArrowIcon'
 function SetCaptionSection(props) {
 
 

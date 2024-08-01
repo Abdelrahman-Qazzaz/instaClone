@@ -12,7 +12,7 @@ function UnfollowConfirmationScreen(props) {
   return ( 
     <>
     <BlackBackground/>
-    <div style={{position:'fixed',height:'100vh',width:'100vw',backgroundColor:'',zIndex:1,display:'flex',justifyContent:'center',alignItems:'center',left:0,zIndex:6}}>
+    <div style={{position:'fixed',height:'100vh',width:'100vw',backgroundColor:'',display:'flex',justifyContent:'center',alignItems:'center',left:0,zIndex:3}}>
         <div style={{width:'400px',height:'293px',backgroundColor:'white',borderRadius:'5%'}} className='d-flex flex-column'>
             <div className='flex-grow-1'>
                 <div className="d-flex flex-column justify-content-center align-items-center" style={{height:'100%'}}>

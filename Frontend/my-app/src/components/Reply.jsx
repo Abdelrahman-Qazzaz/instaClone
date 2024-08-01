@@ -59,13 +59,13 @@ function Reply(props) {
             {props.displayedReply.owner ? props.displayedReply.owner.username : null}
           </div>
           <div className='flex-grow-1' style={{border:'',wordBreak:'break-word',height:'fit-content'}}>
-            {tag ? <a href={tag.replace('@','/')} style={{textDecoration:'none'}}>{tag}</a> : null} {text}
+            {tag ? <a href={tag.replace('@','/')} style={{textDecoration:'none'}}>{tag}</a> : null}<span className='ms-1'>{text}</span>
           </div>
         </div>
         <div style={{border:'',color:'#758694',fontSize:'13px'}} className='d-flex'>
-          <div>{replyAge}</div>
-          <div className='ms-3'> {props.displayedReply.likes ? props.displayedReply.likes.length : '0'} likes</div>
-          <div className='ms-3'><button onClick={() => {props.userReplyingToComment_id.current = props.displayedReply.id ;props.userIsReplying.current = true; props.setInput('@'+props.displayedReply.owner.username)}} className='p-0' style={{border:'none',backgroundColor:'transparent',color:'#758694'}}>Reply</button></div>
+          <div className='text-center'>{replyAge}</div>
+          <div className='ms-3 text-center'> {props.displayedReply.likes ? props.displayedReply.likes.length : '0'} likes</div>
+          <div className='ms-3 text-center'><button onClick={() => {props.userReplyingToComment_id.current = props.displayedReply.id ;props.userIsReplying.current = true; props.setInput('@'+props.displayedReply.owner.username)}} className='p-0' style={{border:'none',backgroundColor:'transparent',color:'#758694'}}>Reply</button></div>
 
         </div>
 

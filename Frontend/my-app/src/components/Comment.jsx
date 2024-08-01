@@ -62,7 +62,7 @@ function Comment(props) {
 
 
   return (
-<div style={{width:'',border:''}}>
+<div style={{width:'',border:'2px solid red'}}>
 <div className='d-flex' style={{border:'',}}>
   <img width='32px' height='32px' src={props.comment.owner.pfpFirebasePathURL ? props.comment.owner.pfpFirebasePathURL : '/defaultInstaPFP.jpg'} alt="userPFP" style={{borderRadius:'50%'}} />
   <div className='flex-grow-1 ms-3' style={{border:' red'}}> 

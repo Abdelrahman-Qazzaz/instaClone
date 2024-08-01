@@ -37,7 +37,7 @@ function DesktopNavbar() {
 
   return (
     <>
-    <div className='p-0 d-none d-md-flex border border-right' style={{border:'none',backgroundColor:'transparent',border:'',position:'fixed',top:'0',height:'100vh',backgroundColor:'white',zIndex:7}}>
+    <div className='p-0 d-none d-md-flex border border-right' style={{border:'none',backgroundColor:'transparent',border:'',position:'fixed',top:'0',height:'100vh',backgroundColor:'white',zIndex:1,border:''}}>
 
         <div className='p-0 px-2 d-flex flex-column' style={{border:'none',backgroundColor:'transparent',border:'',minWidth:'6vw'}}>
 
@@ -45,18 +45,18 @@ function DesktopNavbar() {
        
 
 
-            <div className='flex-grow-1 d-flex flex-column justify-content-between' style={{border:'',marginBottom:"10vh",marginTop:"5vh"}}>
+            <div className='flex-grow-1 d-flex flex-column justify-content-between' style={{border:'',marginBottom:"7vh",marginTop:"5vh"}}>
 
-                <div className={`p-0  d-flex justify-content-center ${showExtraText ? 'justify-content-xl-start' : ''}`}  style={{border:'none',backgroundColor:'transparent',height:""}}>
-                         <button onClick={()=>{navigate('/')}}  className={`${styles.zenLoop}  d-xl-flex p-0`}   style={{border:'none',backgroundColor:'transparent',color:'black',textDecoration:'none'}}>
-                            {showExtraText ? null : <div style={{border:"",width:'100%'}} className='d-xl-none justify-content-center'><InstagramIcon/></div>}
-                            {!showExtraText ? null : <div className='p-0 d-xl-none'><InstagramIcon/></div>}
+                <div className={`p-0  d-flex justify-content-center ${showExtraText ? 'justify-content-xl-start' : ''}`}  style={{border:'',backgroundColor:'transparent'}}>
+                         <button onClick={()=>{ handleDesktopOnlyNavbarType('');navigate('/')}}  className={`${styles.zenLoop}  d-xl-flex p-0`}   style={{border:'none',backgroundColor:'transparent',color:'black',textDecoration:'none',}}>
+                            {showExtraText ? null : <div className='p-0 m-0'><InstagramIcon/></div>}
+                            {!showExtraText ? null : <div className='p-0 d-block d-xl-none' ><InstagramIcon/></div>}
                             <div style={{border:""}} className='p-0 d-none d-xl-block'>{showExtraText ? 'instaClone' : ''}</div> 
                         </button>
                 </div>  
                 
-                <div className={`p-0  d-flex justify-content-center ${showExtraText ? 'justify-content-xl-start' : ''}`}  style={{border:'none',backgroundColor:'transparent',}}>
-                    <button onClick={()=>{navigate('/')}}  className='p-0 d-flex'  style={{border:'none',backgroundColor:'transparent',color:'black',textDecoration:'none'}}>
+                <div className={`p-0  d-flex justify-content-center ${showExtraText ? 'justify-content-xl-start' : ''}`}  style={{border:'',backgroundColor:'transparent',}}>
+                    <button onClick={()=>{ handleDesktopOnlyNavbarType('');navigate('/')}}  className='p-0 d-flex'  style={{border:'none',backgroundColor:'transparent',color:'black',textDecoration:'none'}}>
                         <HomeIcon/>
                         <div className='p-0 ms-3 d-none d-xl-block'>{showExtraText ? 'Home' : ''}</div> 
                     </button>
@@ -70,7 +70,7 @@ function DesktopNavbar() {
 
                 </div>
                 <div className={`p-0  d-flex justify-content-center ${showExtraText ? 'justify-content-xl-start' : ''}`} style={{border:'none',backgroundColor:'transparent',}}>
-                    <button onClick={()=>{navigate('/explore/')}}  className='p-0 d-flex'  style={{border:'none',backgroundColor:'transparent',color:'black',textDecoration:'none'}}>
+                    <button onClick={()=>{ handleDesktopOnlyNavbarType('');navigate('/explore/')}}  className='p-0 d-flex'  style={{border:'none',backgroundColor:'transparent',color:'black',textDecoration:'none'}}>
                     <ExploreIcon/>
                     <div className='p-0 ms-3 d-none d-xl-block'>{showExtraText ? 'Explore' : ''}</div> 
                     </button>
@@ -84,13 +84,13 @@ function DesktopNavbar() {
                 </div>
         
                 <div className={`p-0  d-flex justify-content-center ${showExtraText ? 'justify-content-xl-start' : ''}`}  style={{border:'none',backgroundColor:'transparent',}}>
-                    <button  className='p-0 d-flex' onClick={()=>{setShowCreateNewPostScreen(true)}}  style={{border:'none',backgroundColor:'transparent',color:'black',textDecoration:'none',cursor:'pointer'}}>
+                    <button  className='p-0 d-flex' onClick={()=>{ handleDesktopOnlyNavbarType('');setShowCreateNewPostScreen(true)}}  style={{border:'none',backgroundColor:'transparent',color:'black',textDecoration:'none',cursor:'pointer'}}>
                         <NewPostIcon/>
                         <div className='p-0 ms-3 d-none d-xl-block'>{showExtraText ? 'Create' : ''}</div> 
                         </button>
                 </div>
-                <div className={`p-0  d-flex justify-content-center ${showExtraText ? 'justify-content-xl-start' : ''}`}  style={{border:'none',backgroundColor:'transparent',}}>
-                <button onClick={()=>{navigate('/'+user.username+'/')}} className='p-0 d-flex' style={{border:'none',backgroundColor:'transparent',color:'black',textDecoration:'none'}}>
+                <div className={`p-0  d-flex justify-content-center ${showExtraText ? 'justify-content-xl-start' : ''}`}  style={{border:'none',backgroundColor:'transparent'}}>
+                <button onClick={()=>{ handleDesktopOnlyNavbarType('');navigate('/'+user.username+'/')}} className='p-0 d-flex' style={{border:'none',backgroundColor:'transparent',color:'black',textDecoration:'none',}}>
                     <UserPFPIcon src={user.pfpFirebasePathURL ? user.pfpFirebasePathURL : null}/>
                     <div className='p-0 ms-3 d-none d-xl-block'>{showExtraText ? 'Profile' : ''}</div> 
                 </button>
@@ -99,7 +99,7 @@ function DesktopNavbar() {
             
 
         </div>
-        <DesktopOnlyNavbarExtended desktopOnlyNavbarType={desktopOnlyNavbarType}/>
+        <DesktopOnlyNavbarExtended desktopOnlyNavbarType={desktopOnlyNavbarType} setDesktopOnlyNavbarType={setDesktopOnlyNavbarType}/>
 
     </div>
 

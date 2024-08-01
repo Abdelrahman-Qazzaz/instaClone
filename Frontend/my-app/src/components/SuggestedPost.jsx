@@ -20,13 +20,13 @@ function SuggestedPost(props) {
 
       </div>
       <div style={{width:'100%',height:'260px',border:'',backgroundColor:''}}>
-          <video width='100%' height='100%' style={{objectFit:'cover',objectPosition:"top"}} src={props.post.firebasePathURLs[0].fileUrl} alt='vid'></video>
+          <video width='100%' height='100%' style={{objectFit:'contain',objectPosition:"center"}} src={props.post.firebasePathURLs[0].fileUrl} alt='vid'></video>
       </div>
     </button>
     :
     null
       :
-        <button onClick={() => {navigate('/p/'+props.post._id)}} style={{position:'relative',border:'none',backgroundColor:'transparent'}} className='p-0'>
+        <button onClick={() => {navigate('/p/'+props.post._id)}} style={{position:'relative',border:'2px solid red',backgroundColor:'transparent'}} className='p-0'>
           <div style={{position:'absolute',left:'85%',top:'5%',}}>
 
           </div>
@@ -34,9 +34,9 @@ function SuggestedPost(props) {
             {
               props.post.firebasePathURLs[0].type == 'video'
               ?
-              <video width='100%' height='100%' style={{objectFit:'cover',objectPosition:"top"}} src={props.post.firebasePathURLs[0].fileUrl} alt='vid'></video>
+              <video width='100%' height='100%' style={{objectFit:'contain',objectPosition:"center"}} src={props.post.firebasePathURLs[0].fileUrl} alt='vid'></video>
               :
-              <img width='100%' height='100%' style={{objectFit:'cover',objectPosition:"top"}} src={props.post.firebasePathURLs[0].fileUrl} alt="Post"/>
+              <img width='100%' height='100%' style={{objectFit:'contain',objectPosition:"center"}} src={props.post.firebasePathURLs[0].fileUrl} alt="Post"/>
             }
           </div>
         </button>

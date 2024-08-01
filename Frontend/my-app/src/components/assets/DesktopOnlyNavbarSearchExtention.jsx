@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react'
 import { FilledInput } from '@mui/material'
-import XIcon from './XIcon'
 import axios from 'axios'
-import userContext from '../../UserContext'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import userContext from '../../UserContext'
 import UserTab from '../UserTab'
+import XIcon from './XIcon'
 
-function DesktopOnlyNavbarSearchExtention() {
+function DesktopOnlyNavbarSearchExtention(props) {
 
     const [inputValue,setInputValue] = useState('')
     const [searchSuggestions,setSearchSuggestions] = useState([])
@@ -23,7 +23,7 @@ function DesktopOnlyNavbarSearchExtention() {
       }
       else if(value.trim() != ''){
         setInputValue(value)
-      const { data } = await axios.get(`http://localhost:4000/search-suggestions?input=${value}`,{withCredentials:true})
+      const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/search-suggestions?input=${value}`,{withCredentials:true})
       const filtered = data.users.filter((suggestedUser)=>suggestedUser._id != user._id)
       setSearchSuggestions(filtered)
     }
@@ -46,7 +46,7 @@ function DesktopOnlyNavbarSearchExtention() {
 
 
   return (
-    <div className='d-none d-md-flex border border-left px-2' style={{width:'400px',borderRadius:'2%',height:'100%',backgroundColor:'white',border:'',flexDirection:'column'}}>
+    <div className='d-none d-md-flex border border-left px-2' style={{width:'400px',borderRadius:'2%',height:'100%',backgroundColor:'white',border:'',flexDirection:'column',}}>
 
     <div className={`${ inputValue== '' ? 'border-bottom' : ' '}`} style={{height:'160px',display:'flex',alignItems:'flex-end',border:''}}>
         <div className='' style={{height:'80%',border:''}}>
@@ -66,7 +66,7 @@ function DesktopOnlyNavbarSearchExtention() {
           {searchSuggestions.map((searchSuggestion)=>{
               searchSuggestion.peopleYouFollowThatFollowTheSuggestedUser = getAndSetpeopleYouFollowThatFollowTheSuggestedUser(searchSuggestion)
             return <>
-              <UserTab targetUser={searchSuggestion} searchSuggestion={true}/>
+              <UserTab navigate={navigate} setDesktopOnlyNavbarType={props.setDesktopOnlyNavbarType} targetUser={searchSuggestion} searchSuggestion={true}/>
               {/* */}
             </>
             

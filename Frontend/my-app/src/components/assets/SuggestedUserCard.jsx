@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
-import XIcon from './XIcon'
+import { useNavigate } from 'react-router-dom'
 import userContext from '../../UserContext'
-import axios from 'axios'
 import FollowButton2 from './FollowButton2'
 import UserPFPIcon from './UserPFPIcon'
-import { useNavigate } from 'react-router-dom'
+import XIcon from './XIcon'
 
 function SuggestedUserCard(props) {
 
@@ -35,8 +34,8 @@ function SuggestedUserCard(props) {
   return (
     <>
 <div class="card mx-1" style={{minWidth: '170px',maxWidth:'170px',height:'250px',position:'relative'}}>
-  <div style={{position:'absolute',left:'82%',top:'2%'}}><button onClick={removeSuggestion} className='p-0' style={{backgroundColor:'transparent',border:'none'}}><XIcon /></button></div>
-<div className='mt-3 mb-2' style={{display:'flex',justifyContent:'center'}}><button onClick={() => navigate(props.suggestedUser.username + '/')} className='p-0' style={{border:'none',backgroundColor:'transparent'}}><UserPFPIcon src={props.suggestedUser.pfpFirebasePathURL ? props.suggestedUser.pfpFirebasePathURL : null} forCard={true}/></button> </div>
+  <div style={{position:'absolute',left:'82%',top:'2%',zIndex:1}}><button onClick={removeSuggestion} className='p-0' style={{backgroundColor:'transparent',border:'none'}}><XIcon /></button></div>
+<div className='mt-3 mb-2' style={{display:'flex',justifyContent:'center',zIndex:1}}><button onClick={() => navigate(props.suggestedUser.username + '/')} className='p-0' style={{border:'none',backgroundColor:'transparent'}}><UserPFPIcon src={props.suggestedUser.pfpFirebasePathURL ? props.suggestedUser.pfpFirebasePathURL : null} forCard={true}/></button> </div>
 
 <div class="card-body p-0" style={{textAlign:'center',display:'flex',flexDirection:'column'}}>
   <text class="card-title mb-1" style={{fontWeight:'600',overflow:'hidden',textOverflow:'ellipsis'}}>{props.suggestedUser.username}</text>
@@ -50,7 +49,7 @@ function SuggestedUserCard(props) {
   </div> : null
   }
 
-  <div className='border-top' style={{height:'42px',backgroundColor:''}}>
+  <div className='border-top' style={{height:'42px',backgroundColor:'',zIndex:1}}>
    {user.following_ids.includes((props.suggestedUser._id)) ? <button onClick={()=>{toggleUnfollowConfirmationScreen(props.suggestedUser)}} style={{width:'100%',height:'42px',lineHeight:'42px',fontWeight:'600'}} className="btn text-info p-0 b-0">Following</button>: <FollowButton2 suggestedUser={props.suggestedUser}/>}
   </div>
 </div>
@@ -75,7 +74,7 @@ export default SuggestedUserCard
 <div class="card-body p-0" style={{textAlign:'center',display:'flex',flexDirection:'column'}}>
   <text class="card-title mb-1" style={{fontWeight:'600'}}>catgirl</text>
   <div  style={{display:'flex',justifyContent:'center',textAlign:'center'}}><p class="card-text" style={{width:'90%',border:'',color:'#758694'}}>Followed by</p></div>
-  <div style={{display:'flex',justifyContent:'center',}}><div style={{height:'50px',border:'2px solid red',width:'52%',}}><p style={{overflow:'hidden',textOverflow:'ellipsis',color:'#758694',textAlign:'center'}}>Katie,Katie,Katie,Katie,Katie</p></div></div>
+  <div style={{display:'flex',justifyContent:'center',}}><div style={{height:'50px',border:'',width:'52%',}}><p style={{overflow:'hidden',textOverflow:'ellipsis',color:'#758694',textAlign:'center'}}>Katie,Katie,Katie,Katie,Katie</p></div></div>
   <div className='border-top' style={{flex:1,height:'42px'}}><button style={{width:'100%',height:'42px',lineHeight:'42px',fontWeight:'600'}} className="btn text-info p-0 b-0">Follow</button></div>
 </div>
 </div>

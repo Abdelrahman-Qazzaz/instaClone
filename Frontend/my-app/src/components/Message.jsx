@@ -36,7 +36,7 @@ function Message(props) {
        <ChatPostLink post_id={props.message.text.split('POST_ID')[1].trim()}/>
        </div>
        :
-       <div className='bg-secondary text-light p-2' style={{borderRadius:props.borderRadius}}>
+       <div className='bg-primary text-light p-2' style={{borderRadius:props.borderRadius}}>
        {props.message.text}
        </div>
        

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation, useNavigate, } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import userContext from '../../UserContext';
 import styles from "../../rest.module.css";
 import NotFoundPage from '../NotFoundPage';
@@ -12,31 +12,34 @@ function ProfilePage() {
 
 
     const navigate = useNavigate()
-    const location = useLocation()
-    const [path,setPath] = useState(location.pathname)
+    const params = useParams()
+    const [path,setPath] = useState()
     const [targetUser,setTargetUser] = useState(null)
-    const { isLoading,setIsLoading, } = useContext(userContext)
+    const { user,setUser,isLoading,setIsLoading, } = useContext(userContext)
 
 
-    async function fetchTargetUserData(){
+    async function fetchTargetUserData(pfpUpload=false){
         setIsLoading(true)
-        const substrings = path.split('/')
-        const username = substrings[1]
+        setPath(params['*'])
+        const username = params['*'].split('/')[0]
+
         try{
            
-         const { data } = await axios.get(`http://localhost:4000/${username}/`,{withCredentials:true})
+         const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/${username}/`,{withCredentials:true})
 
 
         if(data.targetUser)
-            {setTargetUser(data.targetUser)}
+            {setTargetUser({...data.targetUser})}
         else if(data.user){
-            setTargetUser(data.user)
+            setTargetUser({...data.user})
+           if(pfpUpload) 
+            {setUser({...data.user})}
         }
 
         }
         catch(err){
             console.log(err)
-            if(err.response.status == 401) 
+            if(err.response?.status == 401) 
                 {navigate('/')}
             else{
                 navigate('/notFound')
@@ -50,8 +53,18 @@ function ProfilePage() {
 
     useEffect(()=>{
         fetchTargetUserData()
-
     },[])
+    useEffect(()=>{
+        fetchTargetUserData()
+    },[params['*']])
+    useEffect(()=>{ // for when on your own profile page.
+        if(targetUser?._id == user._id){
+        fetchTargetUserData()
+        }
+
+    },[user.posts_ids])
+
+
 
 
 
@@ -76,7 +89,7 @@ function ProfilePage() {
      <>
 
  
-   <div className={`${styles.adjustPoisitionProfilePage} d-flex flex-column flex-md-row`} style={{minHeight:'100vh',border:'',backgroundColor:"white",zIndex:4}}>
+   <div className={`${styles.adjustPoisitionProfilePage} d-flex flex-column flex-md-row`} style={{minHeight:'100vh',border:'',backgroundColor:"white",zIndex:1}}>
     
 
             <div className='d-flex d-md-none justify-content-between align-items-center border-bottom py-2' style={{border:"",width:''}}>
@@ -93,7 +106,7 @@ function ProfilePage() {
             </div>
             <div className='d-flex justify-content-center' style={{border:' green',flex:1,}}>
                 <div className='d-flex flex-column flex-grow-1' style={{maxWidth:'935px',border:'',}}>
-                    <UserDetails  targetUser={targetUser} setTargetUser={setTargetUser}/>
+                    <UserDetails  targetUser={targetUser} setTargetUser={setTargetUser} fetchTargetUserData={fetchTargetUserData}/>
                     <UserContent  targetUser={targetUser} path={path} />
                 </div>
             </div>
@@ -123,7 +136,7 @@ const { user,fetchUser,setIsLoading,setShowSwitchScreen } = useContext(userConte
         const formData = new FormData()
         formData.append('image',files[0])
         try{
-           const { status }=  await axios.post('http://localhost:4000/me/setProfilePicture',formData,{headers: {'Content-Type': 'multipart/form-data'},withCredentials:true})
+           const { status }=  await axios.post('${process.env.REACT_APP_BACKENDAPI}/me/setProfilePicture',formData,{headers: {'Content-Type': 'multipart/form-data'},withCredentials:true})
             if(status === 200){
                 await fetchUser(user._id)
                 props.setShowPFPOptionsScreen(false)
@@ -220,7 +233,7 @@ function MyProfilePage() {
         setIsLoading(true)
 
         try {
-            await axios.delete('http://localhost:4000/me/setProfilePicture',{withCredentials:true})
+            await axios.delete('${process.env.REACT_APP_BACKENDAPI}/me/setProfilePicture',{withCredentials:true})
             await fetchUser(user._id)
             togglePFPOptionsScreen()
         } catch (error) {

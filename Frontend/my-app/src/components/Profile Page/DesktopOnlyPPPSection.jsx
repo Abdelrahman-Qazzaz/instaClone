@@ -15,10 +15,10 @@ const { user,toggleSharePostScreen } = useContext(userContext)
 
 
   return (
-    <div className={`${styles.hideForMobile}`} style={{zIndex:1,border:' blue',maxWidth:'100%',}}>
+    <div className={`${styles.hideForMobile}`} style={{zIndex:3,border:'2px solid blue',maxWidth:'100%',width:'600px',backgroundColor:'white'}}>
         <div className="d-flex" style={{border:' red',height:'100%',width:'100%'}}>
             <div className={`${styles.hideForMobile} d-flex align-items-center`} style={{border:'',maxWidth:'450px',position:'relative'}}>
-                <div style={{position:'absolute',backgroundColor:'black',top:0,left:0,width:'100%',height:'100%',opacity:'0.8'}}></div>
+                <div style={{position:'absolute',backgroundColor:'black',top:0,left:0,width:'100%',height:'100%',opacity:'0.9'}}></div>
                 <ImagesAndVidsPreviewCarousel forPPP={true} slides={props.post.firebasePathURLs}/>
             </div>
             <PostInfo post={props.post} setPost={props.setPost} owner = {props.owner} setInput = {props.setInput} userIsReplying =  {props.userIsReplying} userReplyingToComment_id = {props.userReplyingToComment_id} handleHeartClick =  {props.handleHeartClick} inputRef = {props.inputRef} handleChange = {props.handleChange} input =          {props.input} btnDisable =     {props.btnDisable} btnOpacity =     {props.btnOpacity}/>

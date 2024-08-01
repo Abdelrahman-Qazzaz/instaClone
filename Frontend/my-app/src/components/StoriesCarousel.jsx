@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './assets/assets.module.css';
 import SendButton from './assets/SendButton';
-import TextIcon from './assets/TextIcon';
 import XIcon from './assets/XIcon';
-import DraggableTextInput from './DraggableTextInput';
 import StorySlide from './StorySlide';
 
 function StoriesCarousel(props) {
@@ -21,16 +19,14 @@ useEffect(()=>{
     props.myStory //this one isnt actually a carousel 
     ?
     <> 
-    {props.showTextInput ? <DraggableTextInput onChange={props.onChange} input={props.input} color={props.color} setColor={props.setColor} currentTextFieldPosition={props.currentTextFieldPosition} setCurrentTextFieldPosition={props.setCurrentTextFieldPosition}/>: null}
+
     <div style={{height:'100%',position:'relative',border:'',width:''}} className={`${styles.storyResponsiveMinWidth} d-flex flex-column align-items-center`}>
         <div style={{position:'absolute',border:'',top:0,left:0,width:'100%',height:"100%"}} className='d-flex flex-column'>
             <div style={{position:'',border:'',width:'100%',top:0,left:0,height:'45px',}} className='flex-grow-1 d-flex justify-content-between align-items-start mt-2'>
                 <div className='d-flex align-items-center'>
                     <XIcon color='white' width='40'/>
                 </div>
-                <div style={{border:''}} className='d-flex align-items-center'>
-                    <button onClick={props.toggleTextInput} className='p-0' style={{border:'none',backgroundColor:'transparent',}}><TextIcon/></button>
-                </div>
+
             </div>
             <div className="d-flex justify-content-end mb-3" style={{border:''}}>
                 <div className='me-3' style={{zIndex:1}}>

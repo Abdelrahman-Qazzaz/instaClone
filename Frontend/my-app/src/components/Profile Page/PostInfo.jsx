@@ -52,12 +52,12 @@ function PostInfo(props) {
     }
     
   return (
-    <div style={{height:'100%',zIndex:1,backgroundColor:'white',border:' red',maxWidth:'550px',minWidth:'300px',height:'500px'}} className={`d-flex justify-content-center p-2`}>
+    <div style={{height:'100%',zIndex:1,backgroundColor:'white',border:'2px solid red',width:'80%',maxWidth:'350px',height:'500px'}} className={`d-flex justify-content-center p-2`}>
     <div className="d-flex flex-column" style={{border:'',width:'97%'}}>
         <div className='flex-grow-1 mt-1 d-flex flex-column' style={{height:'',overflowY:'auto',border:'',width:''}}>
             {props.post.caption ? <Caption post={props.post} owner={props.owner}/> : null}
             {props.post.comments ? props.post.comments.map((comment)=>(
-                <div className='mt-4'><Comment comment={comment} setInput={setInput} userIsReplying={userIsReplying} userReplyingToComment_id={userReplyingToComment_id} post={props.post} setPost={props.setPost}/></div>
+                <div className='mt-4' style={{border:"2px solid red"}}><Comment comment={comment} setInput={setInput} userIsReplying={userIsReplying} userReplyingToComment_id={userReplyingToComment_id} post={props.post} setPost={props.setPost}/></div>
                 )) : null }
         </div>
         <div style={{height:'45px',border:''}} className=' d-flex'>

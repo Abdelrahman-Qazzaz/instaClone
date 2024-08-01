@@ -1,15 +1,12 @@
-import React, { useContext, useEffect,useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import userContext from '../../UserContext'
-import SuggestedUserCard from '../assets/SuggestedUserCard'
 import FeedPost from '../assets/FeedPost'
 import StoryIcon from '../assets/StoryIcon'
-import styles from "./homePage.module.css"
-import DesktopOnlySuggestedPage from './DesktopOnlySuggestedPage'
-import UnfollowButton from '../assets/UnfollowButton'
-import UnfollowConfirmationScreen from '../assets/Confirmation Screens/UnfollowConfirmationScreen'
-import { produce } from 'immer'
+import SuggestedUserCard from '../assets/SuggestedUserCard'
 import YourStoryIcon from '../Your Story/YourStoryIcon'
-import { useNavigate } from 'react-router-dom'
+import DesktopOnlySuggestedPage from './DesktopOnlySuggestedPage'
+import styles from "./homePage.module.css"
 
 function Feed() {  
 
@@ -32,7 +29,8 @@ function Feed() {
 
     function updateFeedPostsArrayState(updatedPost){
        const filteredFeedPosts = feedPosts.filter((post)=> post._id != updatedPost._id)
-      setFeedPosts([...filteredFeedPosts,updatedPost])
+      const sorted = [...filteredFeedPosts,updatedPost].sort((a,b)=> b.creationDate - a.creationDate)
+      setFeedPosts(sorted)
     }
 
   
@@ -41,9 +39,9 @@ function Feed() {
   return (
 
     <>
-    <div  style={{flex:1,display:'flex',justifyContent:'center',overflowX:'hidden'}}>
+    <div  style={{flex:1,display:'flex',justifyContent:'center',overflowX:'hidden',overflowY:"auto"}}>
       <div className='mx-md-2' style={{width:'100%',maxWidth:'630px',border:'',height:'fit-content',border:''}}>
-        <div className='' style={{width:'100%',height:'100px',border:' ',display:'flex',flexDirection:'row'}}>
+        <div className='' style={{width:'100%',height:'100px',border:' ',display:'flex',flexDirection:'row',}}>
           <YourStoryIcon/> 
           {user.following.map((following)=>(
             following.story && following.story.slides && following.story.slides.length &&  following.story.slides.filter((slide)=> {
@@ -58,7 +56,7 @@ function Feed() {
           <div style={{maxWidth:'470px',width:'100%',height:'fit-content',}}>
 
             {suggestedUsers && suggestedUsers.length ? <div style={{height:'300px',display:'flex',flexDirection:'column',border:''}}>
-              <div className='mb-3' style={{display:'flex',justifyContent:'space-between',}}><text className='mx-md-0 mx-1' style={{fontSize:'1.1rem',fontWeight:'570'}}>Suggestions for you</text> <button onClick={()=> setShowSuggestedPage(true)} style={{fontWeight:'500'}} className='btn text-info p-0 m-0 mx-1 mx-md-0'>See all</button></div>
+              <div className='mb-3' style={{display:'flex',justifyContent:'space-between',zIndex:1}}><text className='mx-md-0 mx-1' style={{fontSize:'1.1rem',fontWeight:'570'}}>Suggestions for you</text> <button onClick={()=> setShowSuggestedPage(true)} style={{fontWeight:'500'}} className='btn text-info p-0 m-0 mx-1 mx-md-0'>See all</button></div>
               <div style={{border:'',flex:1,display:'flex',overflowX:'auto',overflowY:'hidden',whiteSpace:'nowrap',}}>
                 {suggestedUsers ? suggestedUsers.map((suggestedUser)=>(<SuggestedUserCard suggestedUser={suggestedUser} setSuggestedUsers={setSuggestedUsers} toggleUnfollowConfirmationScreen={toggleUnfollowConfirmationScreen} />)) : null}
               </div>

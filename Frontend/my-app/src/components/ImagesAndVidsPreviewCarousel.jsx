@@ -40,13 +40,13 @@ function toggleVidPlay(){
  
     props.feedPost
     ?
-    <div className="carousel" style={{width:'100%',height:'fit-content',position:'relative'}}>
+    <div className="carousel mt-2" style={{width:'100%',height:'fit-content',position:'relative'}}>
         {props.slides.map((slide, index) => {
           const src = slide.fileUrl ? slide.fileUrl : slide.objectUrl ? slide.objectUrl : null
           return (
         <div className={`carousel-item ${index === currentSlide ? 'active' : ''}`} style={{border:'',width:'100%',height:'',position:'relative'}}>
 
-          {slide.type.startsWith('video') ?<video ref={videoRef} style={{maxHeight:"400px",width:'100%',objectFit:'cover',objectPosition:"top"}}  controls={false}><source src={src} type="video/mp4"/></video> : <img style={{maxHeight:"400px",width:'100%',objectFit:'cover',objectPosition:"top"}} src={src}/>}
+          {slide.type.startsWith('video') ?<video ref={videoRef} style={{maxHeight:"400px",width:'100%',objectFit:'contain',backgroundColor:'rgba(0,0,0,1)',objectPosition:"center"}}  controls={false}><source src={src} type="video/mp4"/></video> : <img style={{maxHeight:"400px",width:'100%',objectFit:'contain',backgroundColor:'rgba(0,0,0,1)',objectPosition:"center"}} src={src}/>}
 
             
             
@@ -64,7 +64,7 @@ function toggleVidPlay(){
     :
   props.forPPP
     ?
-    <div className="carousel" style={{width:'100%',border:" green"}}>
+    <div className="carousel" style={{width:'100%',border:" green",zIndex:4}}>
      
     {props.slides.map((slide, index) => {
       
@@ -72,7 +72,7 @@ function toggleVidPlay(){
       return (
     <div className={`carousel-item ${index === currentSlide ? 'active' : ''}`} style={{border:' blue',height:'fit-content',maxWidth:'100%'}}>
       <div style={{width:'100%',height:'fit-content',overflow:'hidden'}} className=''>
-      {slide.type.startsWith('video') ? <video  style={{maxWidth:'400px',maxHeight:"400px",width:'100%',objectFit:'cover',objectPosition:"top"}} controls={false}><source src={src} type="video/mp4"/></video> : <img style={{maxWidth:'400px',maxHeight:"400px",width:'100%',objectFit:'cover',objectPosition:"top"}} src={src}/>}
+      {slide.type.startsWith('video') ? <video  style={{maxWidth:'400px',maxHeight:"400px",width:'100%',objectFit:'contain',backgroundColor:'rgba(0,0,0,1)',objectPosition:"center"}} controls={false}><source src={src} type="video/mp4"/></video> : <img style={{maxWidth:'400px',maxHeight:"400px",width:'100%',objectFit:'contain',backgroundColor:'rgba(0,0,0,1)',objectPosition:"center"}} src={src}/>}
       </div>
     </div>
   )})}
@@ -90,7 +90,7 @@ function toggleVidPlay(){
           return (
         <div className={`carousel-item ${index === currentSlide ? 'active' : ''}`} style={{border:'',maxWidth:'100%'}}>
           <div style={{width:'100%',height:'400px',overflow:'hidden'}}>
-          {slide.type.startsWith('video') ? <video  style={{height:'100%',width:'100%',objectFit:'cover'}} controls={false}><source src={src} type="video/mp4"/></video> : <img style={{height:'100%',width:'100%',objectFit:'cover'}} src={src}/>}
+          {slide.type.startsWith('video') ? <video  style={{height:'100%',width:'100%',objectFit:'contain',backgroundColor:'rgba(0,0,0,1)',}} controls={false}><source src={src} type="video/mp4"/></video> : <img style={{height:'100%',width:'100%',objectFit:'contain',backgroundColor:'rgba(0,0,0,1)',}} src={src}/>}
           </div>
         </div>
       )})}
@@ -152,7 +152,7 @@ export default ImagesAndVidsPreviewCarousel
      >
        {slide.type == 'video' ? (
          <div style={{width:'100%',height:'100%',position:'relative'}} className='d-flex '>
-           <video ref={videoRef} style={{width:'100%',height:'100%',borderRadius:'10px',objectFit:'cover'}} controls={false} >
+           <video ref={videoRef} style={{width:'100%',height:'100%',borderRadius:'10px',objectFit:'contain',backgroundColor:'rgba(0,0,0,1)',}} controls={false} >
              <source src={slide.objectURL} type="video/mp4" />
            </video>
            <button onClick={toggleVidPlay} className='btn p-0' style={{position:'absolute',border:' red',width:'fit-content',height:'fit-content',top:'calc(50% - 75px)',left:'calc(50% - 75px)',zIndex:1}}>
@@ -160,7 +160,7 @@ export default ImagesAndVidsPreviewCarousel
            </button>
          </div>
        ) : (
-         <img style={{border:' red',width:'100%',height:'100%',borderRadius:'10px',objectFit:'cover'}}  src='/cr7.jpg' alt="" />
+         <img style={{border:' red',width:'100%',height:'100%',borderRadius:'10px',objectFit:'contain',backgroundColor:'rgba(0,0,0,1)',}}  src='/cr7.jpg' alt="" />
        )}
      </div>
    ))}

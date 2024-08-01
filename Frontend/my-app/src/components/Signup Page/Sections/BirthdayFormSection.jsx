@@ -68,7 +68,7 @@ function BirthdayFormSection(props) {
      // if everything goes well
      const temp = {...props.formData,birthday:{day:date,month:month,year:year}}
      props.setFormData(temp)
-     const { status } = await axios.post(`http://localhost:4000/users`,temp)
+     const { status } = await axios.post(`${process.env.REACT_APP_BACKENDAPI}/users`,temp)
      if(status === 201){
 
       await login(temp.username,temp.password)

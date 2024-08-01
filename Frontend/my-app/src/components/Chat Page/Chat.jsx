@@ -100,7 +100,13 @@ function Chat(props) {
     const newMessage = await sendMessage(chat._id,formData)
     setChat((prev)=> {
       const prevMessages = prev.messages
-      const newMessages = [...prevMessages,newMessage]
+      let newMessages 
+      if(prevMessages?.length){
+        newMessages = [...prevMessages,newMessage]
+      }
+      else{
+        newMessages = [newMessage]
+      }
       return {...prev,messages:newMessages}})
 
 
@@ -154,10 +160,11 @@ useEffect(()=>{
       {return typeB}
 else if(currentMessageSender_id == prevMessageSender_id)
        {return typeC}
-else if(currentMessageSender_id == nextMessageSender_id)
+else 
         {return typeA}
 
  }
+
 
 
   return (

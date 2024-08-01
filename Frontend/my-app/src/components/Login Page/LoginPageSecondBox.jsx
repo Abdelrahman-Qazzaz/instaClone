@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react'
-import AppStoreDownload from "../assets/AppStoreDownload"
-import GooglePlayDownload from "../assets/GooglePlayDownload"
-import styles from "./loginPage.module.css"
-import PasswordField from '../assets/PasswordField';
-import MyTextField from '../assets/MyTextField';
-import userContext from '../../UserContext';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import userContext from '../../UserContext';
+import AppStoreDownload from "../assets/AppStoreDownload";
+import GooglePlayDownload from "../assets/GooglePlayDownload";
+import MyTextField from '../assets/MyTextField';
+import PasswordField from '../assets/PasswordField';
+import styles from "./loginPage.module.css";
 
 function LoginPageSecondBox() {
 
@@ -15,9 +15,16 @@ function LoginPageSecondBox() {
   const navigate = useNavigate()
  
 
+  async function handleKeyDown(e){
+    const { key } = e
+    if(key == "Enter"){
+      await login(username,password)
+    }
+  }
   function handleChange(e){
-    
+
     const { name,value } = e.target
+
     if(name === 'username'){
       setUsername(value)
     }
@@ -37,10 +44,10 @@ function LoginPageSecondBox() {
           </div>
 
            <div style={{justifyContent:'center',display:'flex'}}>
-             <MyTextField textFieldName='username' textFieldValue={username} textFieldOnChange={handleChange}  label={'Phone number, username, or email'}/>
+             <MyTextField  textFieldName='username' textFieldValue={username} textFieldOnChange={handleChange} textFieldOnKeyDown={handleKeyDown}  label={'Phone number, username, or email'}/>
            </div>
             <div style={{justifyContent:'center',display:'flex'}}>
-              <PasswordField passwordFieldName='password' passwordFieldValue={password} passwordFieldOnChange={handleChange}/>
+              <PasswordField  passwordFieldName='password' passwordFieldValue={password} passwordFieldOnChange={handleChange} passwordFieldOnKeyDown={handleKeyDown} />
             </div>
 
             <div className={styles.loginBtnContainer}> 

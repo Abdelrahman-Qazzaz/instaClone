@@ -1,12 +1,6 @@
-import React, { useContext, useRef, useState } from 'react'
-import styles from '../assets/assets.module.css'
-import XIcon from '../assets/XIcon'
-import PlusCircle from '../assets/PlusCircle'
-import TextIcon from '../assets/TextIcon';
-import DraggableTextInput from '../DraggableTextInput';
-import ShareIcon from '../assets/ShareIcon';
-import SendButton from '../assets/SendButton';
+import React, { useContext, useRef, useState } from 'react';
 import userContext from '../../UserContext';
+import styles from '../assets/assets.module.css';
 import StoriesCarousel from '../StoriesCarousel';
 
 function YourStoryIcon() {
@@ -74,7 +68,7 @@ function YourStoryIcon() {
     ?
 <>
 <input onChange={handleFile} id='storyInput' hidden type='file'/>
-<div className=' mx-2' style={{display:'flex',alignItems:'center'}}> 
+<div className=' mx-2' style={{display:'flex',alignItems:'center',zIndex:1}}> 
       <div>
         <div style={{border:'',}} className='d-flex flex-column justify-content-center align-items-center'>
             <div  style={{height:"56px",width:'56px'}}>

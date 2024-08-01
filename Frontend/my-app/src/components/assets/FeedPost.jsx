@@ -21,6 +21,7 @@ function FeedPost(props) {
   async function componentHandleHeartClick(){
     const newLikesForPost = await handlePostLikeUnLikeAndGetTheUpdatedLikesForThisPost(props.post._id)
     const updatedPost = {...props.post, likes:newLikesForPost}
+
     props.updateFeedPostsArrayState(updatedPost)
     if(updatedPost.likes.find((like)=> like.byUser_id == user._id)) // if the user just liked the post
       {

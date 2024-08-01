@@ -18,8 +18,8 @@ async function setup(){
 
 
   return (
-    <div className='d-flex justify-content-center' style={{ width:'100%',border:'blue',minHeight:'100vh'}}>
-        <div className='mt-4' style={{maxWidth:'960px',border:'red',display:'grid',gap:'2px',gridTemplateRows:'repeat(3, 1fr)',gridTemplateColumns:'repeat(3, 1fr)'}}>
+    <div className='d-flex justify-content-center' style={{ width:'100%',border:'2px solid blue',minHeight:'100vh'}}>
+        <div className='mt-4' style={{maxWidth:'960px',width:'100%',border:'2px solid red',display:'grid',gap:'2px',gridTemplateRows:'repeat(3, 1fr)',gridTemplateColumns:'repeat(3, 1fr)'}}>
             {suggestedPosts.length ? suggestedPosts.map((suggestedPost)=>(
                 <SuggestedPost post={suggestedPost}/>
             )) : null}

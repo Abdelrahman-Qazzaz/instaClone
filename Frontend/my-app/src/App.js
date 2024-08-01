@@ -8,7 +8,7 @@ import Rest from './Rest';
 import { UserContextProvider } from './UserContext';
 function App() {
 
-  const socket = io('http://localhost:4000', { transports : ['websocket'] });
+  const socket = io(`${process.env.REACT_APP_BACKENDAPI}`, { transports : ['websocket'] });
 
 
   return (

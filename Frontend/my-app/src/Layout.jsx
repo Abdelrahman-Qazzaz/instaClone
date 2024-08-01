@@ -19,18 +19,25 @@ function Layout() {
 
   return (
     <>
-    {showBlackBackGround ? <BlackBackground/> : null}
 
-        {isLoading ? <Loading/> : null}
-        {showSwitchScreen ? <SwitchScreen/> : null}
-        {showCreateNewPostScreen ? <CreateNewPostScreen/> : null}
-        {showSharePostScreen ? <SharePostScreen post={sharePostScreenPostData}/> : null}
-        {showUnfollowConfirmationScreen ? <UnfollowConfirmationScreen suggestedUser={unfollowConfirmationScreenTargetUser}/> : null}
 
-        <MobileOnlyNavTop/>  <DesktopNavbar/> <MobileOnlyNavBottom/>
-    <div className={`${styles.adjustPoisition}`} style={{overflowY:'auto',border:"",zIndex:5}}>
+    {/*order matters for zIndex.*/}
+
+  
+    <div className={`${styles.adjustPoisition}`}>
         <Outlet/>
     </div>
+
+    <MobileOnlyNavTop/>  <DesktopNavbar/> <MobileOnlyNavBottom/>
+
+    {showBlackBackGround ? <BlackBackground/> : null}
+    {isLoading ? <Loading/> : null}
+
+    {showSwitchScreen ? <SwitchScreen/> : null}
+    {showCreateNewPostScreen ? <CreateNewPostScreen/> : null}
+    {showSharePostScreen ? <SharePostScreen post={sharePostScreenPostData}/> : null}
+    {showUnfollowConfirmationScreen ? <UnfollowConfirmationScreen suggestedUser={unfollowConfirmationScreenTargetUser}/> : null}
+
     </>
   )
 }

@@ -43,6 +43,9 @@ background-color: red;
   height: 100px;
 }
 
+.userDetails{
+  max-height: 300px;
+}
 .responsiveMaxHeight{
   max-height: 260px;
 }

@@ -7,7 +7,7 @@ function DesktopOnlyNavbarExtended(props) {
 
 
   return (
-    props.desktopOnlyNavbarType == 'Search' ? <DesktopOnlyNavbarSearchExtention/> : <></>
+    props.desktopOnlyNavbarType == 'Search' ? <DesktopOnlyNavbarSearchExtention setDesktopOnlyNavbarType={props.setDesktopOnlyNavbarType}/> : <></>
 
   )
 }

@@ -1,9 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
 import styles from "./loginPage.module.css"
 import LoginPageDesktopOnlyBox from "./LoginPageDesktopOnlyBox"
 import LoginPageSecondBox from "./LoginPageSecondBox"
-import LoginPageFooter from './LoginPageFooter'
 
 //https://www.instagram.com
 

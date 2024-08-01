@@ -78,10 +78,8 @@ async function checkAuth(req,res,next){
 }
 //
 app.get('/temp',async(req,res)=>{
-  // const Users = db.collection("Users")
-  // await Users.deleteMany({})
-  const TEST = process.env.TEST
-  res.json({TEST})
+
+
 })
 
 
@@ -133,8 +131,8 @@ async function hash(password) {
     const targetUser = await Users.findOne(filter)
     const targetUserStory =targetUser?.story
     const filteredSlides = targetUserStory?.slides?.filter((slide)=> slide.id != req.params.slideID )
-    const targetSlide = targetUserStory.slides.find((slide)=> slide.id == req.params.slideID )
-    if(!(targetSlide.views))
+    const targetSlide = targetUserStory?.slides?.find((slide)=> slide.id == req.params?.slideID )
+    if(!(targetSlide?.views))
       {targetSlide.views = []}
     targetSlide.views.push({user_id: ObjectId.createFromHexString(req.user._id)})
     const newSlides = [...filteredSlides,targetSlide]
@@ -412,7 +410,7 @@ app.delete('/users/:user_id/following/:targetUser_id',async(req,res)=>{
       let update = {$pull: {following_ids: ObjectId.createFromHexString(req.params.targetUser_id)}}
       await Users.updateOne(filter,update)
           filter = {_id: ObjectId.createFromHexString(req.params.targetUser_id)}
-          update = {$pull: {followedBy_ids: req.user._id}}
+          update = {$pull: {followedBy_ids: ObjectId.createFromHexString(req.user._id)}}
       await Users.updateOne(filter,update)
       res.sendStatus(204)
     } catch (error) {
@@ -504,10 +502,13 @@ app.get('/suggested-users',async(req,res)=>{
     const cursor = Users.aggregate(pipeline);
     const temp = await cursor.toArray();
 
+    const user = await Users.findOne({_id: ObjectId.createFromHexString(req.user._id)})
     let documents = []
     for(const document of temp){
-
-      documents.push(document.originalDoc)
+      if(!(user.following_ids.find(((following_id)=> following_id+'' == document.originalDoc._id+'')))){
+        documents.push(document.originalDoc)
+      }
+     
     }
     for(const document of documents){
       document.password =''

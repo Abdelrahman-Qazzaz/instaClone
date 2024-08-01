@@ -1,6 +1,6 @@
 import { FilledInput } from '@mui/material';
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SearchIcon from '../components/assets/SearchIcon';
 import UserTab from '../components/UserTab';
@@ -27,7 +27,7 @@ function MobileOnlyNavTop() {
     }
     else if(value.trim() != ''){
       setInputValue(value)
-    const { data } = await axios.get(`http://localhost:4000/search-suggestions?input=${value}`,{withCredentials:true})
+    const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/search-suggestions?input=${value}`,{withCredentials:true})
     const filtered = data.users.filter((suggestedUser)=>suggestedUser._id != user._id)
     setSearchSuggestions(filtered)
   }
@@ -45,13 +45,22 @@ function getAndSetpeopleYouFollowThatFollowTheSuggestedUser(searchSuggestion){
   return temp
 }
 
-  
+  const [height,setHeight] = useState("fit-content")
+  useEffect(()=>{
+    if(showSearchTab){
+      setHeight('100vh')
+    }
+    else{
+      setHeight('fit-content')
+    }
+  },[showSearchTab])
+
   return (
-    <div style={{position:'fixed',top:0,left:0,height:"100vh",width:'100vw',zIndex:4}} className='d-flex flex-column'>
+    <div style={{position:'fixed',top:0,left:0,height,width:'100vw',zIndex:1,border:'2px solid red'}} className='d-flex flex-column border-bottom'>
       <navbar className='d-md-none d-block m-0 p-0' style={{height:'60px',backgroundColor:'white',border:'',zIndex:4}}>
           <div className="container p-0 m-0" style={{width:'100%',height:'100%',maxWidth:'100%',}}>
               <div className="row m-0 p-1" style={{width:'100%',height:'100%',width:'100%',display:'flex'}}>
-                  <button className='col-6 p-0' style={{textAlign:'left',alignContent:'center',border:"none",backgroundColor:"transparent"}}><text className={styles.zenLoop}>instaClone</text></button>
+                  <button onClick={()=> navigate('/')} className='col-6 p-0' style={{textAlign:'left',alignContent:'center',border:"none",backgroundColor:"transparent"}}><text className={styles.zenLoop}>instaClone</text></button>
                   <div className="col-6 d-flex justify-content-end align-items-center  p-0" style={{alignContent:'center',border:""}}>
                     <button className='p-0' style={{border:'none',backgroundColor:"transparent"}} onClick={toggleSearchTab}><SearchIcon width='20px'/></button>
                   </div>
@@ -67,7 +76,7 @@ function getAndSetpeopleYouFollowThatFollowTheSuggestedUser(searchSuggestion){
         {searchSuggestions && searchSuggestions.length ? searchSuggestions.map((searchSuggestion)=>{
           searchSuggestion.peopleYouFollowThatFollowTheSuggestedUser = getAndSetpeopleYouFollowThatFollowTheSuggestedUser(searchSuggestion)
           return    <div onClick={()=> {navigate(`/${searchSuggestion.username}/`); toggleSearchTab()} } style={{padding:'0 3px 0 3px'}}>
-            <UserTab targetUser={searchSuggestion} searchSuggestion={true}/>
+            <UserTab onMobile={true} navigate={navigate} targetUser={searchSuggestion} searchSuggestion={true}/>
             </div>}) : null}
 
       </div>

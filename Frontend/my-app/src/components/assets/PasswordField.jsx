@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
-import { TextField } from '@mui/material'
-import { InputLabel,FilledInput,InputAdornment,IconButton } from '@mui/material'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
+import React, { useState } from 'react';
 
 function PasswordField(props) {
 
@@ -24,6 +23,7 @@ function PasswordField(props) {
 <TextField  
             name={props.passwordFieldName}
             onChange={props.passwordFieldOnChange}
+            onKeyDown={props.passwordFieldOnKeyDown}
             value={props.passwordFieldValue}
             type={showPassword ? 'text' : 'password'}
             label="Password"

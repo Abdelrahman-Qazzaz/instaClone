@@ -4,7 +4,6 @@ import ExploreIcon from '../components/assets/ExploreIcon'
 import HomeIcon from '../components/assets/HomeIcon'
 import MessengerIcon from '../components/assets/MessengerIcon'
 import NewPostIcon from '../components/assets/NewPostIcon'
-import ReelsIcon from '../components/assets/ReelsIcon'
 import UserPFPIcon from '../components/assets/UserPFPIcon'
 import userContext from '../UserContext'
 
@@ -13,7 +12,7 @@ function MobileOnlyNavBottom() {
     const navigate = useNavigate()
     
   return (
-    <navbar className='d-md-none d-flex justify-content-center border-top' style={{width:'100%',position:'fixed',top:'calc(100vh - 50px)',height:'50px',backgroundColor:'white',zIndex:4}}>
+    <navbar className='d-md-none d-flex justify-content-center border-top' style={{width:'100%',position:'fixed',top:'calc(100vh - 50px)',height:'50px',backgroundColor:'white',zIndex:1}}>
         <div className='d-flex justify-content-between' style={{width:'90%'}}>
                                      <button onClick={()=>{navigate('/')}} className='btn ' style={{backgroundColor:'transparent',border:''}}>
                                         <HomeIcon/>
@@ -35,10 +34,7 @@ function MobileOnlyNavBottom() {
                            
        
 
-                                       <button onClick={()=>{navigate('/reels/')}} className='btn '  style={{backgroundColor:'transparent',border:''}}>
-                                               <ReelsIcon/>
 
-                                           </button>
 
        
                            

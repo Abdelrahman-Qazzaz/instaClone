@@ -12,7 +12,7 @@ function ChatPostLink(props) {
 
     async function setup(){
        
-       const { data } =  await axios.get(`http://localhost:4000/posts/${props.post_id}`)
+       const { data } =  await axios.get(`${process.env.REACT_APP_BACKENDAPI}/posts/${props.post_id}`)
        const { targetPost } = data 
        setPost(targetPost)
     }

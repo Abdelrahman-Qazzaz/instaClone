@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import UserContext from '../../UserContext'
+import BlackBackground from '../assets/BlackBackground'
 import XIcon from '../assets/XIcon'
 import DesktopOnlyPPPSection from './DesktopOnlyPPPSection'
 import MobileOnlyPPPSection from './MobileOnlyPPPSection'
@@ -35,7 +36,7 @@ function ProfilePagePost() {
     async function fetchPostData(){
         const substrings = path.split('/')
         const post_id = substrings[2]
-        const { data } = await axios.get(`http://localhost:4000/posts/${post_id}`)
+        const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/posts/${post_id}`)
         console.log(data.targetPost)
         setPost(data.targetPost)
         setOwner(data.targetPost.owner)
@@ -101,9 +102,9 @@ else{
     post 
     ?
     <>
-
-     <div style={{position:'fixed',top:0,left:0,height:'100vh',width:'100vw',zIndex:4}} className='d-flex justify-content-center align-items-center'>
-        <div style={{position:'fixed',top:'3%',left:'93%'}}>
+    <BlackBackground/>
+     <div style={{position:'fixed',top:0,left:0,height:'100vh',width:'100vw',zIndex:3}} className='d-flex justify-content-center align-items-center'>
+        <div style={{position:'fixed',top:'3%',left:'93%',zIndex:3}}>
             <button className='p-0' style={{border:"none",backgroundColor:'transparent'}} onClick={()=> navigate(`/${post.owner.username}`)}>
                 <XIcon ProfilePagePost={true}/>
             </button>

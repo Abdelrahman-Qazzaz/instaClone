@@ -39,7 +39,7 @@ function SharePostScreen(props) {
         }
   return (
     <>
-    <div className='d-flex justify-content-center align-items-center' style={{position:'fixed',top:0,left:0,height:'100vh',width:'100vw',border:'2px solid red',zIndex:6}}>
+    <div className='d-flex justify-content-center align-items-center' style={{position:'fixed',top:0,left:0,height:'100vh',width:'100vw',border:'',zIndex:3}}>
         <div className={`${styles.sharePostScreen} d-flex flex-column`} style={{backgroundColor:'white',zIndex:4,borderRadius:'2%'}}>
             <div style={{height:'45px'}} className='d-flex flex-column justify-content-center border-bottom'>
                 <div className='d-flex'>
@@ -52,7 +52,7 @@ function SharePostScreen(props) {
                     </div>
                 </div>
             </div>
-            <div className='flex-grow-1 d-flex flex-column align-items-center' style={{border:'2px solid red'}}>
+            <div className='flex-grow-1 d-flex flex-column align-items-center' style={{border:''}}>
                 <div className='flex-grow-1 border-bottom' style={{width:'100%'}}>
                     {user.following.map((targetUser) => (<UserTab targetUser={targetUser} onClick={()=>handleClick(targetUser)}/>))}
                 </div>

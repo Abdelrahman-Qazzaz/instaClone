@@ -29,7 +29,7 @@ function StoryPreview(props) {
   async function setup(){
 
     setIsLoading(true)
-    console.log(params.username)
+
     const result = await fetchStory(params.username)
     const target = user.following.find((someone)=> someone.username == params.username)
     setTargetUser(target)

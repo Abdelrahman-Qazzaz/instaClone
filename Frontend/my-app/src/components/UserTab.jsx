@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 function UserTab(props) {
 
@@ -22,7 +22,13 @@ const classes = props.noBottomBorder ? 'd-flex align-items-center mt-2 p-2' : 'b
     :
     props.searchSuggestion
     ?
-<button onClick={()=>{/**if you wanna navigate here, pass the const navigate as a prop */}} className='p-0 mb-3' style={{width:'100%',border:'none',backgroundColor:backgroundColor}} onMouseEnter={()=> setBackgroundColor('#e0e0e0')} onMouseLeave={()=>setBackgroundColor('transparent')}>
+<button onClick={()=>{
+  if(!props.onMobile){
+    props.setDesktopOnlyNavbarType('');
+  }
+  props.navigate(`/${props.targetUser.username}/`)
+  
+  }} className='p-0 mb-3' style={{width:'100%',border:'none',backgroundColor:backgroundColor}} onMouseEnter={()=> setBackgroundColor('#e0e0e0')} onMouseLeave={()=>setBackgroundColor('transparent')}>
               <div  style={{height:'75px',display:'flex',alignItems:'center'}}>
                 <div style={{width:'44px',height:'44px'}}><img style={{borderRadius:'50%'}} width='100%' src={props.targetUser.pfpFirebasePathURL ? props.targetUser.pfpFirebasePathURL  : "/defaultInstaPFP.jpg"} alt="" /></div>
                 <div className='mx-3 '>

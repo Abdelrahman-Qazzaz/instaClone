@@ -40,7 +40,7 @@ function SwitchScreen() {
   return (
     <>
     <BlackBackground/>
-        <div style={{zIndex:6,position:'fixed',height:'100vh',width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
+        <div style={{zIndex:3,position:'fixed',height:'100vh',width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
             <div className={styles.switchScreen} style={{position:"relative",width:'100%',maxWidth:'400px',backgroundColor:'white',borderRadius:'5%',border:""}}>
                 <div style={{position:"absolute",border:"",width:"100%"}} className='d-flex justify-content-end'>
                     <button onClick={()=> setShowSwitchScreen(false)} className='p-0 m-2' style={{backgroundColor:"transparent",border:"none",}}>

@@ -1,9 +1,7 @@
-import React, { useContext,useState,useEffect } from 'react'
-import FollowButton from '../assets/FollowButton'
-import UnfollowButton from '../assets/UnfollowButton'
-import FollowButton2 from '../assets/FollowButton2'
-import UnfollowConfirmationScreen from './Confirmation Screens/UnfollowConfirmationScreen'
+import React, { useContext, useEffect, useState } from 'react'
 import userContext from '../../UserContext'
+import FollowButton2 from '../assets/FollowButton2'
+import UnfollowButton from '../assets/UnfollowButton'
 import UserPFPIcon from './UserPFPIcon'
 
 function UserSuggestion(props) {

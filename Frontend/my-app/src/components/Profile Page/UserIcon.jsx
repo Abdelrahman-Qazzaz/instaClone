@@ -1,35 +1,15 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import userContext from '../../UserContext';
 import CameraIcon from '../assets/CameraIcon';
 import styles from "./profilePage.module.css";
 
 function UserIcon(props) {
     const { user,setUser,fetchUserData,setIsLoading,setShowSwitchScreen } = useContext(userContext)
+    const [src,setSrc] = useState()
 
 
-    async function uploadPFP(e){
-        setIsLoading(true)
-        const files = e.target.files
-        const formData = new FormData()
-        formData.append('image',files[0])
-        try{
-           const { status }=  await axios.post('http://localhost:4000/me/setProfilePicture',formData,{headers: {'Content-Type': 'multipart/form-data'},withCredentials:true})
-            if(status === 200){
-                const userData = await fetchUserData(user._id)
-                setUser({...userData})
-                props.setShowPFPOptionsScreen(false)
-            }
-        }catch(err){
-            console.log(err)
-        }
-        
-        setIsLoading(false)
-    }
-    useEffect(()=>{
-        if(user._id == props.targetUser._id)
-            {props.setTargetUser(user)}
-    },[user])
+
 
 
     async function removePFP(){
@@ -60,7 +40,9 @@ function UserIcon(props) {
     }
   return (
     <>
-    <img className={styles.responsiveWidth} style={{borderRadius:'50%'}} src={props.targetUser.pfpFirebasePathURL ? props.targetUser.pfpFirebasePathURL : '/defaultInstaPFP.jpg'} alt="Profile Picture" />
+
+    <img className={styles.responsiveWidth} style={{borderRadius:'50%'}} src={props.targetUser.pfpFirebasePathURL ?? "/defaultInstaPFP.jpg"} alt="Profile Picture" />
+
     {
     user._id == props.targetUser._id 
     ? 
@@ -70,11 +52,12 @@ function UserIcon(props) {
     <label htmlFor='imageInput' onClick={props.togglePFPOptionsScreen} onMouseEnter={changeLabelStyle} className={`${styles.responsiveWidth} p-0 d-flex justify-content-center align-items-center`} style={labelStyle}>
       {!user.pfpFirebasePathURL ? <CameraIcon width='40'/>: null}
     </label>
-    <input id='imageInput' type="file" hidden onChange={uploadPFP}/>
+   
     </> 
     : 
     null
     }
+     <input id='imageInput' type="file" hidden onChange={props.uploadPFP}/>
     </>
 
   )
