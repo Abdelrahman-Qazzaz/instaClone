@@ -47,11 +47,12 @@ function Rest() {
             <>
              <Route path='*' element={<LoginPage/>}/>
             <Route path= '/accounts/emailsignup'  element={<SignupPage/>}/>
+            <Route path= '/p/*' element= {<ProfilePagePost/>}/>     {/*  done removing anchors*/}
            </>
            
             :
             <>
-            <Route path= '/p/*' element= {<ProfilePagePost/>}/>     {/*  done removing anchors*/}
+          
             <Route path='/' element={<Layout/>}>
               <Route index  element={<HomePage/>}/> {/*done removiong anchors, (for now) done refactoring */}
               <Route path= '/accounts/emailsignup'  element={<SignupPage/>}/>  {/*done removing anchors*/}

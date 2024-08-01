@@ -75,7 +75,7 @@ function PostInfo(props) {
                 <button onClick={()=>toggleSharePostScreen(props.post)} className='ms-3 p-0' style={{border:'none',backgroundColor:'transparent'}}><ShareIcon ProfilePagePost={true}/></button>
             </div>
             <button onClick={()=>savePost(props.post._id)} style={{width:'24px',border:'none',backgroundColor:'transparent'}} className='d-flex align-items-center p-0'>
-                {user.savedPosts_ids.find((savedPosts_id)=> savedPosts_id == props.post._id) ? <UnsavePostIcon/>: <SavePostIcon/>}
+                {user?.savedPosts_ids?.find((savedPosts_id)=> savedPosts_id == props.post._id) ? <UnsavePostIcon/>: <SavePostIcon/>}
             </button>
         </div>
         <div style={{height:'15px'}}>{props.post.likes ? <p className='fw-bold'>{props.post.likes.length} likes</p> : <p>Be the first to <button className='p-0'style={{border:'none',backgroundColor:'transparent',fontWeight:'500'}}>like this</button></p> }</div>
