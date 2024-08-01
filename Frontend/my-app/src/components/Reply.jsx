@@ -49,7 +49,7 @@ function Reply(props) {
   return (
     props.displayedReply
     ?
-    <div className='mt-3 mb-4 d-flex' style={{width:'100%',border:'2px solid red',fontSize:'16px'}}>
+    <div className='mt-3 mb-4 d-flex' style={{width:'100%',border:'',fontSize:'16px'}}>
 
 
       <img width='32px' height='32px' src={props.displayedReply.owner.pfpFirebasePathURL ? props.displayedReply.owner.pfpFirebasePathURL : '/defaultInstaPFP.jpg'} alt="userPFP" style={{borderRadius:'50%'}} />

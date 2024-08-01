@@ -26,7 +26,7 @@ function SuggestedPost(props) {
     :
     null
       :
-        <button onClick={() => {navigate('/p/'+props.post._id)}} style={{position:'relative',border:'2px solid red',backgroundColor:'transparent'}} className='p-0'>
+        <button onClick={() => {navigate('/p/'+props.post._id)}} style={{position:'relative',border:'',backgroundColor:'transparent'}} className='p-0'>
           <div style={{position:'absolute',left:'85%',top:'5%',}}>
 
           </div>
