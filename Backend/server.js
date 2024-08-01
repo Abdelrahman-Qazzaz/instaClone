@@ -34,7 +34,7 @@ const port = 4000
 
 app.use(cors(
   {
-  origin: 'http://localhost:3000',//https://instaclone0.netlify.app
+  origin: 'https://instaclone0.netlify.app',//http://localhost:3000
   credentials: true
 }));
 
