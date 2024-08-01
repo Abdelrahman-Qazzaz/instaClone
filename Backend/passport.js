@@ -15,6 +15,7 @@ export async function verifyCallback(req,username, password, done) {// username 
 
    username = req.body.username 
    password = req.body.password 
+   console.log(username,password)
    //
 
   //

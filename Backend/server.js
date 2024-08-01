@@ -34,7 +34,7 @@ const port = 4000
 
 app.use(cors(
   {
-  origin: 'https://instaclone0.netlify.app',//http://localhost:3000
+  origin: ['https://instaclone-1-swn3.onrender.com', 'http://localhost:3000'],
   credentials: true
 }));
 
@@ -74,7 +74,7 @@ async function checkAuth(req,res,next){
 
     if(req.path == '/temp'||req.path == '/login' || req.path == '/pending_users' || req.path == '/users' || req.path == '/' || req.path.startsWith('/posts') || req.path.startsWith('/users') || req.path == '/suggested-posts')
       {next()} // skip authentication
-    else{res.sendStatus(401)}
+    else{ console.log(req.path);res.sendStatus(401)}
   }
 }
 //
