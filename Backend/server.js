@@ -5,10 +5,8 @@ import session from "express-session";
 
 // import pg from "pg"
 import bcrypt from 'bcryptjs';
-import connectRedis from 'connect-redis';
 import env from "dotenv";
 import http from 'http';
-import Redis from 'ioredis';
 import { ObjectId } from 'mongodb';
 import multer from "multer";
 import { Server } from 'socket.io';
@@ -24,32 +22,31 @@ import { uploadImage, uploadImagesAndVids } from "./upload.js";
 
 
 
+
 env.config();
 
 export const upload = multer({ dest: 'uploads/' });  // Configure temporary storage directory
 
 const app = express()
-const redisClient = new Redis();
-redisClient.connect().catch(console.error)
-const RedisStore = new connectRedis(session);
-
 const server = http.createServer(app);
 const io = new Server(server);
 const port = 4000
 
 app.use(cors(
   {
-  origin: 'https://instaclone0.netlify.app',
+  origin: 'http://localhost:3000',
   credentials: true
 }));
 
 
-  app.use(session({
-    store: new RedisStore({ client: redisClient }),
+app.use(
+  session({
     secret: process.env.SECRETWORD,
     resave: false,
-    saveUninitialized: false
-  }));
+    saveUninitialized: true,
+    cookie: { httpOnly: true }
+  })
+);
   
 
 app.use(bodyParser.json({ limit: '70mb' })); 
