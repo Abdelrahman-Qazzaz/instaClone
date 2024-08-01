@@ -29,9 +29,8 @@ env.config();
 export const upload = multer({ dest: 'uploads/' });  // Configure temporary storage directory
 
 const app = express()
-const redisClient   
- = new Redis();
-const RedisStore = connectRedis(session);
+const redisClient = new Redis();
+const RedisStore = new connectRedis(session);
 
 const server = http.createServer(app);
 const io = new Server(server);
