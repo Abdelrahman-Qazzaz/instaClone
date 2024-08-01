@@ -7,7 +7,7 @@ import mime from 'mime';
 
 
 
-import db from "./db.js";
+import { db } from "./db.js";
 import { upload } from "./server.js";
 
 

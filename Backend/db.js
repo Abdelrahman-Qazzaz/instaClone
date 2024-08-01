@@ -1,6 +1,8 @@
 
+import connectMongo from 'connect-mongo';
 import env from "dotenv";
 import { MongoClient } from 'mongodb';
+
 env.config();
 
 
@@ -8,10 +10,14 @@ const mongoUri = process.env.MONGOURI;
 async function connectToDb() {
   try {
     const client = await MongoClient.connect(mongoUri);
+    const db = client.db("InstaClone");
+    const sessionStore = connectMongo.create({
+      client: client,
+      dbName: 'sessions', // You can choose a different database name
+      collectionName: 'sessions'
+    });
 
-
-    const database = client.db("InstaClone");
-    return database
+    return { db, sessionStore}
   } catch (err) {
     console.error("Error connecting to MongoDB:", err);
   }
@@ -55,6 +61,6 @@ export async function getPostData(post_id){
   return targetPost
 }
 
- const db = await connectToDb();
+ const { db, sessionStore } = await connectToDb();
 
-export default db 
+export { db, sessionStore };

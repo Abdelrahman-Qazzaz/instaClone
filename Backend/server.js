@@ -11,12 +11,13 @@ import { ObjectId } from 'mongodb';
 import multer from "multer";
 import { Server } from 'socket.io';
 import validator from "validator";
-import db, { getUserData } from "./db.js";
+import { db, getUserData, sessionStore } from "./db.js";
 import passport from "./passport.js";
 import { uploadImage, uploadImagesAndVids } from "./upload.js";
 
 
 
+console.log(db)
 
 
 
@@ -34,19 +35,18 @@ const port = 4000
 
 app.use(cors(
   {
-  origin: 'https://instaclone0.netlify.app',
+  origin: 'http://localhost:3000',//https://instaclone0.netlify.app
   credentials: true
 }));
 
 
-app.use(
-  session({
-    secret: process.env.SECRETWORD,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { httpOnly: true, secure: true, maxAge: 1000 * 60 * 60 * 48, sameSite: 'none' }
-  })
-);
+
+app.use(session({
+  store: sessionStore,
+  secret: process.env.SECRETWORD,
+  resave: false,
+  saveUninitialized: false
+}));
   
 
 app.use(bodyParser.json({ limit: '70mb' })); 

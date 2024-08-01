@@ -3,7 +3,8 @@ import LocalStrategy from "passport-local";
 
 import bcrypt from 'bcryptjs';
 import env from "dotenv";
-import db from "./db.js";
+import { db } from "./db.js";
+
 
 
 env.config();
