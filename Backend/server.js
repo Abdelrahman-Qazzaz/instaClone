@@ -120,7 +120,7 @@ async function hash(password) {
 
  app.get('/users/:username/story',async(req,res)=>{
   const Users = db.collection("Users")
-  const filter = {username: req.params.username}
+  const filter = {username: req.params?.username}
   const { story } = await Users.findOne(filter)
   res.json({story})
  })
@@ -129,10 +129,10 @@ async function hash(password) {
 
   try {
     const Users = db.collection("Users")
-    const filter = {username: req.params.username}
+    const filter = {username: req?.params?.username}
     const targetUser = await Users.findOne(filter)
-    const targetUserStory =targetUser.story
-    const filteredSlides = targetUserStory.slides.filter((slide)=> slide.id != req.params.slideID )
+    const targetUserStory =targetUser?.story
+    const filteredSlides = targetUserStory?.slides?.filter((slide)=> slide.id != req.params.slideID )
     const targetSlide = targetUserStory.slides.find((slide)=> slide.id == req.params.slideID )
     if(!(targetSlide.views))
       {targetSlide.views = []}
