@@ -15,7 +15,7 @@ function StoryIcon(props) {
               <button onClick={()=> navigate(`/stories/${props.following.username}?autoPlayNext=true`)} className='p-0' style={{border:'none',backgroundColor:'transparent'}}>
                 <div className={`${styles.storyIcon} m-0`} style={{borderRadius:'50%',border:'none'}}>
                   <div className={`${styles.innerStoryIcon} m-0`} style={{borderRadius:'50%',border:'none'}}>
-                  <img style={{borderRadius:'50%'}} className='' width='100%' height='100%' src={props.following.pfpFirebasePathURL ? props.following.pfpFirebasePathURL : './defaultinstaPFP.jpg'} alt="" />
+                  <img style={{borderRadius:'50%'}} className='' width='100%' height='100%' src={props.following.pfpFirebasePathURL ? props.following.pfpFirebasePathURL : './defaultInstaPFP.jpg'} alt="" />
                   </div>
                 </div>
               </button>
