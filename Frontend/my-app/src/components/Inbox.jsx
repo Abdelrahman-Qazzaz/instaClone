@@ -62,7 +62,7 @@ function Inbox() {
         
     }
   return (
-    <div className='d-flex justify-content-center' style={{ width:'100%',border:'2px solid blue',height:'100%',}}>
+    <div className='d-flex justify-content-center' style={{ width:'100%',border:'',height:'100%',}}>
         
         <div className='d-none d-md-block col-5'> {/*desktop only*/}
           {user && user.following && user.following.map((following)=>
