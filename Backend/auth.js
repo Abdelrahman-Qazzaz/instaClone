@@ -53,7 +53,7 @@ function generateJWTToken(user) {
   const payload = {
     _id: user._id, 
   };
-  const token = jwt.sign(payload, process.env.SECRETWORD, { expiresIn: '1h' }); // Set expiration time
+  const token = jwt.sign(payload, process.env.SECRETWORD, { expiresIn: '168h' }); // Set expiration time
   return token;
 }
 
