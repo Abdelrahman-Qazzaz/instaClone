@@ -60,6 +60,7 @@ function Rest() {
               <Route path= '/direct/inbox/*' element={<Inbox/>}/>  {/* done removing anchors, PS : for exit chat socket events, do them via the useEffect clean up*/}
               <Route path= '/notFound' element= {<NotFoundPage/>}/>  {/* done removing anchors*/}
               <Route path= '/stories/:username' element= {<StoryPreview/>}/>      {/*  done removing anchors, done refactoring? it's mediocre*/}
+              <Route path= '/p/*' element= {<ProfilePagePost/>}/>     {/*  done removing anchors*/}
               <Route path= '*'  element= {<ProfilePage/>}/>       {/* done removing anchors */}
             </Route>
             </>
