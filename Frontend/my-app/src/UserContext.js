@@ -94,6 +94,7 @@ export function UserContextProvider({ children,...props }) {
   }
 
   async function login(username,password){
+    setIsLoading(true)
     const { data } =  await axios.post(`${process.env.REACT_APP_BACKENDAPI}/login`,{username,password},config)
     setToken(data.token)
     if(data.token){
@@ -118,6 +119,7 @@ export function UserContextProvider({ children,...props }) {
 
     socket.emit('auth',result.data.user._id)
     setUser(result.data.user)}
+    setIsLoading(false)
   }
   async function logout(){
     const { status } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/logout`,config)
