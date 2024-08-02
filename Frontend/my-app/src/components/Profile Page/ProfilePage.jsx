@@ -15,7 +15,7 @@ function ProfilePage() {
     const params = useParams()
     const [path,setPath] = useState()
     const [targetUser,setTargetUser] = useState(null)
-    const { user,setUser,isLoading,setIsLoading, } = useContext(userContext)
+    const { user,setUser,isLoading,setIsLoading,config } = useContext(userContext)
 
 
     async function fetchTargetUserData(pfpUpload=false){
@@ -25,7 +25,7 @@ function ProfilePage() {
 
         try{
            
-         const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/${username}/`,{withCredentials:true})
+         const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/${username}/`,config)
 
 
         if(data.targetUser)

@@ -12,7 +12,7 @@ function MobileOnlyNavTop() {
 
   const [showSearchTab,setShowSearchTab] = useState(false)
   const [inputValue,setInputValue] = useState('')
-  const { user } = useContext(userContext)
+  const { user,config } = useContext(userContext)
   const [searchSuggestions,setSearchSuggestions] = useState([])
   const navigate = useNavigate()
 
@@ -27,7 +27,7 @@ function MobileOnlyNavTop() {
     }
     else if(value.trim() != ''){
       setInputValue(value)
-    const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/search-suggestions?input=${value}`,{withCredentials:true})
+    const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/search-suggestions?input=${value}`,config)
     const filtered = data.users.filter((suggestedUser)=>suggestedUser._id != user._id)
     setSearchSuggestions(filtered)
   }

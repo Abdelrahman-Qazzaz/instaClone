@@ -11,7 +11,7 @@ import UserIcon from './UserIcon'
 function UserDetails(props) {
 
     
-    const { user, setUpUser,setShowCreateNewPostScreen,showUnfollowConfirmationScreen,setShowUnfollowConfirmationScreen,setIsLoading,fetchUserData,setUser} = useContext(userContext)
+    const { user,config, setUpUser,setShowCreateNewPostScreen,showUnfollowConfirmationScreen,setShowUnfollowConfirmationScreen,setIsLoading,fetchUserData,setUser} = useContext(userContext)
     const [peopleYouFollowThatFollowThisUser,setPeopleYouFollowThatFollowThisUser] = useState([])
 
     async function getAndSetPeopleYouFollowThatFollowThisUser(){
@@ -34,7 +34,7 @@ function UserDetails(props) {
       const formData = new FormData()
       formData.append('image',files[0])
       try{
-         const { status }=  await axios.post(`${process.env.REACT_APP_BACKENDAPI}/me/setProfilePicture`,formData,{headers: {'Content-Type': 'multipart/form-data'},withCredentials:true})
+         const { status }=  await axios.post(`${process.env.REACT_APP_BACKENDAPI}/me/setProfilePicture`,formData,{headers: {'Content-Type': 'multipart/form-data',...config}})
          if(status === 200)
               {
                 await props.fetchTargetUserData(true)

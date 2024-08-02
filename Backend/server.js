@@ -1,22 +1,20 @@
 import bodyParser from "body-parser";
 import cors from 'cors';
 import express from "express";
-import session from "express-session";
+
 
 // import pg from "pg"
 import bcrypt from 'bcryptjs';
 import env from "dotenv";
 import http from 'http';
+import jwt from 'jsonwebtoken';
 import { ObjectId } from 'mongodb';
 import multer from "multer";
 import { Server } from 'socket.io';
 import validator from "validator";
-import { db, getUserData, sessionStore } from "./db.js";
-import passport from "./passport.js";
+import { checkAuth, login } from './auth.js';
+import { db, getUserData } from "./db.js";
 import { uploadImage, uploadImagesAndVids } from "./upload.js";
-
-
-
 
 
 
@@ -40,57 +38,23 @@ app.use(cors(
 
 
 
-app.use(session({
-  store: sessionStore,
-  secret: process.env.SECRETWORD,
-  resave: false,
-  saveUninitialized: false
-}));
-  
+
 
 app.use(bodyParser.json({ limit: '70mb' })); 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json()); 
 
-app.use(passport.initialize());
-app.use(passport.session()); // Use if using sessions
-//
-// app.use(checkAdmin) // for postman
-// async function checkAdmin(req,res,next){
-//   if(req.headers.adminkey === process.env.ADMINKEY){ // pass the adminkey as header for every request you make in postman
-//     const Users = db.collection("Users")
-//     // const filter = {_id: ObjectId.createFromHexString('6697605adaa9c129a51aae79')}
-//     req.user = await Users.findOne(filter)
-//     req.user._id = req.user._id + ''
-//   }
-//   next()
-// }
+
+
+
 app.use(checkAuth)
-async function checkAuth(req,res,next){
-  if(req.isAuthenticated()){  // either authenticated cuz user is logged in, or cuz req.user was set up from the checkAdmin
-    next()
-  }
-  else{
 
-    if(req.path == '/temp'||req.path == '/login' || req.path == '/pending_users' || req.path == '/users' || req.path == '/' || req.path.startsWith('/posts') || req.path.startsWith('/users') || req.path == '/suggested-posts')
-      {next()} // skip authentication
-    else{ console.log(req.path);res.sendStatus(401)}
-  }
-}
-//
-app.get('/temp',async(req,res)=>{
-
-
-})
+  
 
 
 
 
-app.post('/login', passport.authenticate('local', {
-    failureRedirect: '/', // Redirect on failed login
-  }), (req, res) => {
-    res.redirect('/'); 
-  });
+app.post('/login', login)
 
 app.get('/logout',(req,res)=>{
   req.logout((err) => { 
@@ -165,20 +129,44 @@ async function hash(password) {
 
 
 
-app.get('/',(req,res)=>{  // ? this as far as postman is concerned is useless... postman will never use this route ?
-  if(req.isAuthenticated()){
-      res.json({user_id:req.user._id})
-  }
-  else{
-      res.json({user_id:-1})
-  }
-})
+app.get('/',(req,res)=>{ //this route is skipped for auth, so we will do it manually here.
+  const authHeader = req.headers['authorization'];
 
-app.get('/users/:userID',async(req,res)=>{
+  const token = authHeader && authHeader.split(' ')[1];
+  if (token == null) return res.json({user_id:-1}); // Unauthorized
 
+  jwt.verify(token, process.env.SECRETWORD, (err, user) => {
+    if (err){
+    return res.json({user_id:-1})}; // Forbidden
+    res.json({user_id:user._id})
+  })})
+
+// app.get('/my-data',async(req,res)=>{ // this route is skipped for auth, so we will do it manually here.
+//   const authHeader = req.headers['authorization'];
+//   const token = authHeader && authHeader.split(' ')[1];
+//   if (token == null) return res.json({user_id:-1}); // Unauthorized
+
+//   jwt.verify(token, process.env.SECRETWORD,async (err, { _id }) => {
+//     if (err) return res.json({user_id:-1}); // Forbidden
+//     const Users = db.collection("Users")
+//     const user = await Users.findOne({_id: ObjectId.createFromHexString(_id)}) 
+//     res.json({user})
+
+//   // res.json({user})
+//   })})
+
+app.get('/users/:userID',async(req,res)=>{ // auth is skipped here, so it's done manually
   try {
-    if(req.user && req.user._id == req.params.userID){// get user's own data  //chekcing for req.user because some axios requests are sent to this route without credintials.
-      const userObjectId = ObjectId.createFromHexString(req.user._id)
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    let decoded = null
+    if(token != null){
+      decoded = jwt.verify(token, process.env.SECRETWORD); 
+    }
+
+
+    if(decoded && decoded._id == req.params.userID){// get user's own data  //chekcing for req.user because some axios requests are sent to this route without credintials.
+      const userObjectId = ObjectId.createFromHexString(decoded._id)
       let user = await getUserData(userObjectId,true,true,true)
       user._id = req.user._id
       res.json({user})

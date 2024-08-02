@@ -10,6 +10,7 @@ function DesktopOnlyNavbarSearchExtention(props) {
 
     const [inputValue,setInputValue] = useState('')
     const [searchSuggestions,setSearchSuggestions] = useState([])
+    const { config } = useContext(userContext)
 
     const navigate = useNavigate()
     
@@ -23,7 +24,7 @@ function DesktopOnlyNavbarSearchExtention(props) {
       }
       else if(value.trim() != ''){
         setInputValue(value)
-      const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/search-suggestions?input=${value}`,{withCredentials:true})
+      const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/search-suggestions?input=${value}`,config)
       const filtered = data.users.filter((suggestedUser)=>suggestedUser._id != user._id)
       setSearchSuggestions(filtered)
     }

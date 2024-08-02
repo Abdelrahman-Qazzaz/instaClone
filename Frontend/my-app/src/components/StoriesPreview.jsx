@@ -5,7 +5,7 @@ import userContext from '../UserContext'
 import styles from './assets/assets.module.css'
 import StoriesCarousel from './StoriesCarousel'
 
-function StoryPreview(props) {
+function StoryPreview() {
 
 
   const { user,fetchStory,setIsLoading } = useContext(userContext)

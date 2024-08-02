@@ -49,7 +49,7 @@ function StorySlide(props) {
                         }
                       }
                     }}
-              }
+              }if(forLoop){navigate('/')}
             }
             else{
               navigate('/')

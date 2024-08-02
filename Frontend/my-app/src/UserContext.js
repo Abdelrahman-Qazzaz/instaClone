@@ -1,15 +1,18 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react';
 
-import axios from 'axios'
+import axios from 'axios';
 
 
 const userContext = createContext()
 
 export function UserContextProvider({ children,...props }) {
 
+
+
   const socket = props.socket
   const [user,setUser] = useState({_id:-1}) // immer
-
+  const [token,setToken] = useState(null)
+  const [config,setConfig] = useState(null)
   const [showBlackBackGround,setShowBlackBackground] = useState(false)
   const [showSuggestedPage,setShowSuggestedPage] = useState()
   const [showSwitchScreen,setShowSwitchScreen] = useState(false)
@@ -21,11 +24,21 @@ export function UserContextProvider({ children,...props }) {
 
 
 
+
+
   const [isLoading,setIsLoading] = useState(false)
 
    useEffect(()=>{
-     setUpUser() // will be useful for two cases: 1.if user logged in, then closed the website, then opened it again. 2. if the user refreshes the browser, cuz it will prevent the user from having to re login... PS: dont do this in any other place, even if it says cant read properties of undefined, cuz all that means is that this function hasnt done executing yet, so to fix the cant read properties of undefined, just render conditionally, this should take care of the error, and the component will render normally once this function is done executing.
+    if(localStorage.getItem('config')){
+      setConfig(JSON.parse(localStorage.getItem('config')))
+    }
+      // will be useful for two cases: 1.if user logged in, then closed the website, then opened it again. 2. if the user refreshes the browser, cuz it will prevent the user from having to re login... PS: dont do this in any other place, even if it says cant read properties of undefined, cuz all that means is that this function hasnt done executing yet, so to fix the cant read properties of undefined, just render conditionally, this should take care of the error, and the component will render normally once this function is done executing.
    },[])
+
+   useEffect(()=>{
+    setUpUser()
+   },[config])
+
 
 
 
@@ -48,11 +61,16 @@ export function UserContextProvider({ children,...props }) {
 
 
    async function setUpUser(){
-    let { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/`,{withCredentials:true})
+
+    let { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/`,config)
+
     if(data.user_id && data.user_id != -1){
-      const result = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/users/${data.user_id}`,{withCredentials:true})
+      const result = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/users/${data.user_id}`,config)
       setUser(result.data.user)
       socket.emit('auth',result.data.user._id) // cuz this whole function (setUpUser)'s purpose is for when the user logged in, then either refreshed or closed the website and reopened it, but since they wont have to login, we have to make sure that they still get added to the connectedUsers array in the backend, cuz the only way for a user to get added to that array is via the 'auth' event
+    }
+    else{
+      localStorage.setItem('config',null)
     }
    }
 
@@ -70,44 +88,62 @@ export function UserContextProvider({ children,...props }) {
   }
 
   async function updateFollowing(){
-    const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/users/${user._id}/following`,{withCredentials:true})
+    const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/users/${user._id}/following`,config)
     // setUser(produce((draft)=>{draft.following = data.following; draft.following_ids = data.following_ids}))
     setUser((prev)=>({...prev,following_ids: data.following_ids,following: data.following}))
   }
 
   async function login(username,password){
-    const { data } =  await axios.post(`${process.env.REACT_APP_BACKENDAPI}/login`,{username,password},{withCredentials:true})
-    const userID = data.user_id
-    if(userID != -1){
-    const result = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/users/${userID}`,{withCredentials:true})
+    const { data } =  await axios.post(`${process.env.REACT_APP_BACKENDAPI}/login`,{username,password},config)
+    setToken(data.token)
+    if(data.token){
+    setConfig({
+      headers: {
+        Authorization: `Bearer ${data.token}`
+      }
+    })
+    localStorage.setItem('config',JSON.stringify({
+      headers: {
+        Authorization: `Bearer ${data.token}`
+      }
+    }))
+  }
+    if(data.user_id){
+    const result = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/users/${data.user_id}`,{
+      headers: {
+        Authorization: `Bearer ${data.token}`
+      }
+    })
     // setUser(produce((draft) => {draft = result.data.user}))
+
     socket.emit('auth',result.data.user._id)
     setUser(result.data.user)}
   }
   async function logout(){
-    const { status } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/logout`,{withCredentials:true})
+    const { status } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/logout`,config)
+    localStorage.clear()
     return status
 }
 
 
   async function fetchSuggestedUsers(){
-    const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/suggested-users`,{withCredentials:true})
+    const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/suggested-users`,config)
     const suggestedUsers = data.suggested_users
     return suggestedUsers
   }
 
   async function fetchFeedPosts(){
-    const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/feed-posts`,{withCredentials:true})
+    const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/feed-posts`,config)
     return data.feedPosts
   }
 
   async function fetchSuggestedPosts(){
-    const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/suggested-posts`,{withCredentials:true})
+    const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/suggested-posts`,config)
     return data.suggestedPosts
   }
 
   async function followUser(targetUser_id){
-    const { status } = await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/users/${user._id}/following`,{targetID: targetUser_id},{withCredentials:true})//update who the user is following, "targetID" is the id of the  person who's been newly added to the user's following list.
+    const { status } = await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/users/${user._id}/following`,{targetID: targetUser_id},config)//update who the user is following, "targetID" is the id of the  person who's been newly added to the user's following list.
     console.log(status)
     if(status === 200){
         await updateFollowing()
@@ -116,7 +152,7 @@ export function UserContextProvider({ children,...props }) {
 
   async function unfollowUser(targetUser_id){
     try{ 
-    const { status } = await axios.delete(`${process.env.REACT_APP_BACKENDAPI}/users/${user._id}/following/${targetUser_id}`,{withCredentials:true})
+    const { status } = await axios.delete(`${process.env.REACT_APP_BACKENDAPI}/users/${user._id}/following/${targetUser_id}`,config)
     console.log(status)
     if(status === 204){
         await updateFollowing()
@@ -128,16 +164,16 @@ export function UserContextProvider({ children,...props }) {
 }
 
 async function handlePostLikeUnLikeAndGetTheUpdatedLikesForThisPost(post_id){ // postID x
-  const { data } = await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/posts/${post_id}/likes`,{},{withCredentials:true})
+  const { data } = await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/posts/${post_id}/likes`,{},config)
   return data.newLikesForPost // this will return the new array of likes for postID x
 }
 async function handleCommentLikeUnlike (post_id,commentID){
-  const { data } = await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/posts/${post_id}/comments/${commentID}/likes`,{},{withCredentials:true})
+  const { data } = await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/posts/${post_id}/comments/${commentID}/likes`,{},config)
   return data.newLikesForComment
 }
 
 async function postStorySlide(slideFormData){
-  await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/users/${user._id}/story`,slideFormData,{headers: {'Content-Type': 'multipart/form-data'},withCredentials:true})
+  await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/users/${user._id}/story`,slideFormData,{headers: {'Content-Type': 'multipart/form-data',...config.headers},})
 }
 
 
@@ -154,24 +190,24 @@ function getPeopleYouFollowThatFollowTheSuggestedUser(targetUser){
 }
 
 async function savePost(post_id){
-  const { data } = await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/users/${user._id}/saved-posts`,{targetPost_id: post_id},{withCredentials:true})
+  const { data } = await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/users/${user._id}/saved-posts`,{targetPost_id: post_id},config)
   const { savedPosts_ids } = data
 
   setUser((prev)=>({...prev,savedPosts_ids}))
 }
 
 async function fetchStory(targetUserUsername){
-const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/users/${targetUserUsername}/story`,{withCredentials:true})
+const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/users/${targetUserUsername}/story`,config)
 return data.story
 }
 
 async function fetchStories(){
-  const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/users/${user.username}/feed-stories`,{withCredentials:true})
+  const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/users/${user.username}/feed-stories`,config)
   return data.stories
 }
 
 async function updateStorySlideViewsAndUpdateUserData(slideID,targetUser_username){
-  const { data } = await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/users/${targetUser_username}/story/slides/${slideID}`,{},{withCredentials:true})
+  const { data } = await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/users/${targetUser_username}/story/slides/${slideID}`,{},config)
   setUser((prev)=> {
     const filteredFollowing = user.following.filter((following)=> following.username != targetUser_username)
     const targetUser = user.following.find((following)=> following.username == targetUser_username)
@@ -186,7 +222,7 @@ async function fetchChat(targetChat_id){
 
   if(targetChat_id.length == 24){
 
-    const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/chats/${targetChat_id}`,{withCredentials:true})
+    const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/chats/${targetChat_id}`,config)
 
 
     return data.targetChat
@@ -195,7 +231,7 @@ async function fetchChat(targetChat_id){
 }
 
 async function createChatAndGetIts_id(user1_id,user2_id){
-  const { data } = await axios.post(`${process.env.REACT_APP_BACKENDAPI}/chats`,{user1_id, user2_id},{withCredentials:true})
+  const { data } = await axios.post(`${process.env.REACT_APP_BACKENDAPI}/chats`,{user1_id, user2_id},config)
   return data.chat_id
 }
 function socketEmitUserEnteredChat(chat_id){
@@ -207,7 +243,7 @@ function socketChatMessagesUpdate(chat_id){
 
 async function createPostAndUpdateUserData(formData){
   try {
-    const { data } = await axios.post(`${process.env.REACT_APP_BACKENDAPI}/users/${user._id}/posts`,formData,{headers: {'Content-Type': 'multipart/form-data'},withCredentials:true})
+    const { data } = await axios.post(`${process.env.REACT_APP_BACKENDAPI}/users/${user._id}/posts`,formData,{headers: {'Content-Type': 'multipart/form-data',...config.headers}})
     setUser((prev)=>({...prev,posts_ids:data.posts_ids, posts:[...prev.posts,data.newPost]}))
     }catch (error) {
       console.log(error)
@@ -221,16 +257,16 @@ function formatCreationDate(creationDate){
 
 
 async function handlePostLikeUnLike(post_id){
-  const { data } = await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/posts/${post_id}/likes`,{},{withCredentials:true})
+  const { data } = await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/posts/${post_id}/likes`,{},config)
   return data.newLikesForPost
 }
 async function handleCommentLikeUnlike (post_id,commentID){
-  const { data } = await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/posts/${post_id}/comments/${commentID}/likes`,{},{withCredentials:true})
+  const { data } = await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/posts/${post_id}/comments/${commentID}/likes`,{},config)
   return data.newLikesForComment
 }
 
 async function handleReplyLikeUnlike(post_id,commentID,replyID){
-  const { data } = await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/posts/${post_id}/comments/${commentID}/replies/${replyID}/likes`,{},{withCredentials:true})
+  const { data } = await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/posts/${post_id}/comments/${commentID}/replies/${replyID}/likes`,{},config)
   return data.newLikesForComment
 }
 
@@ -268,7 +304,7 @@ function formatAge(creationDate){
     if(user && user._id != -1)
         {
             try {
-                const { data } = await axios.post(`${process.env.REACT_APP_BACKENDAPI}/posts/${post_id}/comments`,{comment},{withCredentials:true})
+                const { data } = await axios.post(`${process.env.REACT_APP_BACKENDAPI}/posts/${post_id}/comments`,{comment},config)
                 return data.newComment
                
             } catch (error) {
@@ -280,7 +316,7 @@ async function postReply(post_id,comment_id,reply){
     if(user && user._id != -1)
         {
             try {
-                const { data } = await axios.post(`${process.env.REACT_APP_BACKENDAPI}/posts/${post_id}/comments/${comment_id}/replies`,{reply},{withCredentials:true})
+                const { data } = await axios.post(`${process.env.REACT_APP_BACKENDAPI}/posts/${post_id}/comments/${comment_id}/replies`,{reply},config)
                 return data.newComments
             } catch (error) {
                 console.log(error)
@@ -294,7 +330,7 @@ async function fetchUserData(user_id){
 }
 
 async function sendMessage(chat_id,formData){//formData: text, files
-  const { data } = await axios.post(`${process.env.REACT_APP_BACKENDAPI}/chats/${chat_id}/messages`,formData,{headers: {'Content-Type': 'multipart/form-data'},withCredentials:true})
+  const { data } = await axios.post(`${process.env.REACT_APP_BACKENDAPI}/chats/${chat_id}/messages`,formData,{headers: {'Content-Type': 'multipart/form-data',...config.headers}})
   socketChatMessagesUpdate(chat_id)
   return data.newMessage
 }
@@ -303,6 +339,7 @@ async function sendMessage(chat_id,formData){//formData: text, files
     <userContext.Provider value={{
       user,
       setUser,
+      config,
       socket,
       login,
       fetchSuggestedUsers,
@@ -380,7 +417,7 @@ export default userContext
     }).catch((userID)=>{console.log('userID: '+userID) })
   }
   async function getUserID(){
-    const { data } = await axios.get('${process.env.REACT_APP_BACKENDAPI}',{withCredentials:true})
+    const { data } = await axios.get('${process.env.REACT_APP_BACKENDAPI}',config)
     return new Promise((resolve,reject) => {
       if(data.user_id != -1){resolve(data.user_id)}
       else{reject(-1); }
@@ -388,7 +425,7 @@ export default userContext
   }
   async function fetchUser(userID){
     if(userID != -1){
-    const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/users/${userID}`,{withCredentials:true})
+    const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/users/${userID}`,config)
     setUser(data.user)
     if(data.user._id && data.user._id != -1) 
       {console.log('foo')
@@ -408,7 +445,7 @@ export default userContext
 
     const [suggestedUsers,setSuggestedUsers] = useState([])
     async function fetchSuggestions(){
-        const { data } = await axios.get('${process.env.REACT_APP_BACKENDAPI}/suggested-users',{withCredentials:true})
+        const { data } = await axios.get('${process.env.REACT_APP_BACKENDAPI}/suggested-users',config)
         setSuggestedUsers(data.suggested_users)
     }
 

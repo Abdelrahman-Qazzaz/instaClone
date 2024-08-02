@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import userContext from '../../UserContext'
-import axios from 'axios'
 
 function FollowButton2(props) {
 
