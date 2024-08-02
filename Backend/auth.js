@@ -71,7 +71,13 @@ export async function checkAuth(req,res,next){
   jwt.verify(token, process.env.SECRETWORD, (err, user) => {
     if (err){
       console.log(err)
-      return res.status(403).json({user_id:-1}); // Forbidden
+      if(req.path == '/temp'||req.path == '/login' || req.path == '/pending_users' || req.path == '/users' || req.path == '/' || req.path.startsWith('/posts') || req.path.startsWith('/users') || req.path == '/suggested-posts'){
+        return next() // skip authentication
+      } 
+      else{
+        return res.status(403).json({user_id:-1}); // Forbidden
+      }
+     
     } 
     req.user = user;  // this will make using req.user._id possible
     next();
