@@ -40,7 +40,7 @@ function toggleVidPlay(){
  
     props.feedPost
     ?
-    <div className="carousel mt-2" style={{width:'100%',height:'fit-content',position:'relative'}}>
+    <div className={`carousel ${props.noMargin ? '' : 'mt-2'}`} style={{width:'100%',height:'fit-content',position:'relative'}}>
         {props.slides.map((slide, index) => {
           const src = slide.fileUrl ? slide.fileUrl : slide.objectUrl ? slide.objectUrl : null
           return (

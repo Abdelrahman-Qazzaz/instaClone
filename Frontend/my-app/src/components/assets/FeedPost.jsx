@@ -53,9 +53,9 @@ function FeedPost(props) {
             <Caption post={props.post} owner={props.post.owner}/>
           </div>
         </div> 
-        <div  onClick={componentHandleOnImageOrVideoClick} style={{height:'fit-content',border:'',position:'relative'}}>
+        <div  onClick={componentHandleOnImageOrVideoClick} style={{height:'fit-content',border:'2px solid red',position:'relative'}}>
           {displayPopUpHeart ? <PopUpHeart/> : null}
-          <ImagesAndVidsPreviewCarousel feedPost={true} slides={props.post.firebasePathURLs}/>
+          <ImagesAndVidsPreviewCarousel noMargin={true} feedPost={true} slides={props.post.firebasePathURLs}/>
         </div>
         {
           props.chatPostLink
