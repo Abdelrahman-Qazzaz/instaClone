@@ -49,9 +49,9 @@ function DesktopNavbar() {
 
                 <div className={`p-0  d-flex justify-content-center ${showExtraText ? 'justify-content-xl-start' : ''}`}  style={{border:'',backgroundColor:'transparent'}}>
                          <button onClick={()=>{ handleDesktopOnlyNavbarType('');navigate('/')}}  className={`${styles.zenLoop}  d-xl-flex p-0`}   style={{border:'none',backgroundColor:'transparent',color:'black',textDecoration:'none',}}>
-                            {showExtraText ? null : <div className='p-0 m-0'><InstagramIcon/></div>}
+                            {showExtraText ? null : <div className='p-0 m-0' style={{border:""}}><InstagramIcon/></div>}
                             {!showExtraText ? null : <div className='p-0 d-block d-xl-none' ><InstagramIcon/></div>}
-                            <div style={{border:""}} className='p-0 d-none d-xl-block'>{showExtraText ? 'instaClone' : ''}</div> 
+                            <div style={{border:""}} className={`p-0 ${showExtraText ? '' : 'ms-3'} d-none d-xl-block`}>{showExtraText ? 'instaClone' : ''}</div> 
                         </button>
                 </div>  
                 

@@ -10,7 +10,9 @@ import ReelsTab from './Tabs/ReelsTab';
 
 function UserContent(props) {
   const navigate = useNavigate()
-  const baseProfilePagePath = props.path
+  const baseProfilePagePath = props.targetUser.username
+  console.log(baseProfilePagePath)
+
 
   const [showFollowersList,setShowFollowersList] = useState(false)
   function toggleFollowersList(){

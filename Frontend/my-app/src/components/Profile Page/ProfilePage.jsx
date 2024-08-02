@@ -13,14 +13,14 @@ function ProfilePage() {
 
     const navigate = useNavigate()
     const params = useParams()
-    const [path,setPath] = useState()
+
     const [targetUser,setTargetUser] = useState(null)
     const { user,setUser,isLoading,setIsLoading,config } = useContext(userContext)
 
 
     async function fetchTargetUserData(pfpUpload=false){
         setIsLoading(true)
-        setPath(params['*'])
+
         const username = params['*'].split('/')[0]
 
         try{
@@ -107,7 +107,7 @@ function ProfilePage() {
             <div className='d-flex justify-content-center' style={{border:' green',flex:1,}}>
                 <div className='d-flex flex-column flex-grow-1' style={{maxWidth:'935px',border:'',}}>
                     <UserDetails  targetUser={targetUser} setTargetUser={setTargetUser} fetchTargetUserData={fetchTargetUserData}/>
-                    <UserContent  targetUser={targetUser} path={path} />
+                    <UserContent  targetUser={targetUser}  />
                 </div>
             </div>
 

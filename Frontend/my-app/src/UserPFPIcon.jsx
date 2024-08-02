@@ -37,7 +37,7 @@ function UserPFPIcon(props) {
          <div className={`${unwatched ? styles.storyIcon : null} d-flex justify-content-center align-items-center`} style={{borderRadius:'50%'}}>
             <div className={`${unwatched ? styles.innerStoryIcon : null} d-flex justify-content-center align-items-center`} style={{borderRadius:'50%'}}>
                 {targetUser ? <img style={{height,width,borderRadius:'50%'}} src={targetUser.pfpFirebasePathURL ? targetUser.pfpFirebasePathURL : '/defaultInstaPFP.jpg'} alt="" /> : null}
-            </div>
+            </div>                                                                                              
          </div>
         
     </button>
