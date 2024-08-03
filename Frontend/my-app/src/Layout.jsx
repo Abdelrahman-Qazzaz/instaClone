@@ -12,7 +12,6 @@ import BlackBackground from './components/assets/BlackBackground';
 import UnfollowConfirmationScreen from './components/assets/Confirmation Screens/UnfollowConfirmationScreen';
 import Loading from './components/assets/Loading';
 import styles from "./rest.module.css";
-
 function Layout() {
 
   const { isLoading,showSwitchScreen,showCreateNewPostScreen,showSharePostScreen,showUnfollowConfirmationScreen,sharePostScreenPostData,unfollowConfirmationScreenTargetUser,showBlackBackGround } = useContext(userContext)

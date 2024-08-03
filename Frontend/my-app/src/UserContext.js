@@ -10,6 +10,8 @@ export function UserContextProvider({ children,...props }) {
 
 
   const socket = props.socket
+  const isLoading = props.isLoading
+  const setIsLoading = props.setIsLoading
   const [user,setUser] = useState({_id:-1}) // immer
   const [token,setToken] = useState(null)
   const [config,setConfig] = useState(null)
@@ -25,8 +27,6 @@ export function UserContextProvider({ children,...props }) {
 
 
 
-
-  const [isLoading,setIsLoading] = useState(false)
 
    useEffect(()=>{
     if(localStorage.getItem('config')){
@@ -175,7 +175,9 @@ async function handleCommentLikeUnlike (post_id,commentID){
 }
 
 async function postStorySlide(slideFormData){
+  setIsLoading(true)
   await axios.patch(`${process.env.REACT_APP_BACKENDAPI}/users/${user._id}/story`,slideFormData,{headers: {'Content-Type': 'multipart/form-data',...config.headers},})
+  setIsLoading(false)
 }
 
 

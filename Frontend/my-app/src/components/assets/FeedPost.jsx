@@ -53,7 +53,7 @@ function FeedPost(props) {
             <Caption post={props.post} owner={props.post.owner}/>
           </div>
         </div> 
-        <div  onClick={componentHandleOnImageOrVideoClick} style={{height:'fit-content',border:'2px solid red',position:'relative'}}>
+        <div  onClick={componentHandleOnImageOrVideoClick} style={{height:'fit-content',border:'',position:'relative'}}>
           {displayPopUpHeart ? <PopUpHeart/> : null}
           <ImagesAndVidsPreviewCarousel noMargin={true} feedPost={true} slides={props.post.firebasePathURLs}/>
         </div>
