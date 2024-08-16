@@ -1,31 +1,54 @@
-import React from 'react'
+import React from "react";
 
-import styles from "./loginPage.module.css"
-import LoginPageDesktopOnlyBox from "./LoginPageDesktopOnlyBox"
-import LoginPageSecondBox from "./LoginPageSecondBox"
-
+import styles from "./loginPage.module.css";
+import LoginPageDesktopOnlyBox from "./LoginPageDesktopOnlyBox";
+import LoginPageSecondBox from "./LoginPageSecondBox";
 
 //https://www.instagram.com
 
-
-
 function LoginPage() {
-
- 
-
-
-  
   return (
-   <div style={{position:'fixed',top:0,left:0,height:'100vh',width:'100vw',zIndex:4,backgroundColor:'white',border:"",overflowY:'auto'}} className='d-flex align-items-center'> 
-    <div className='mb-5' style={{border:'',height:"fit-content",flexGrow:1,display:'flex',justifyContent:'center',alignItems:'',}}>
-      <div style={{maxWidth:'380px',width:'100%'}} className={styles.desktopOnlyLoginPageBox}><LoginPageDesktopOnlyBox/></div>
-      <div className={styles.loginPageSecondBox} style={{height:'600px'}}><LoginPageSecondBox/></div>
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        height: "100vh",
+        width: "100vw",
+        zIndex: 4,
+        backgroundColor: "white",
+        border: "",
+        overflowY: "auto",
+      }}
+      className="d-flex align-items-center"
+    >
+      <div
+        className="mb-5"
+        style={{
+          width: "fit-content",
+          overflow: "hidden",
+          height: "fit-content",
+          flexGrow: 1,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "",
+        }}
+      >
+        <div
+          style={{ maxWidth: "380px", width: "100%" }}
+          className={styles.desktopOnlyLoginPageBox}
+        >
+          <LoginPageDesktopOnlyBox />
+        </div>
+        <div className={styles.loginPageSecondBox} style={{ height: "600px" }}>
+          <LoginPageSecondBox />
+        </div>
+      </div>
     </div>
-  </div>
-  )
+  );
 }
 
-export default LoginPage
+export default LoginPage;
 
 /*
 dekstop only 
