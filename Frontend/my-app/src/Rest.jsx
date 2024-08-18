@@ -14,7 +14,7 @@ import ProfilePagePost from "./components/Profile Page/ProfilePagePost";
 import StoryPreview from "./components/StoriesPreview";
 import Layout from "./Layout";
 import styles from "./rest.module.css";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import CheckoutMyOtherProjects from "./CheckoutMyOtherProjects";
 function Rest() {
   const { user } = useContext(userContext);
@@ -35,41 +35,43 @@ function Rest() {
     //   fix story so that it navigates correctly
     //   fix axios requests from localhost4000 to a url that you get from either a .env or just the context
     <>
-      {showCheckOutMyOtherProjects && (
-        <>
-          <div
-            style={{
-              position: "fixed",
-              height: "100vh",
-              width: "100vw",
-              top: 0,
-              left: 0,
-              backgroundColor: "black",
-              opacity: "0.6",
-              zIndex: 5,
-            }}
-          ></div>
-          <motion.div
-            initial={{ y: "-350px" }}
-            animate={{ y: 0 }}
-            exit={{ y: "-350px" }}
-            transition={{ duration: "1", type: "spring", stiffness: 100 }}
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100vw",
-              display: "flex",
-              justifyContent: "center",
-              zIndex: 999,
-            }}
-          >
-            <CheckoutMyOtherProjects
-              setShowCheckOutMyOtherProjects={setShowCheckOutMyOtherProjects}
-            />
-          </motion.div>
-        </>
-      )}
+      <AnimatePresence>
+        {showCheckOutMyOtherProjects && (
+          <>
+            <div
+              style={{
+                position: "fixed",
+                height: "100vh",
+                width: "100vw",
+                top: 0,
+                left: 0,
+                backgroundColor: "black",
+                opacity: "0.6",
+                zIndex: 5,
+              }}
+            ></div>
+            <motion.div
+              initial={{ y: "-350px" }}
+              animate={{ y: 0 }}
+              exit={{ y: "-350px" }}
+              transition={{ duration: "0.5", type: "spring", stiffness: 100 }}
+              style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                width: "100vw",
+                display: "flex",
+                justifyContent: "center",
+                zIndex: 999,
+              }}
+            >
+              <CheckoutMyOtherProjects
+                setShowCheckOutMyOtherProjects={setShowCheckOutMyOtherProjects}
+              />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       <div
         className={styles.fadeFromOutToIn}
