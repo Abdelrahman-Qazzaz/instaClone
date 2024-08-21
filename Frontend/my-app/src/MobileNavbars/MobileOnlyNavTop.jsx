@@ -65,15 +65,15 @@ function MobileOnlyNavTop() {
         position: "fixed",
         top: 0,
         left: 0,
-        height,
+        height: "fit-content",
         width: "100vw",
-        zIndex: 1,
+        zIndex: 30293219321,
         backgroundColor: "white",
       }}
-      className="d-flex flex-column border-bottom"
+      className="d-flex flex-column border-bottom d-md-none d-block"
     >
       <navbar
-        className="d-md-none d-block m-0 p-0"
+        className=" m-0 p-0"
         style={{
           height: "60px",
           backgroundColor: "white",
@@ -124,7 +124,6 @@ function MobileOnlyNavTop() {
       {showSearchTab ? (
         <div
           style={{
-            border: "",
             backgroundColor: "white",
             zIndex: 928109021903291,
           }}
@@ -139,7 +138,7 @@ function MobileOnlyNavTop() {
                 height: "40px",
                 lineHeight: "40px",
                 border: "",
-                padding: "0 3px 0 3px",
+                padding: "0 0.4rem 0 0.4rem",
                 zIndex: 329810,
               },
             }}

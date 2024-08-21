@@ -45,13 +45,13 @@ function DesktopNavbar() {
         className="p-0 d-none d-md-flex border border-right"
         style={{
           border: "none",
-          backgroundColor: "transparent",
+
           border: "",
           position: "fixed",
           top: "0",
           height: "100vh",
           backgroundColor: "white",
-          zIndex: 1,
+          zIndex: 329801289101,
           border: "",
         }}
       >
