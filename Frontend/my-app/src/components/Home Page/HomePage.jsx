@@ -15,7 +15,6 @@ function HomePage() {
       style={{
         width: "100%",
         minHeight: "100vh",
-        border: "2px solid red",
       }}
     >
       {user.following.length && !showSuggestedPage ? (
