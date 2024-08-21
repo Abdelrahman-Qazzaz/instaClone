@@ -51,7 +51,7 @@ function DesktopNavbar() {
           top: "0",
           height: "100vh",
           backgroundColor: "white",
-          zIndex: 329801289101,
+          zIndex: 3,
           border: "",
         }}
       >

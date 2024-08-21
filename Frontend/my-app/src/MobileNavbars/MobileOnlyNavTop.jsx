@@ -67,7 +67,7 @@ function MobileOnlyNavTop() {
         left: 0,
         height: "fit-content",
         width: "100vw",
-        zIndex: 30293219321,
+        zIndex: 2,
         backgroundColor: "white",
       }}
       className="d-flex flex-column border-bottom d-md-none d-block"

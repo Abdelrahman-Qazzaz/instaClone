@@ -50,7 +50,7 @@ function Feed() {
           justifyContent: "center",
           overflowX: "hidden",
           overflowY: "auto",
-          zIndex: 19210291021,
+          zIndex: 2,
         }}
       >
         <div

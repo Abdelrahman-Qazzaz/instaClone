@@ -12,10 +12,11 @@ function DesktopOnlyPPPSection(props) {
     <div
       className={`${styles.hideForMobile}`}
       style={{
-        zIndex: 3,
         border: "",
         maxWidth: "100%",
         width: "600px",
+        zIndex: 3092132911,
+        backgroundColor: "white",
       }}
     >
       <div
