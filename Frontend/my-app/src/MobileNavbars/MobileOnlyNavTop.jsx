@@ -101,7 +101,7 @@ function MobileOnlyNavTop() {
                 textAlign: "left",
                 alignContent: "center",
                 border: "none",
-                backgroundColor: "transparent",
+                backgroundColor: "white",
               }}
             >
               <text className={styles.zenLoop}>instaClone</text>
@@ -112,7 +112,7 @@ function MobileOnlyNavTop() {
             >
               <button
                 className="p-0"
-                style={{ border: "none", backgroundColor: "transparent" }}
+                style={{ border: "none", backgroundColor: "white" }}
                 onClick={toggleSearchTab}
               >
                 <SearchIcon width="20px" />
