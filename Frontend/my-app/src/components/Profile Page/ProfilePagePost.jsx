@@ -92,14 +92,25 @@ function ProfilePagePost() {
           left: 0,
           height: "100vh",
           width: "100vw",
-          zIndex: 3,
+          zIndex: 10000000001,
         }}
         className="d-flex justify-content-center align-items-center"
       >
-        <div style={{ position: "fixed", top: "3%", left: "93%", zIndex: 3 }}>
+        <div
+          style={{
+            position: "fixed",
+            top: "3%",
+            left: "93%",
+            zIndex: 1000000000111111,
+          }}
+        >
           <button
             className="p-0"
-            style={{ border: "none", backgroundColor: "transparent" }}
+            style={{
+              border: "none",
+              backgroundColor: "transparent",
+              zIndex: 10000000001,
+            }}
             onClick={() => navigate(-1)}
           >
             <XIcon ProfilePagePost={true} />
