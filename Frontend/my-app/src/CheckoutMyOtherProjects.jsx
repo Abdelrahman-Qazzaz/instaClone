@@ -13,12 +13,12 @@ function CheckoutMyOtherProjects(props) {
           width: "80%",
           backgroundColor: "#2c2b29",
           borderRadius: "0.4rem",
-          zIndex: 1,
+          zIndex: 99932981,
           fontSize: "1.5rem",
           marginTop: "10px",
           position: "relative",
         }}
-        className="d-flex flex-column justify-content-center align-items-center border text-light py-5"
+        className="d-flex text-center flex-column justify-content-center align-items-center border text-light py-5"
       >
         <div
           style={{ position: "absolute", top: 0, width: "100%" }}

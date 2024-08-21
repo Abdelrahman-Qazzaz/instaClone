@@ -312,6 +312,10 @@ textarea {
   font: inherit; /* 2 */
 }
 
+/**/
+button:not([color]) {
+  color: black;
+}
 /* Interactive
    ========================================================================== */
 
