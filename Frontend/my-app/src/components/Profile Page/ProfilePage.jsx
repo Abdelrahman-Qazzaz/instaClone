@@ -7,6 +7,7 @@ import NotFoundPage from "../NotFoundPage";
 import LeftArrowIcon from "../assets/LeftArrowIcon";
 import UserContent from "./UserContent";
 import UserDetails from "./UserDetails";
+import { localStorageGetItem, localStorageSetItem } from "../../LocalStorage";
 
 function ProfilePage() {
   const navigate = useNavigate();
@@ -22,26 +23,34 @@ function ProfilePage() {
 
     const username = params["*"].split("/")[0];
 
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BACKENDAPI}/${username}/`,
-        config
-      );
+    const cachedTargetUser = await localStorageGetItem(username, 1000 * 60 * 5);
+    if (cachedTargetUser) {
+      console.log(cachedTargetUser);
+      setTargetUser(cachedTargetUser);
+    } else {
+      try {
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_BACKENDAPI}/${username}/`,
+          config
+        );
 
-      if (data.targetUser) {
-        setTargetUser({ ...data.targetUser });
-      } else if (data.user) {
-        setTargetUser({ ...data.user });
-        if (pfpUpload) {
-          setUser({ ...data.user });
+        if (data.targetUser) {
+          setTargetUser({ ...data.targetUser });
+
+          localStorageSetItem(username, { data: { ...data.targetUser } });
+        } else if (data.user) {
+          setTargetUser({ ...data.user });
+          if (pfpUpload) {
+            setUser({ ...data.user });
+          }
         }
-      }
-    } catch (err) {
-      console.log(err);
-      if (err.response?.status == 401) {
-        navigate("/");
-      } else {
-        navigate("/notFound");
+      } catch (err) {
+        console.log(err);
+        if (err.response?.status == 401) {
+          navigate("/");
+        } else {
+          navigate("/notFound");
+        }
       }
     }
     setIsLoading(false);

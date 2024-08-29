@@ -9,7 +9,6 @@ import DesktopOnlySuggestedPage from "./DesktopOnlySuggestedPage";
 import styles from "./homePage.module.css";
 
 function Feed() {
-  const navigate = useNavigate();
   const {
     fetchSuggestedUsers,
     fetchFeedPosts,
