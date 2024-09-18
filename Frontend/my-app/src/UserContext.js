@@ -138,7 +138,7 @@ export function UserContextProvider({ children, ...props }) {
     return status;
   }
 
-  async function fetchSuggestedUsers() {
+  async function fetchSuggestedUsers(filter = null) {
     const cachedSuggestedUsers = await localStorageGetItem(
       "suggestedUsers",
       fiveminsInMS
@@ -146,7 +146,9 @@ export function UserContextProvider({ children, ...props }) {
     if (cachedSuggestedUsers) return cachedSuggestedUsers;
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_BACKENDAPI}/suggested-users`,
+      `${process.env.REACT_APP_BACKENDAPI}/users/suggestions${
+        filter ? `?input=${filter}` : ""
+      }`,
       config
     );
     const suggestedUsers = data.suggested_users;
@@ -165,7 +167,7 @@ export function UserContextProvider({ children, ...props }) {
     if (cachedFeedPosts) return cachedFeedPosts;
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_BACKENDAPI}/feed-posts`,
+      `${process.env.REACT_APP_BACKENDAPI}/posts/fyp`,
       config
     );
 
@@ -175,7 +177,7 @@ export function UserContextProvider({ children, ...props }) {
 
   async function fetchSuggestedPosts() {
     const { data } = await axios.get(
-      `${process.env.REACT_APP_BACKENDAPI}/suggested-posts`,
+      `${process.env.REACT_APP_BACKENDAPI}/posts/suggestions`,
       config
     );
     return data.suggestedPosts;
@@ -342,6 +344,8 @@ export function UserContextProvider({ children, ...props }) {
       }));
     } catch (error) {
       console.log(error);
+    } finally {
+      return;
     }
   }
   function formatCreationDate(creationDate) {
@@ -457,6 +461,24 @@ export function UserContextProvider({ children, ...props }) {
     return data.newMessage;
   }
 
+  async function uploadPFP(formData) {
+    const { status } = await axios.post(
+      `${process.env.REACT_APP_BACKENDAPI}/users/${user._id}/profile-picture`,
+      formData,
+      { headers: { "Content-Type": "multipart/form-data", ...config } }
+    );
+    return status;
+  }
+
+  async function deletePFP(user_Id) {
+    await axios.delete(
+      `${process.env.REACT_APP_BACKENDAPI}/users/${user_Id}/profile-picture`,
+      {
+        withCredentials: true,
+      }
+    );
+    return;
+  }
   return (
     <userContext.Provider
       value={{
@@ -470,6 +492,8 @@ export function UserContextProvider({ children, ...props }) {
         followUser,
         unfollowUser,
         updateFollowing,
+        uploadPFP,
+        deletePFP,
         isLoading,
         setIsLoading,
         getPeopleYouFollowThatFollowTheSuggestedUser,
@@ -520,89 +544,3 @@ export function UserContextProvider({ children, ...props }) {
 }
 
 export default userContext;
-
-/*
-  // ?risky might cause bugs?
-  socket.on('refetchUser',async()=>{
-     await setUpUser()
-
-  })
-  async function setUpUser(){
-    getUserID().then(async(userID)=>{
-      if(userID !== -1 && userID){await fetchUser(userID)}
-    }).catch((userID)=>{console.log('userID: '+userID) })
-  }
-  async function getUserID(){
-    const { data } = await axios.get('${process.env.REACT_APP_BACKENDAPI}',config)
-    return new Promise((resolve,reject) => {
-      if(data.user_id != -1){resolve(data.user_id)}
-      else{reject(-1); }
-    });
-  }
-  async function fetchUser(userID){
-    if(userID != -1){
-    const { data } = await axios.get(`${process.env.REACT_APP_BACKENDAPI}/users/${userID}`,config)
-    setUser(data.user)
-    if(data.user._id && data.user._id != -1) 
-      {console.log('foo')
-        socket.emit('auth',data.user._id)}
-        else{console.log('FOO')}
-  }
-  }
-  useEffect(()=>{
-    setUpUser()
-    },[])
-
-
-  
-
-
-
-
-    const [suggestedUsers,setSuggestedUsers] = useState([])
-    async function fetchSuggestions(){
-        const { data } = await axios.get('${process.env.REACT_APP_BACKENDAPI}/suggested-users',config)
-        setSuggestedUsers(data.suggested_users)
-    }
-
-
-
-
-    function toggleSharePostScreen(){
-      setShowSharePostScreen(!showSharePostScreen)
-    }
-
-    const [currentChat,setCurrentChat] = useState(null)
-
-    
- 
- 
-
-
-      return (
-    <userContext.Provider value={{
-      socket,
-      formatAge,
-      formatCreationDate,
-      user,
-      getUserID,
-      fetchUser,
-      setUpUser,
-      suggestedUsers,
-      setSuggestedUsers,
-      fetchSuggestions,
-      setIsLoading,
-      setShowSwitchScreen,
-      showCreateNewPostScreen,
-
-      showUnfollowConfirmationScreen,
-      setShowUnfollowConfirmationScreen,
-      handlePostLikeUnLike,
-      handleCommentLikeUnlike,
-      handleReplyLikeUnlike,
-      toggleSharePostScreen,
-      socketChatMessagesUpdate,
-      socketEmitUserEnteredChat
-
-    }}>
- */

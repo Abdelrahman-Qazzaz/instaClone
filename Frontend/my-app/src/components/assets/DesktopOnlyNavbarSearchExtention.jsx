@@ -1,5 +1,4 @@
 import { FilledInput } from "@mui/material";
-import axios from "axios";
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import userContext from "../../UserContext";
@@ -9,7 +8,7 @@ import XIcon from "./XIcon";
 function DesktopOnlyNavbarSearchExtention(props) {
   const [inputValue, setInputValue] = useState("");
   const [searchSuggestions, setSearchSuggestions] = useState([]);
-  const { config } = useContext(userContext);
+  const { fetchSuggestedUsers } = useContext(userContext);
 
   const navigate = useNavigate();
 
@@ -22,11 +21,8 @@ function DesktopOnlyNavbarSearchExtention(props) {
       setInputValue("");
     } else if (value.trim() != "") {
       setInputValue(value);
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BACKENDAPI}/search-suggestions?input=${value}`,
-        config
-      );
-      const filtered = data.users.filter(
+      const users = await fetchSuggestedUsers(value);
+      const filtered = users.filter(
         (suggestedUser) => suggestedUser._id != user._id
       );
       setSearchSuggestions(filtered);
