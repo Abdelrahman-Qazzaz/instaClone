@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model follows {
+  follower_id                      Int
+  followed_id                      Int
+  created_at                       DateTime? @default(now()) @db.Timestamp(6)
+  users_follows_followed_idTousers users     @relation("follows_followed_idTousers", fields: [followed_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users_follows_follower_idTousers users     @relation("follows_follower_idTousers", fields: [follower_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([follower_id, followed_id])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model posts {
+  id             Int              @id @default(autoincrement())
+  user_id        Int
+  caption        String?
+  urls           String[]
+  users          users            @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  posts_comments posts_comments[]
+  posts_likes    posts_likes[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model posts_comments {
+  id                   Int                    @id @default(autoincrement())
+  parent_id            Int?
+  post_id              Int
+  user_id              Int
+  caption              String?
+  urls                 String[]
+  posts_comments       posts_comments?        @relation("posts_commentsToposts_comments", fields: [parent_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  other_posts_comments posts_comments[]       @relation("posts_commentsToposts_comments")
+  posts                posts                  @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users                users                  @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  posts_comments_likes posts_comments_likes[]
+}
+
+model posts_comments_likes {
+  comment_id     Int
+  user_id        Int
+  posts_comments posts_comments @relation(fields: [comment_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users          users          @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([comment_id, user_id])
+}
+
+model posts_likes {
+  post_id Int
+  user_id Int
+  posts   posts @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users   users @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([post_id, user_id])
+}
+
+model users {
+  id                                 Int                    @id @default(autoincrement())
+  username                           String
+  email                              String                 @unique
+  password                           String
+  pfp_url                            String
+  follows_follows_followed_idTousers follows[]              @relation("follows_followed_idTousers")
+  follows_follows_follower_idTousers follows[]              @relation("follows_follower_idTousers")
+  posts                              posts[]
+  posts_comments                     posts_comments[]
+  posts_comments_likes               posts_comments_likes[]
+  posts_likes                        posts_likes[]
+}

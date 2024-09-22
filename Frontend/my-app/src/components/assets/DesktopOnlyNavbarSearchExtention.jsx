@@ -8,7 +8,7 @@ import XIcon from "./XIcon";
 function DesktopOnlyNavbarSearchExtention(props) {
   const [inputValue, setInputValue] = useState("");
   const [searchSuggestions, setSearchSuggestions] = useState([]);
-  const { fetchSuggestedUsers } = useContext(userContext);
+  const { fetchSuggestedUsersWithFilter } = useContext(userContext);
 
   const navigate = useNavigate();
 
@@ -21,7 +21,8 @@ function DesktopOnlyNavbarSearchExtention(props) {
       setInputValue("");
     } else if (value.trim() != "") {
       setInputValue(value);
-      const users = await fetchSuggestedUsers(value);
+      const users = await fetchSuggestedUsersWithFilter(value);
+      console.log(users);
       const filtered = users.filter(
         (suggestedUser) => suggestedUser._id != user._id
       );

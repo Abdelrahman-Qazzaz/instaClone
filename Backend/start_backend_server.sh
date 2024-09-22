@@ -1,3 +1,3 @@
 #!/bin/bash
 cd Backend
-nodemon server.js
+npm run dev

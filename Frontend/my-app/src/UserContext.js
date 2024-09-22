@@ -138,13 +138,25 @@ export function UserContextProvider({ children, ...props }) {
     return status;
   }
 
-  async function fetchSuggestedUsers(filter = null) {
+  async function fetchSuggestedUsers() {
     const cachedSuggestedUsers = await localStorageGetItem(
       "suggestedUsers",
       fiveminsInMS
     );
     if (cachedSuggestedUsers) return cachedSuggestedUsers;
 
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BACKENDAPI}/users/suggestions`,
+      config
+    );
+    const suggestedUsers = data.suggested_users;
+
+    await localStorageSetItem("suggestedUsers", {
+      suggestedUsers,
+    });
+    return suggestedUsers;
+  }
+  async function fetchSuggestedUsersWithFilter(filter) {
     const { data } = await axios.get(
       `${process.env.REACT_APP_BACKENDAPI}/users/suggestions${
         filter ? `?input=${filter}` : ""
@@ -153,9 +165,6 @@ export function UserContextProvider({ children, ...props }) {
     );
     const suggestedUsers = data.suggested_users;
 
-    await localStorageSetItem("suggestedUsers", {
-      suggestedUsers,
-    });
     return suggestedUsers;
   }
 
@@ -242,12 +251,14 @@ export function UserContextProvider({ children, ...props }) {
   function getPeopleYouFollowThatFollowTheSuggestedUser(targetUser) {
     let temp = [];
     for (const following of user.following) {
-      const target = targetUser.followedBy_ids.find(
-        (followerID) => followerID == following._id
-      );
+      if (targetUser.followedBy_ids) {
+        const target = targetUser.followedBy_ids.find(
+          (followerID) => followerID == following._id
+        );
 
-      if (target) {
-        temp.push(following);
+        if (target) {
+          temp.push(following);
+        }
       }
     }
     return temp;
@@ -445,7 +456,8 @@ export function UserContextProvider({ children, ...props }) {
 
   async function fetchUserData(user_id) {
     const { data } = await axios.get(
-      `${process.env.REACT_APP_BACKENDAPI}/users/${user_id}`
+      `${process.env.REACT_APP_BACKENDAPI}/users/${user_id}`,
+      config
     ); // this is for fetching other people's data, hence the no credentials.
     return data.targetUser;
   }
@@ -488,6 +500,7 @@ export function UserContextProvider({ children, ...props }) {
         socket,
         login,
         fetchSuggestedUsers,
+        fetchSuggestedUsersWithFilter,
         toggleUnfollowConfirmationScreen,
         followUser,
         unfollowUser,

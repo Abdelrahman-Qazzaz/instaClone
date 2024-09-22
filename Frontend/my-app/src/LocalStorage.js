@@ -17,9 +17,8 @@ export async function localStorageGetItem(key /**string */, expirationTime) {
 
 export async function localStorageSetItem(key /*string*/, data /*object*/) {
   console.log(data);
-  if (Array.isArray(data)) {
-    data = { data: data };
-  }
+
+  data = Array.isArray(data) ? { data: data } : { data: [data] };
 
   localStorage.setItem(
     key,
