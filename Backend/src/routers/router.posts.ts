@@ -1,6 +1,6 @@
 import express from "express";
 import * as postsController from "../controllers/controller.posts.ts";
-import { checkAuth } from "../auth.ts";
+import { checkAuth } from "src/middleware/checkAuth.ts";
 
 export const postsRouter = express.Router();
 
