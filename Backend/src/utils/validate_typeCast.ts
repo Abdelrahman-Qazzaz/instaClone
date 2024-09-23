@@ -1,7 +1,7 @@
 import { instanceToPlain, plainToInstance } from "class-transformer";
 import { validate, ValidationError } from "class-validator";
 
-export async function validateAndTransform<T>(
+export async function validateAndTypeCast<T>(
   Class: new (...args: any[]) => T,
   input: any
 ): Promise<[errors: ValidationError[], transformedInput: T]> {

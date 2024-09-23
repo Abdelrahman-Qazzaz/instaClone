@@ -66,7 +66,7 @@ model users {
   username                           String
   email                              String                 @unique
   password                           String
-  pfp_url                            String
+  pfp_url                            String                 @default("instaCloneDefaultPFP.jpg")
   follows_follows_followed_idTousers follows[]              @relation("follows_followed_idTousers")
   follows_follows_follower_idTousers follows[]              @relation("follows_follower_idTousers")
   posts                              posts[]

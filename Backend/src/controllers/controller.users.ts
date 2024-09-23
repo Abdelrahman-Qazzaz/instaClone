@@ -1,8 +1,8 @@
 import ReqHandler from "src/types/RequestHandler.ts";
 import * as usersRepo from "../repositories/repo.users.ts";
 import { httpResponses } from "src/utils/HTTPResponses.ts";
-import * as UserDTO from "src/dto/dto.User.ts";
-import { validateAndTransform } from "src/utils/validate_Transform.ts";
+
+import { validateAndTypeCast } from "src/utils/validate_typeCast.ts";
 
 class UsersController {
   get: ReqHandler = async (req, res) => {

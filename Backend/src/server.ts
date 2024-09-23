@@ -4,10 +4,11 @@ import express from "express";
 import http from "http";
 import multer from "multer";
 import { Server } from "socket.io";
-import { auth } from "./auth.ts";
+import { authRouter } from "./routers/router.auth.ts";
 import { usersRouter } from "./routers/router.users.ts";
 import { postsRouter } from "./routers/router.posts.ts";
 import { chatsRouter } from "./routers/router.chats.ts";
+import { checkAuth } from "./middleware/checkAuth.ts";
 
 export const upload = multer({ dest: "uploads/" });
 
@@ -27,10 +28,10 @@ app.use(bodyParser.json({ limit: "70mb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.post("/login", auth.login);
-app.use("/users", usersRouter);
-app.use("/posts", postsRouter);
-app.use("/chats", chatsRouter);
+app.use("/auth", authRouter);
+// app.use("/users", usersRouter);
+// app.use("/posts", postsRouter);
+// app.use("/chats", chatsRouter);
 
 server.listen(port, () => {
   console.log(`Listening on port ${port}`);
