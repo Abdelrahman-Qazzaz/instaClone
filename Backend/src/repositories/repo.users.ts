@@ -1,9 +1,14 @@
 import { RegisterDTO } from "src/dto/dto.Register.ts";
 import { db } from "../db.ts";
 import { Prisma } from "@prisma/client";
+import { UpdateUser } from "src/dto/dto.users.update.ts";
 
 class UsersRepo {
-  async getOne(filter: { email?: string; username?: string }): Promise<
+  async getOne(filter: {
+    id: number;
+    email?: string;
+    username?: string;
+  }): Promise<
     [
       unknown,
       {
@@ -51,15 +56,22 @@ class UsersRepo {
     }
   }
 
-  async update(User: UserDTO.Update) {
+  async update(id: number, data: UpdateUser) {
     try {
-      try {
-        const users = await db.users.findMany();
-        return [null, users];
-      } catch (error) {
-        return [error, null];
-      }
-    } catch (error) {}
+      const user = await db.users.update({ where: { id }, data });
+      return [null, user];
+    } catch (error) {
+      return [error, null];
+    }
+  }
+
+  async delete(id: number) {
+    try {
+      const user = await db.users.delete({ where: { id } });
+      return [null, user];
+    } catch (error) {
+      return [error, null];
+    }
   }
 }
 

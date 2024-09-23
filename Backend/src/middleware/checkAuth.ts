@@ -13,7 +13,7 @@ export const checkAuth: Middleware = async (req, res, next) => {
       return res.status(403).json({ id: -1 }); // Forbidden
     }
 
-    req.user = user; // this will make using req.user._id possible
+    req.user = user as { id: number }; // this will make using req.user._id possible
 
     next();
   });
