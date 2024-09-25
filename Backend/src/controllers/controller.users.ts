@@ -3,39 +3,72 @@ import { usersRepo } from "../repositories/repo.users.ts";
 import { httpResponses } from "src/utils/HTTPResponses.ts";
 
 import { validateAndTypeCast } from "src/utils/validate_typeCast.ts";
-import { UpdateUser } from "src/dto/dto.users.update.ts";
+import { UpdateUserDTO } from "src/dto/users/dto.users.update.ts";
 import { stringToNumber } from "src/utils/stringToNumber.ts";
+import { ICRUDController } from "./ICRUDController.ts";
+import { GetUserDTO } from "src/dto/users/dto.users.get.ts";
 
-class UsersController {
-  get: ReqHandler = async (req, res) => {
-    const [error, users] = await usersRepo.get();
-
-    if (error) return httpResponses.InternalServerError(res);
-    return httpResponses.SuccessResponse(res, users);
-  };
+class UsersController implements ICRUDController {
+  create: ReqHandler = async (req, res) => {};
 
   update: ReqHandler = async (req, res) => {
     const id = req.user!.id;
 
-    const [errors, data] = await validateAndTypeCast(UpdateUser, req.body);
-    if (errors.length) return httpResponses.BadRequest(res, errors);
+    const [typeErrors, data] = await validateAndTypeCast(
+      UpdateUserDTO,
+      req.body
+    );
+    if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
     const [error, user] = await usersRepo.update(id, data);
     if (error) return httpResponses.InternalServerError(res);
-    return httpResponses.SuccessResponse(res, user);
+
+    return httpResponses.SuccessResponse(res, { user });
+  };
+
+  get: ReqHandler = async (req, res) => {
+    const [typeErrors, typeCasted] = await validateAndTypeCast(
+      GetUserDTO,
+      req.body
+    );
+    if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
+
+    const [error, users] = await usersRepo.get(typeCasted);
+    if (error) return httpResponses.InternalServerError(res);
+
+    // should probably filter out the passwords.
+    return httpResponses.SuccessResponse(res, users);
+  };
+
+  // getting someone else's data, for example for when you're visiting someone else's profile page.
+  getById: ReqHandler = async (req, res) => {
+    const [typeError, reqParamsId] = stringToNumber(req.params.id);
+    if (typeError) return httpResponses.BadRequest(res, { message: "NaN" });
+
+    const [error, target] = await usersRepo.getOne({ id: reqParamsId });
+    if (error) return httpResponses.InternalServerError(res);
+
+    if (!target)
+      return httpResponses.BadRequest(res, {
+        message: `User with id ${reqParamsId} doesn't exist.`,
+      });
+
+    const { password, ...rest } = target;
+    return httpResponses.SuccessResponse(res, { user: rest });
   };
 
   delete: ReqHandler = async (req, res) => {
     const id = req.user!.id;
-    const existingUser = await usersRepo.getOne({ id });
-    if (!existingUser)
+    const existing = await usersRepo.getOne({ id });
+    if (!existing)
       return httpResponses.BadRequest(res, {
         message: `User with id ${id} doesn't exist.`,
       });
 
     const [error, user] = await usersRepo.delete(id);
     if (error) return httpResponses.InternalServerError(res);
-    return httpResponses.SuccessResponse(res, user);
+
+    return httpResponses.SuccessResponse(res, { user });
   };
 }
 

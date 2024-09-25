@@ -1,51 +1,16 @@
-import env from "dotenv";
-
 import ReqHandler from "src/types/RequestHandler.ts";
+import { usersRepo } from "../repositories/repo.users.ts";
 import { httpResponses } from "src/utils/HTTPResponses.ts";
-import { verifyPassword } from "src/utils/verifyPassword.ts";
-import { generateJWTToken } from "src/utils/JWT.ts";
-import { usersRepo } from "src/repositories/repo.users.ts";
-import { validateAndTypeCast } from "src/utils/validate_typeCast.ts";
-import { LoginDTO } from "src/dto/dto.Login.ts";
-import { RegisterDTO } from "src/dto/dto.Register.ts";
-import { hash } from "bcrypt";
 
-env.config();
+import { validateAndTypeCast } from "src/utils/validate_typeCast.ts";
+
+import { RegisterDTO } from "src/dto/users/dto.Register.ts";
+
+import { generateJWTToken } from "src/utils/JWT.ts";
+import { LoginDTO } from "src/dto/users/dto.Login.ts";
+import { verifyPassword } from "src/utils/verifyPassword.ts";
 
 class AuthController {
-  login: ReqHandler = async (req, res) => {
-    try {
-      const [errors, typeCastedInput] = await validateAndTypeCast(
-        LoginDTO,
-        req.body
-      );
-      if (errors.length) return httpResponses.BadRequest(res, errors);
-      const [error, user] = await usersRepo.getOne({
-        email: typeCastedInput.email,
-      });
-      if (error) return httpResponses.InternalServerError(res);
-
-      //user doesn't exist
-      if (!user)
-        return httpResponses.BadRequest(res, {
-          message: `User with email '${typeCastedInput.email}' doesn't exist.`,
-        });
-
-      const correctPassword = await verifyPassword(
-        typeCastedInput.password,
-        user.password
-      );
-      if (!correctPassword)
-        return httpResponses.BadRequest(res, { message: "Wrong password." });
-
-      const token = generateJWTToken({ user_id: user.id });
-      return res.json({ token });
-    } catch (err) {
-      console.log(err);
-      return httpResponses.InternalServerError(res);
-    }
-  };
-
   register: ReqHandler = async (req, res) => {
     try {
       const [validationErrors, typeCastedInput] = await validateAndTypeCast(
@@ -75,6 +40,39 @@ class AuthController {
 
       const token = generateJWTToken({ user_id: addedUser!.id });
 
+      return res.json({ token });
+    } catch (err) {
+      console.log(err);
+      return httpResponses.InternalServerError(res);
+    }
+  };
+
+  login: ReqHandler = async (req, res) => {
+    try {
+      const [errors, typeCastedInput] = await validateAndTypeCast(
+        LoginDTO,
+        req.body
+      );
+      if (errors.length) return httpResponses.BadRequest(res, errors);
+      const [error, user] = await usersRepo.getOne({
+        email: typeCastedInput.email,
+      });
+      if (error) return httpResponses.InternalServerError(res);
+
+      //user doesn't exist
+      if (!user)
+        return httpResponses.BadRequest(res, {
+          message: `User with email '${typeCastedInput.email}' doesn't exist.`,
+        });
+
+      const correctPassword = await verifyPassword(
+        typeCastedInput.password,
+        user.password
+      );
+      if (!correctPassword)
+        return httpResponses.BadRequest(res, { message: "Wrong password." });
+
+      const token = generateJWTToken({ user_id: user.id });
       return res.json({ token });
     } catch (err) {
       console.log(err);

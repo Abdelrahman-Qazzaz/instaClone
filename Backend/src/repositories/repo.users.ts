@@ -1,62 +1,26 @@
-import { RegisterDTO } from "src/dto/dto.Register.ts";
+import { RegisterDTO } from "src/dto/users/dto.Register.ts";
 import { db } from "../db.ts";
-import { Prisma } from "@prisma/client";
-import { UpdateUser } from "src/dto/dto.users.update.ts";
+import { UpdateUserDTO } from "src/dto/users/dto.users.update.ts";
+import { ICRUDRepo } from "./ICRUDRepo.ts";
+import { User } from "src/models/User.ts";
+import { GetUserDTO } from "src/dto/users/dto.users.get.ts";
 
-class UsersRepo {
-  async getOne(filter: {
-    id: number;
-    email?: string;
-    username?: string;
-  }): Promise<
-    [
-      unknown,
-      {
-        id: number;
-        username: string;
-        email: string;
-        password: string;
-        pfp_url: string;
-      } | null
-    ]
-  > {
+type AsyncUserTuple = Promise<[unknown, User | null]>;
+type AsyncUserTupleArray = Promise<[unknown, User[] | null]>;
+
+class UsersRepo
+  implements ICRUDRepo<User, RegisterDTO, UpdateUserDTO, GetUserDTO>
+{
+  async create(data: RegisterDTO): AsyncUserTuple {
     try {
-      const user = await db.users.findFirst({ where: filter });
-      return [null, user];
-    } catch (error) {
-      console.log(error);
-      return [error, null];
-    }
-  }
-  async get() {
-    try {
-      const users = await db.users.findMany();
-      return [null, users];
-    } catch (error) {
-      return [error, null];
-    }
-  }
-  async add(User: RegisterDTO): Promise<
-    [
-      unknown,
-      {
-        id: number;
-        username: string;
-        email: string;
-        password: string;
-        pfp_url: string;
-      } | null
-    ]
-  > {
-    try {
-      const user = await db.users.create({ data: User });
+      const user = await db.users.create({ data });
       return [null, user];
     } catch (error) {
       return [error, null];
     }
   }
 
-  async update(id: number, data: UpdateUser) {
+  async update(id: number, data: UpdateUserDTO): AsyncUserTuple {
     try {
       const user = await db.users.update({ where: { id }, data });
       return [null, user];
@@ -65,7 +29,25 @@ class UsersRepo {
     }
   }
 
-  async delete(id: number) {
+  async getOne(where: GetUserDTO | { id: number }): AsyncUserTuple {
+    try {
+      const user: User | null = await db.users.findFirst({ where });
+      return [null, user];
+    } catch (error) {
+      console.log(error);
+      return [error, null];
+    }
+  }
+  async get(where?: GetUserDTO): AsyncUserTupleArray {
+    try {
+      const users: User[] = await db.users.findMany({ where });
+      return [null, users];
+    } catch (error) {
+      return [error, null];
+    }
+  }
+
+  async delete(id: number): AsyncUserTuple {
     try {
       const user = await db.users.delete({ where: { id } });
       return [null, user];
