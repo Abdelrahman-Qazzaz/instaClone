@@ -1,6 +1,6 @@
 import { Post } from "src/models/Post.ts";
-import { db } from "../db.ts";
-import { ICRUDRepo } from "./ICRUDRepo.ts";
+import { db } from "../../db.ts";
+import { ICRUDRepo } from "../ICRUDRepo.ts";
 import { CreatePostDTO } from "src/dto/posts/dto.posts.create.ts";
 import { UpdatePostDTO } from "src/dto/posts/dto.posts.update.ts";
 import { GetPostDTO } from "src/dto/posts/dto.posts.get.ts";
@@ -41,6 +41,7 @@ class PostsRepo
   async get(where?: GetPostDTO): AsyncPostTupleArray {
     try {
       const posts: Post[] = await db.posts.findMany({ where });
+
       return [null, posts];
     } catch (error) {
       return [error, null];

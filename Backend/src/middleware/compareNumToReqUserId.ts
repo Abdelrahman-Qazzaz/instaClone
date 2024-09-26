@@ -1,4 +1,4 @@
-import { postsRepo } from "src/repositories/repo.posts.ts";
+import { postsRepo } from "src/repositories/posts/repo.posts.ts";
 import Middleware from "src/types/Middleware.ts";
 import { httpResponses } from "src/utils/HTTPResponses.ts";
 import { stringToNumber } from "src/utils/stringToNumber.ts";
