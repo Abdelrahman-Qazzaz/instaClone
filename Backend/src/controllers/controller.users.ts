@@ -7,6 +7,7 @@ import { UpdateUserDTO } from "src/dto/users/dto.users.update.ts";
 import { anyToNumber, stringToNumber } from "src/utils/convertToNumber.ts";
 import { ICRUDController } from "./ICRUDController.ts";
 import { GetUserDTO } from "src/dto/users/dto.users.get.ts";
+import { Pagination } from "src/types/Pagination.ts";
 
 class UsersController implements ICRUDController {
   take: 10;
@@ -21,7 +22,10 @@ class UsersController implements ICRUDController {
     );
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
-    const [error, user] = await usersRepo.update(id, data);
+    const [error, user] = await usersRepo.update({
+      data,
+      where: { id, user_id: -1 },
+    });
     if (error) return httpResponses.InternalServerError(res);
 
     return httpResponses.SuccessResponse(res, { user });
@@ -31,16 +35,18 @@ class UsersController implements ICRUDController {
     const [typeError, page] = anyToNumber(req.query.page);
     if (typeError) return httpResponses.BadRequest(res, { typeError });
 
+    const pagination: Pagination = { take: this.take, skip: page * this.take };
+
     const [typeErrors, typeCastedFilter] = await validateAndTypeCast(
       GetUserDTO,
       req.query
     );
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
-    const [error, users] = await usersRepo.get(
-      { take: this.take, skip: page * this.take },
-      typeCastedFilter
-    );
+    const [error, users] = await usersRepo.get({
+      pagination,
+      where: typeCastedFilter,
+    });
     if (error) return httpResponses.InternalServerError(res);
 
     // should probably filter out the passwords.
@@ -52,7 +58,9 @@ class UsersController implements ICRUDController {
     const [typeError, reqParamsId] = stringToNumber(req.params.id);
     if (typeError) return httpResponses.BadRequest(res, { message: "NaN" });
 
-    const [error, target] = await usersRepo.getOne({ id: reqParamsId });
+    const [error, target] = await usersRepo.getOne({
+      where: { id: reqParamsId },
+    });
     if (error) return httpResponses.InternalServerError(res);
 
     if (!target)
@@ -66,13 +74,13 @@ class UsersController implements ICRUDController {
 
   delete: ReqHandler = async (req, res) => {
     const id = req.user!.id;
-    const existing = await usersRepo.getOne({ id });
+    const existing = await usersRepo.getOne({ where: { id } });
     if (!existing)
       return httpResponses.BadRequest(res, {
         message: `User with id ${id} doesn't exist.`,
       });
 
-    const [error, user] = await usersRepo.delete(id);
+    const [error, user] = await usersRepo.delete({ where: { id } });
     if (error) return httpResponses.InternalServerError(res);
 
     return httpResponses.SuccessResponse(res, { user });

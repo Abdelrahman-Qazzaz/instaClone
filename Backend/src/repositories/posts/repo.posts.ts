@@ -6,6 +6,7 @@ import { UpdatePostDTO } from "src/dto/posts/dto.posts.update.ts";
 import { GetPostDTO } from "src/dto/posts/dto.posts.get.ts";
 import { DeletePostDTO } from "src/dto/posts/dto.posts.delete.ts";
 import { Pagination } from "src/types/Pagination.ts";
+import { User_target_Ids } from "src/dto/utils/dto.user_target_ids.ts";
 
 type AsyncPostTuple = Promise<[unknown, Post | null]>;
 type AsyncPostTupleArray = Promise<[unknown, Post[] | null]>;
@@ -14,38 +15,31 @@ class PostsRepo
   implements
     ICRUDRepo<Post, CreatePostDTO, UpdatePostDTO, GetPostDTO, DeletePostDTO>
 {
-  async create(data: CreatePostDTO): AsyncPostTuple {
+  create: (args: { data: CreatePostDTO }) => AsyncPostTuple = async (args) => {
+    const { data } = args;
     try {
       const post = await db.posts.create({ data });
       return [null, post];
     } catch (error) {
       return [error, null];
     }
-  }
-
-  async update(
-    id: number,
-    user_id: number,
-    data: UpdatePostDTO
-  ): AsyncPostTuple {
-    try {
-      const post = await db.posts.update({ where: { id, user_id }, data });
-      return [null, post];
-    } catch (error) {
-      return [error, null];
-    }
-  }
-
-  async getOne(where: GetPostDTO | { id: number }): AsyncPostTuple {
-    try {
-      const post: Post | null = await db.posts.findFirst({ where });
-      return [null, post];
-    } catch (error) {
-      console.log(error);
-      return [error, null];
-    }
-  }
-  async get(pagination: Pagination, where?: GetPostDTO): AsyncPostTupleArray {
+  };
+  getOne: (args: { where: GetPostDTO | { id: number } }) => AsyncPostTuple =
+    async (args) => {
+      try {
+        const { where } = args;
+        const post: Post | null = await db.posts.findFirst({ where });
+        return [null, post];
+      } catch (error) {
+        console.log(error);
+        return [error, null];
+      }
+    };
+  get: (args: {
+    pagination: Pagination;
+    where?: GetPostDTO | undefined;
+  }) => AsyncPostTupleArray = async (args) => {
+    const { pagination, where } = args;
     try {
       const posts: Post[] = await db.posts.findMany({ where, ...pagination });
 
@@ -53,16 +47,29 @@ class PostsRepo
     } catch (error) {
       return [error, null];
     }
-  }
-
-  async delete(id: number): AsyncPostTuple {
+  };
+  update: (args: {
+    data: UpdatePostDTO;
+    where: User_target_Ids;
+  }) => AsyncPostTuple = async (args) => {
+    const { data, where } = args;
     try {
-      const post = await db.posts.delete({ where: { id } });
+      const post = await db.posts.update({ where, data });
       return [null, post];
     } catch (error) {
       return [error, null];
     }
-  }
+  };
+  delete: (args: { where: DeletePostDTO }) => AsyncPostTuple = async (args) => {
+    const { where } = args;
+
+    try {
+      const post = await db.posts.delete({ where });
+      return [null, post];
+    } catch (error) {
+      return [error, null];
+    }
+  };
 }
 
 export const postsRepo = new PostsRepo();

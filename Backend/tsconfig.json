@@ -13,7 +13,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
-    "typeRoots": ["./node_modules/@types"] // Remove "src/types" from here
+    "typeRoots": ["./node_modules/@types"], // Remove "src/types" from here
+    "strictFunctionTypes": true
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules"]

@@ -11,13 +11,13 @@ import { anyToNumber, stringToNumber } from "src/utils/convertToNumber.ts";
 class PostsController implements ICRUDController {
   take: 10;
   create: ReqHandler = async (req, res) => {
-    const [typeErrors, typeCasted] = await validateAndTypeCast(CreatePostDTO, {
+    const [typeErrors, data] = await validateAndTypeCast(CreatePostDTO, {
       ...req.body,
       user_id: req.user!.id,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
-    const [error, post] = await postsRepo.create(typeCasted);
+    const [error, post] = await postsRepo.create({ data });
     if (error) return httpResponses.InternalServerError(res);
 
     return httpResponses.SuccessResponse(res, { post });
@@ -31,7 +31,10 @@ class PostsController implements ICRUDController {
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, typeErrors);
 
-    const [error, post] = await postsRepo.update(id, user_id, data);
+    const [error, post] = await postsRepo.update({
+      where: { id, user_id },
+      data,
+    });
     if (error) return httpResponses.InternalServerError(res);
 
     return httpResponses.SuccessResponse(res, { post });
@@ -46,10 +49,9 @@ class PostsController implements ICRUDController {
     );
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
-    const [error, posts] = await postsRepo.get(
-      { take: this.take, skip: page * this.take },
-      typeCastedFilter
-    );
+    const [error, posts] = await postsRepo.get({
+      pagination: { skip: this.take * page, take: this.take },
+    });
     if (error) return httpResponses.InternalServerError(res);
 
     return httpResponses.SuccessResponse(res, posts);
@@ -58,7 +60,9 @@ class PostsController implements ICRUDController {
     const [typeError, reqParamsId] = stringToNumber(req.params.id);
     if (typeError) return httpResponses.BadRequest(res, { message: "NaN" });
 
-    const [error, target] = await postsRepo.getOne({ id: reqParamsId });
+    const [error, target] = await postsRepo.getOne({
+      where: { id: reqParamsId },
+    });
     if (error) return httpResponses.InternalServerError(res);
 
     if (!target)
@@ -69,14 +73,15 @@ class PostsController implements ICRUDController {
     return httpResponses.SuccessResponse(res, { post: target });
   };
   delete: ReqHandler = async (req, res) => {
-    const id = req.post!.id;
-    const existing = await postsRepo.getOne({ id });
+    const id: number = req.post!.id;
+    const user_id = req.user!.id;
+    const existing = await postsRepo.getOne({ where: { id } });
     if (!existing)
       return httpResponses.BadRequest(res, {
         message: `Post with id ${id} doesn't exist.`,
       });
 
-    const [error, post] = await postsRepo.delete(id);
+    const [error, post] = await postsRepo.delete({ where: { id, user_id } });
     if (error) return httpResponses.InternalServerError(res);
 
     return httpResponses.SuccessResponse(res, { post });

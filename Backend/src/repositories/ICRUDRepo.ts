@@ -6,21 +6,21 @@ type AsyncResultTupleArray<T> = Promise<[unknown, T[] | null]>;
 type Instance_Of_CRUD_DTO<T> = InstanceType<new (...args: any[]) => T>;
 
 export interface ICRUDRepo<T, C, U, G, D> {
-  create: (data: Instance_Of_CRUD_DTO<C>) => AsyncResultTuple<T>;
+  create: (args: { data: Instance_Of_CRUD_DTO<C> }) => AsyncResultTuple<T>;
 
-  getOne: (
-    where: Instance_Of_CRUD_DTO<G> | { id: number }
-  ) => AsyncResultTuple<T>;
+  getOne: (args: {
+    where: Instance_Of_CRUD_DTO<G> | { id: number };
+  }) => AsyncResultTuple<T>;
 
-  get: (
-    pagination: Pagination,
-    where?: Instance_Of_CRUD_DTO<G>
-  ) => AsyncResultTupleArray<T>;
+  get: (args: {
+    pagination: Pagination;
+    where?: Instance_Of_CRUD_DTO<G>;
+  }) => AsyncResultTupleArray<T>;
 
-  update: (
-    data: Instance_Of_CRUD_DTO<U>,
-    where: User_target_Ids
-  ) => AsyncResultTuple<T>;
+  update: (args: {
+    data: Instance_Of_CRUD_DTO<U>;
+    where: User_target_Ids;
+  }) => AsyncResultTuple<T>;
 
-  delete: (where: Instance_Of_CRUD_DTO<D>) => AsyncResultTuple<T>;
+  delete: (args: { where: Instance_Of_CRUD_DTO<D> }) => AsyncResultTuple<T>;
 }
