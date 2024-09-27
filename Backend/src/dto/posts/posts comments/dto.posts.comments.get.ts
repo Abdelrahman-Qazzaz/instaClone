@@ -2,14 +2,14 @@ import { Transform } from "class-transformer";
 import { IsNumber, IsOptional } from "class-validator";
 import { stringToNumber } from "src/utils/convertToNumber.ts";
 
-export class GetPostDTO {
+export class GetPostCommentDTO {
   @IsOptional()
   @Transform(({ value }) => {
     const [error, val] = stringToNumber(value);
     return error ?? val;
   })
   @IsNumber()
-  id: number;
+  post_id: number;
 
   @IsOptional()
   @Transform(({ value }) => {
@@ -17,7 +17,7 @@ export class GetPostDTO {
     return error ?? val;
   })
   @IsNumber()
-  user_id: number;
+  parent_id: number | null;
 
   @IsOptional()
   caption: string;

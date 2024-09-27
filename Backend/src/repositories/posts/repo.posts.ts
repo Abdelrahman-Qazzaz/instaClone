@@ -4,6 +4,7 @@ import { ICRUDRepo } from "../ICRUDRepo.ts";
 import { CreatePostDTO } from "src/dto/posts/dto.posts.create.ts";
 import { UpdatePostDTO } from "src/dto/posts/dto.posts.update.ts";
 import { GetPostDTO } from "src/dto/posts/dto.posts.get.ts";
+import { Pagination } from "src/types/Pagination.ts";
 
 type AsyncPostTuple = Promise<[unknown, Post | null]>;
 type AsyncPostTupleArray = Promise<[unknown, Post[] | null]>;
@@ -20,9 +21,13 @@ class PostsRepo
     }
   }
 
-  async update(id: number, data: UpdatePostDTO): AsyncPostTuple {
+  async update(
+    id: number,
+    user_id: number,
+    data: UpdatePostDTO
+  ): AsyncPostTuple {
     try {
-      const post = await db.posts.update({ where: { id }, data });
+      const post = await db.posts.update({ where: { id, user_id }, data });
       return [null, post];
     } catch (error) {
       return [error, null];
@@ -38,9 +43,9 @@ class PostsRepo
       return [error, null];
     }
   }
-  async get(where?: GetPostDTO): AsyncPostTupleArray {
+  async get(pagination: Pagination, where?: GetPostDTO): AsyncPostTupleArray {
     try {
-      const posts: Post[] = await db.posts.findMany({ where });
+      const posts: Post[] = await db.posts.findMany({ where, ...pagination });
 
       return [null, posts];
     } catch (error) {

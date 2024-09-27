@@ -4,6 +4,7 @@ import { UpdateUserDTO } from "src/dto/users/dto.users.update.ts";
 import { ICRUDRepo } from "./ICRUDRepo.ts";
 import { User } from "src/models/User.ts";
 import { GetUserDTO } from "src/dto/users/dto.users.get.ts";
+import { Pagination } from "src/types/Pagination.ts";
 
 type AsyncUserTuple = Promise<[unknown, User | null]>;
 type AsyncUserTupleArray = Promise<[unknown, User[] | null]>;
@@ -38,9 +39,9 @@ class UsersRepo
       return [error, null];
     }
   }
-  async get(where?: GetUserDTO): AsyncUserTupleArray {
+  async get(pagination: Pagination, where?: GetUserDTO): AsyncUserTupleArray {
     try {
-      const users: User[] = await db.users.findMany({ where });
+      const users: User[] = await db.users.findMany({ where, ...pagination });
       return [null, users];
     } catch (error) {
       return [error, null];

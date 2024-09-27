@@ -7,8 +7,6 @@ import { Server } from "socket.io";
 import { authRouter } from "./routers/router.auth.ts";
 import { usersRouter } from "./routers/router.users.ts";
 import { postsRouter } from "./routers/posts/router.posts.ts";
-import { chatsRouter } from "./routers/router.chats.ts";
-import { checkAuth } from "./middleware/checkAuth.ts";
 
 export const upload = multer({ dest: "uploads/" });
 

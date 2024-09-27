@@ -4,11 +4,13 @@ import { httpResponses } from "src/utils/HTTPResponses.ts";
 
 import { validateAndTypeCast } from "src/utils/validate_typeCast.ts";
 import { UpdateUserDTO } from "src/dto/users/dto.users.update.ts";
-import { stringToNumber } from "src/utils/stringToNumber.ts";
+import { anyToNumber, stringToNumber } from "src/utils/convertToNumber.ts";
 import { ICRUDController } from "./ICRUDController.ts";
 import { GetUserDTO } from "src/dto/users/dto.users.get.ts";
+import { Pagination } from "src/types/Pagination.ts";
 
 class UsersController implements ICRUDController {
+  take: 10;
   create: ReqHandler = async (req, res) => {};
 
   update: ReqHandler = async (req, res) => {
@@ -27,13 +29,19 @@ class UsersController implements ICRUDController {
   };
 
   get: ReqHandler = async (req, res) => {
-    const [typeErrors, typeCasted] = await validateAndTypeCast(
+    const [typeError, page] = anyToNumber(req.query.page);
+    if (typeError) return httpResponses.BadRequest(res, { typeError });
+
+    const [typeErrors, typeCastedFilter] = await validateAndTypeCast(
       GetUserDTO,
-      req.body
+      req.query
     );
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
-    const [error, users] = await usersRepo.get(typeCasted);
+    const [error, users] = await usersRepo.get(
+      { take: this.take, skip: page * this.take },
+      typeCastedFilter
+    );
     if (error) return httpResponses.InternalServerError(res);
 
     // should probably filter out the passwords.

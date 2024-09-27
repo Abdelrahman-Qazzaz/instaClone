@@ -1,7 +1,7 @@
 import express from "express";
 import { postsController } from "src/controllers/posts/controller.posts.ts";
 import { checkAuth } from "src/middleware/checkAuth.ts";
-import { Compare_reqUserId_To_postUserId } from "src/middleware/compareNumToReqUserId.ts";
+
 import { postsLikesRouter } from "./router.posts.likes.ts";
 import { postsCommentsRouter } from "./posts comments/router.posts.comments.ts";
 
@@ -13,19 +13,7 @@ postsRouter.use("/:id/likes", postsLikesRouter);
 postsRouter.use("/:id/comments", postsCommentsRouter);
 
 postsRouter.get("/", postsController.get);
-
 postsRouter.get("/:id", postsController.getById);
-
-postsRouter.patch(
-  "/:id",
-  checkAuth,
-  Compare_reqUserId_To_postUserId,
-  postsController.update
-);
-
-postsRouter.delete(
-  "/:id",
-  checkAuth,
-  Compare_reqUserId_To_postUserId,
-  postsController.delete
-);
+postsRouter.post("/", checkAuth, postsController.create);
+postsRouter.patch("/:id", checkAuth, postsController.update);
+postsRouter.delete("/:id", checkAuth, postsController.delete);

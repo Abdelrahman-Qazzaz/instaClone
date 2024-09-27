@@ -6,15 +6,15 @@ import { httpResponses } from "src/utils/HTTPResponses.ts";
 import { postsRepo } from "src/repositories/posts/repo.posts.ts";
 import { CreatePostDTO } from "src/dto/posts/dto.posts.create.ts";
 import { GetPostDTO } from "src/dto/posts/dto.posts.get.ts";
-import { stringToNumber } from "src/utils/stringToNumber.ts";
+import { anyToNumber, stringToNumber } from "src/utils/convertToNumber.ts";
 
 class PostsController implements ICRUDController {
-  take: number;
+  take: 10;
   create: ReqHandler = async (req, res) => {
-    const [typeErrors, typeCasted] = await validateAndTypeCast(
-      CreatePostDTO,
-      req.body
-    );
+    const [typeErrors, typeCasted] = await validateAndTypeCast(CreatePostDTO, {
+      ...req.body,
+      user_id: req.user!.id,
+    });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
     const [error, post] = await postsRepo.create(typeCasted);
@@ -24,26 +24,32 @@ class PostsController implements ICRUDController {
   };
   update: ReqHandler = async (req, res) => {
     const id = req.post!.id;
-
-    const [typeErrors, data] = await validateAndTypeCast(
-      UpdatePostDTO,
-      req.body
-    );
+    const user_id = req.user!.id;
+    const [typeErrors, data] = await validateAndTypeCast(UpdatePostDTO, {
+      ...req.body,
+      user_id: req.user!.id,
+    });
     if (typeErrors.length) return httpResponses.BadRequest(res, typeErrors);
 
-    const [error, post] = await postsRepo.update(id, data);
+    const [error, post] = await postsRepo.update(id, user_id, data);
     if (error) return httpResponses.InternalServerError(res);
 
     return httpResponses.SuccessResponse(res, { post });
   };
   get: ReqHandler = async (req, res) => {
-    const [typeErrors, typeCasted] = await validateAndTypeCast(
+    const [typeError, page] = anyToNumber(req.query.page);
+    if (typeError) return httpResponses.BadRequest(res, { typeError });
+
+    const [typeErrors, typeCastedFilter] = await validateAndTypeCast(
       GetPostDTO,
-      req.body
+      req.query
     );
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
-    const [error, posts] = await postsRepo.get(typeCasted);
+    const [error, posts] = await postsRepo.get(
+      { take: this.take, skip: page * this.take },
+      typeCastedFilter
+    );
     if (error) return httpResponses.InternalServerError(res);
 
     return httpResponses.SuccessResponse(res, posts);

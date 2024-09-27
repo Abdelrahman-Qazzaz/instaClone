@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { ILikesController } from "../ILikesController.ts";
-import { stringToNumber } from "src/utils/stringToNumber.ts";
+import { stringToNumber } from "src/utils/convertToNumber.ts";
 import { httpResponses } from "src/utils/HTTPResponses.ts";
 import { postsLikesRepo } from "src/repositories/posts/repo.posts.likes.ts";
 
