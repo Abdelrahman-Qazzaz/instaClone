@@ -1,13 +1,15 @@
 import {
   IsEmail,
+  IsNumber,
   IsOptional,
   IsString,
   IsStrongPassword,
   IsUrl,
   Length,
 } from "class-validator";
+import { DeleteUserDTO } from "./dto.users.delete.ts";
 
-export class UpdateUserDTO {
+export class UpdateUserDTO extends DeleteUserDTO {
   @IsOptional()
   @IsEmail()
   email: string;

@@ -4,13 +4,15 @@ import { ICRUDRepo } from "../ICRUDRepo.ts";
 import { CreatePostDTO } from "src/dto/posts/dto.posts.create.ts";
 import { UpdatePostDTO } from "src/dto/posts/dto.posts.update.ts";
 import { GetPostDTO } from "src/dto/posts/dto.posts.get.ts";
+import { DeletePostDTO } from "src/dto/posts/dto.posts.delete.ts";
 import { Pagination } from "src/types/Pagination.ts";
 
 type AsyncPostTuple = Promise<[unknown, Post | null]>;
 type AsyncPostTupleArray = Promise<[unknown, Post[] | null]>;
 
 class PostsRepo
-  implements ICRUDRepo<Post, CreatePostDTO, UpdatePostDTO, GetPostDTO>
+  implements
+    ICRUDRepo<Post, CreatePostDTO, UpdatePostDTO, GetPostDTO, DeletePostDTO>
 {
   async create(data: CreatePostDTO): AsyncPostTuple {
     try {

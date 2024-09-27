@@ -1,6 +1,7 @@
 import { Transform } from "class-transformer";
 import { IsNumber, IsString } from "class-validator";
-import { UpdatePostCommentDTO } from "./dto.posts.comments.update.ts";
+
+import { transformToNumber } from "src/dto/utils/helper functions/transformToNumber.ts";
 
 export class CreatePostCommentDTO {
   @Transform(({ value }) => (value ? Number(value) : null), {
@@ -9,11 +10,11 @@ export class CreatePostCommentDTO {
   @IsNumber()
   parent_id: number | null;
 
-  @Transform(({ value }) => Number(value), { toClassOnly: true })
+  @Transform(({ value }) => transformToNumber(value), { toClassOnly: true })
   @IsNumber()
   post_id: number;
 
-  @Transform(({ value }) => Number(value), { toClassOnly: true })
+  @Transform(({ value }) => transformToNumber(value), { toClassOnly: true })
   @IsNumber()
   user_id: number;
 

@@ -1,6 +1,6 @@
 import { Transform } from "class-transformer";
 import { IsNumber, IsOptional } from "class-validator";
-import { stringToNumber } from "src/utils/stringToNumber.ts";
+import { stringToNumber } from "src/utils/convertToNumber.ts";
 export class GetUserDTO {
   @IsOptional()
   @Transform(({ value }) => {

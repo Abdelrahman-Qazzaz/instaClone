@@ -7,7 +7,6 @@ import { UpdateUserDTO } from "src/dto/users/dto.users.update.ts";
 import { anyToNumber, stringToNumber } from "src/utils/convertToNumber.ts";
 import { ICRUDController } from "./ICRUDController.ts";
 import { GetUserDTO } from "src/dto/users/dto.users.get.ts";
-import { Pagination } from "src/types/Pagination.ts";
 
 class UsersController implements ICRUDController {
   take: 10;

@@ -1,11 +1,8 @@
 import ReqHandler from "src/types/RequestHandler.ts";
 import { usersRepo } from "../repositories/repo.users.ts";
 import { httpResponses } from "src/utils/HTTPResponses.ts";
-
 import { validateAndTypeCast } from "src/utils/validate_typeCast.ts";
-
 import { RegisterDTO } from "src/dto/users/dto.Register.ts";
-
 import { generateJWTToken } from "src/utils/JWT.ts";
 import { LoginDTO } from "src/dto/users/dto.Login.ts";
 import { verifyPassword } from "src/utils/verifyPassword.ts";
@@ -32,7 +29,7 @@ class AuthController {
           message: `A user with email '${typeCastedInput.email}' already exists.`,
         });
 
-      const [addUserError, addedUser] = await usersRepo.add(typeCastedInput);
+      const [addUserError, addedUser] = await usersRepo.create(typeCastedInput);
       if (addUserError) {
         console.log(addUserError);
         return httpResponses.InternalServerError(res);
@@ -67,7 +64,7 @@ class AuthController {
 
       const correctPassword = await verifyPassword(
         typeCastedInput.password,
-        user.password
+        user.password!
       );
       if (!correctPassword)
         return httpResponses.BadRequest(res, { message: "Wrong password." });

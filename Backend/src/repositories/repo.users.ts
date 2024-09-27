@@ -5,12 +5,15 @@ import { ICRUDRepo } from "./ICRUDRepo.ts";
 import { User } from "src/models/User.ts";
 import { GetUserDTO } from "src/dto/users/dto.users.get.ts";
 import { Pagination } from "src/types/Pagination.ts";
+import { DeleteUserDTO } from "src/dto/users/dto.users.delete.ts";
+import { User_target_Ids } from "src/dto/utils/dto.user_target_ids.ts";
 
 type AsyncUserTuple = Promise<[unknown, User | null]>;
 type AsyncUserTupleArray = Promise<[unknown, User[] | null]>;
 
 class UsersRepo
-  implements ICRUDRepo<User, RegisterDTO, UpdateUserDTO, GetUserDTO>
+  implements
+    ICRUDRepo<User, RegisterDTO, UpdateUserDTO, GetUserDTO, DeleteUserDTO>
 {
   async create(data: RegisterDTO): AsyncUserTuple {
     try {
@@ -21,16 +24,24 @@ class UsersRepo
     }
   }
 
-  async update(id: number, data: UpdateUserDTO): AsyncUserTuple {
+  async update(
+    data: UpdateUserDTO,
+    where: User_target_Ids /* where.target_id here is useless */
+  ): AsyncUserTuple {
     try {
-      const user = await db.users.update({ where: { id }, data });
+      const user = await db.users.update({
+        data,
+        where,
+      });
       return [null, user];
     } catch (error) {
       return [error, null];
     }
   }
 
-  async getOne(where: GetUserDTO | { id: number }): AsyncUserTuple {
+  async getOne(
+    where: GetUserDTO | { id: number } | { email: string }
+  ): AsyncUserTuple {
     try {
       const user: User | null = await db.users.findFirst({ where });
       return [null, user];
@@ -48,9 +59,9 @@ class UsersRepo
     }
   }
 
-  async delete(id: number): AsyncUserTuple {
+  async delete(where: DeleteUserDTO): AsyncUserTuple {
     try {
-      const user = await db.users.delete({ where: { id } });
+      const user = await db.users.delete({ where });
       return [null, user];
     } catch (error) {
       return [error, null];
