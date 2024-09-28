@@ -1,13 +1,13 @@
-import { User_target_Ids } from "src/dto/utils/dto.user_target_ids.ts";
+import { Target_id_User_id } from "src/dto/utils/dto.user_target_ids.ts";
 import { User } from "src/models/User.ts";
 import { Pagination } from "src/types/Pagination.ts";
 
-export interface ILikesRepo {
+export interface ICRUDLikesRepo {
   create: (args: {
-    data: User_target_Ids;
+    data: Target_id_User_id;
   }) => Promise<[unknown, number | null]>;
   delete: (args: {
-    where: User_target_Ids;
+    where: Target_id_User_id;
   }) => Promise<[unknown, number | null]>;
   getCount: (args: {
     where: { target_id: number }; // target_id could be post_id, comment_id, etc.

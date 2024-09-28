@@ -1,4 +1,4 @@
-import { User_target_Ids } from "src/dto/utils/dto.user_target_ids.ts";
+import { Id_userId } from "src/dto/utils/dto.Id_userId.ts";
 import { Pagination } from "src/types/Pagination.ts";
 
 type AsyncResultTuple<T> = Promise<[unknown, T | null]>;
@@ -19,7 +19,7 @@ export interface ICRUDRepo<T, C, U, G, D> {
 
   update: (args: {
     data: Instance_Of_CRUD_DTO<U>;
-    where: User_target_Ids;
+    where: Id_userId;
   }) => AsyncResultTuple<T>;
 
   delete: (args: { where: Instance_Of_CRUD_DTO<D> }) => AsyncResultTuple<T>;

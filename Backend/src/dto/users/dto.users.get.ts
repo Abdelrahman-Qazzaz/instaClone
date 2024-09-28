@@ -8,11 +8,11 @@ export class GetUserDTO {
     return error ?? val;
   })
   @IsNumber()
-  id: number;
+  id?: number;
 
   @IsOptional()
-  username: string;
+  username?: string;
 
   @IsOptional()
-  email: string;
+  email?: string;
 }

@@ -1,22 +1,23 @@
 import { User } from "src/models/User.ts";
-import { ILikesRepo } from "../ILikesRepo.ts";
+import { ICRUDLikesRepo } from "../ICRUDLikesRepo.ts";
 import { db } from "src/db.ts";
-import { User_target_Ids } from "src/dto/utils/dto.user_target_ids.ts";
+import { Id_userId } from "src/dto/utils/dto.Id_userId.ts";
 import { Pagination } from "src/types/Pagination.ts";
+import { Target_id_User_id } from "src/dto/utils/dto.user_target_ids.ts";
 
-class PostsLikesRepo implements ILikesRepo {
+class PostsLikesRepo implements ICRUDLikesRepo {
   create: (args: {
-    data: User_target_Ids;
+    data: Target_id_User_id;
   }) => Promise<[unknown, number | null]> = async (args) => {
     const { data } = args;
 
     try {
       await db.posts_likes.create({
-        data: { user_id: data.user_id, post_id: data.id },
+        data: { user_id: data.user_id, post_id: data.target_id },
       });
 
       const [error, newLikeCount] = await this.getCount({
-        where: { target_id: data.id },
+        where: { target_id: data.target_id },
       });
       if (error) return [error, null];
       return [null, newLikeCount];
@@ -26,17 +27,17 @@ class PostsLikesRepo implements ILikesRepo {
     }
   };
   delete: (args: {
-    where: User_target_Ids;
+    where: Target_id_User_id;
   }) => Promise<[unknown, number | null]> = async (args) => {
     const { where } = args;
     try {
       await db.posts_likes.delete({
         where: {
-          post_id_user_id: { post_id: where.id, user_id: where.user_id },
+          post_id_user_id: { post_id: where.target_id, user_id: where.user_id },
         },
       });
       const [error, newLikeCount] = await this.getCount({
-        where: { target_id: where.id },
+        where: { target_id: where.target_id },
       });
       if (error) return [error, null];
       return [null, newLikeCount];

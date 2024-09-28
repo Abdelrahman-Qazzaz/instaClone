@@ -1,8 +1,8 @@
 import { Transform } from "class-transformer";
 import { IsOptional } from "class-validator";
-import { User_target_Ids } from "../utils/dto.user_target_ids.ts";
+import { Id_userId } from "../utils/dto.Id_userId.ts";
 
-export class UpdatePostDTO extends User_target_Ids {
+export class UpdatePostDTO extends Id_userId {
   @IsOptional()
   caption: string;
 

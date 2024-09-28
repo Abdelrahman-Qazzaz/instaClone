@@ -1,3 +1,3 @@
-import { User_target_Ids } from "src/dto/utils/dto.user_target_ids.ts";
+import { Id_userId } from "src/dto/utils/dto.Id_userId.ts";
 
-export class DeletePostCommentDTO extends User_target_Ids {}
+export class DeletePostCommentDTO extends Id_userId {}

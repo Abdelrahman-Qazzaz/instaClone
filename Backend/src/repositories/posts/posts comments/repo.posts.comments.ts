@@ -6,7 +6,7 @@ import { UpdatePostCommentDTO } from "src/dto/posts/posts comments/dto.posts.com
 import { GetPostCommentDTO } from "src/dto/posts/posts comments/dto.posts.comments.get.ts";
 import { Pagination } from "src/types/Pagination.ts";
 import { DeletePostCommentDTO } from "src/dto/posts/posts comments/dto.posts.comments.delete.ts";
-import { User_target_Ids } from "src/dto/utils/dto.user_target_ids.ts";
+import { Id_userId } from "src/dto/utils/dto.Id_userId.ts";
 
 type AsyncPostTuple = Promise<[unknown, PostComment | null]>;
 type AsyncPostTupleArray = Promise<[unknown, PostComment[] | null]>;
@@ -63,7 +63,7 @@ class PostsCommentsRepo
   };
   update: (args: {
     data: UpdatePostCommentDTO;
-    where: User_target_Ids;
+    where: Id_userId;
   }) => AsyncPostTuple = async (args) => {
     const { where, data } = args;
     try {

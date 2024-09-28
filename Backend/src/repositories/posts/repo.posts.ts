@@ -6,7 +6,7 @@ import { UpdatePostDTO } from "src/dto/posts/dto.posts.update.ts";
 import { GetPostDTO } from "src/dto/posts/dto.posts.get.ts";
 import { DeletePostDTO } from "src/dto/posts/dto.posts.delete.ts";
 import { Pagination } from "src/types/Pagination.ts";
-import { User_target_Ids } from "src/dto/utils/dto.user_target_ids.ts";
+import { Id_userId } from "src/dto/utils/dto.Id_userId.ts";
 
 type AsyncPostTuple = Promise<[unknown, Post | null]>;
 type AsyncPostTupleArray = Promise<[unknown, Post[] | null]>;
@@ -49,18 +49,16 @@ class PostsRepo
       return [error, null];
     }
   };
-  update: (args: {
-    data: UpdatePostDTO;
-    where: User_target_Ids;
-  }) => AsyncPostTuple = async (args) => {
-    const { data, where } = args;
-    try {
-      const post = await db.posts.update({ where, data });
-      return [null, post];
-    } catch (error) {
-      return [error, null];
-    }
-  };
+  update: (args: { data: UpdatePostDTO; where: Id_userId }) => AsyncPostTuple =
+    async (args) => {
+      const { data, where } = args;
+      try {
+        const post = await db.posts.update({ where, data });
+        return [null, post];
+      } catch (error) {
+        return [error, null];
+      }
+    };
   delete: (args: { where: DeletePostDTO }) => AsyncPostTuple = async (args) => {
     const { where } = args;
 

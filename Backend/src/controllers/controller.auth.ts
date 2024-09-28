@@ -19,7 +19,7 @@ class AuthController {
 
       await typeCastedInput.hashPassword();
       const [getUserError, user] = await usersRepo.getOne({
-        email: typeCastedInput.email,
+        where: { email: typeCastedInput.email },
       });
       if (getUserError) return httpResponses.InternalServerError(res);
 
@@ -29,7 +29,9 @@ class AuthController {
           message: `A user with email '${typeCastedInput.email}' already exists.`,
         });
 
-      const [addUserError, addedUser] = await usersRepo.create(typeCastedInput);
+      const [addUserError, addedUser] = await usersRepo.create({
+        data: typeCastedInput,
+      });
       if (addUserError) {
         console.log(addUserError);
         return httpResponses.InternalServerError(res);
@@ -52,7 +54,7 @@ class AuthController {
       );
       if (errors.length) return httpResponses.BadRequest(res, { errors });
       const [error, user] = await usersRepo.getOne({
-        email: typeCastedInput.email,
+        where: { email: typeCastedInput.email },
       });
       if (error) return httpResponses.InternalServerError(res);
 
