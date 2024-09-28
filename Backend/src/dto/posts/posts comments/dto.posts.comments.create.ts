@@ -4,7 +4,7 @@ import { IsNumber, IsString } from "class-validator";
 import { transformToNumber } from "src/dto/utils/helper functions/transformToNumber.ts";
 
 export class CreatePostCommentDTO {
-  @Transform(({ value }) => (value ? Number(value) : null), {
+  @Transform(({ value }) => transformToNumber(value), {
     toClassOnly: true,
   })
   @IsNumber()

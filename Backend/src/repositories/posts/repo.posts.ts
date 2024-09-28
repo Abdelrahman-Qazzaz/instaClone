@@ -24,17 +24,18 @@ class PostsRepo
       return [error, null];
     }
   };
-  getOne: (args: { where: GetPostDTO | { id: number } }) => AsyncPostTuple =
-    async (args) => {
-      try {
-        const { where } = args;
-        const post: Post | null = await db.posts.findFirst({ where });
-        return [null, post];
-      } catch (error) {
-        console.log(error);
-        return [error, null];
-      }
-    };
+  getOne: (args: {
+    where: { id: number; user_id?: number };
+  }) => AsyncPostTuple = async (args) => {
+    try {
+      const { where } = args;
+      const post: Post | null = await db.posts.findFirst({ where });
+      return [null, post];
+    } catch (error) {
+      console.log(error);
+      return [error, null];
+    }
+  };
   get: (args: {
     pagination: Pagination;
     where?: GetPostDTO | undefined;

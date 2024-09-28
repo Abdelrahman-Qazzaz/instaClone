@@ -15,7 +15,7 @@ class AuthController {
         req.body
       );
       if (validationErrors.length)
-        return httpResponses.BadRequest(res, validationErrors);
+        return httpResponses.BadRequest(res, { validationErrors });
 
       await typeCastedInput.hashPassword();
       const [getUserError, user] = await usersRepo.getOne({
@@ -50,7 +50,7 @@ class AuthController {
         LoginDTO,
         req.body
       );
-      if (errors.length) return httpResponses.BadRequest(res, errors);
+      if (errors.length) return httpResponses.BadRequest(res, { errors });
       const [error, user] = await usersRepo.getOne({
         email: typeCastedInput.email,
       });

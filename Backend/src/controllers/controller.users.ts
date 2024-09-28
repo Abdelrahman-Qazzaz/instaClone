@@ -50,7 +50,7 @@ class UsersController implements ICRUDController {
     if (error) return httpResponses.InternalServerError(res);
 
     // should probably filter out the passwords.
-    return httpResponses.SuccessResponse(res, users);
+    return httpResponses.SuccessResponse(res, { users });
   };
 
   // getting someone else's data, for example for when you're visiting someone else's profile page.

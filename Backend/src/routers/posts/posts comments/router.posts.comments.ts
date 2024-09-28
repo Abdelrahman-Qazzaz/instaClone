@@ -5,13 +5,22 @@ import { postsCommentsController } from "src/controllers/posts/posts comments/co
 
 export const postsCommentsRouter = express.Router();
 
-/* ( /posts/:id/comments/:id/likes ) */
-postsCommentsRouter.use("/:id/likes", postsCommentsLikesRouter);
+/* ( /posts/:post_id/comments/:comment_id/likes ) */
+postsCommentsRouter.use("/:comment_id/likes", postsCommentsLikesRouter);
 
 postsCommentsRouter.get("/", postsCommentsController.get); // will probably be paginated
+postsCommentsRouter.get("/:comment_id", postsCommentsController.getById);
 postsCommentsRouter.post("/", checkAuth, postsCommentsController.create);
-postsCommentsRouter.patch("/:comment_id", checkAuth);
-postsCommentsRouter.delete("/:comment_id", checkAuth);
+postsCommentsRouter.patch(
+  "/:comment_id",
+  checkAuth,
+  postsCommentsController.update
+);
+postsCommentsRouter.delete(
+  "/:comment_id",
+  checkAuth,
+  postsCommentsController.delete
+);
 
 /*
   addComment: ReqHandler = async (req, res) => {};

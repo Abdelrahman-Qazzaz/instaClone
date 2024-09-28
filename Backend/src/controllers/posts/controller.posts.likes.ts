@@ -4,18 +4,19 @@ import { anyToNumber, stringToNumber } from "src/utils/convertToNumber.ts";
 import { httpResponses } from "src/utils/HTTPResponses.ts";
 import { postsLikesRepo } from "src/repositories/posts/repo.posts.likes.ts";
 import { Pagination } from "src/types/Pagination.ts";
+import { validateAndTypeCast } from "src/utils/validate_typeCast.ts";
+import { CreatePostLikeDTO } from "src/dto/posts/posts likes/dto.posts.likes.create.ts";
 
 class PostsLikesController implements ILikesController {
   take: 10;
   create: RequestHandler = async (req, res) => {
-    const user_id = req.user!.id;
-
-    const [typeError, id] = stringToNumber(req.params.id);
-    if (typeError) return httpResponses.BadRequest(res, { message: "NaN" });
-
-    const [error, newLikeCount] = await postsLikesRepo.create({
-      data: { user_id, id },
+    const [typeErrors, data] = await validateAndTypeCast(CreatePostLikeDTO, {
+      user_id: req.user!.id,
+      post_id: req.params.post_id,
     });
+    if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
+
+    const [error, newLikeCount] = await postsLikesRepo.create({ data });
     if (error) return httpResponses.InternalServerError(res);
 
     return httpResponses.SuccessResponse(res, { newLikeCount });

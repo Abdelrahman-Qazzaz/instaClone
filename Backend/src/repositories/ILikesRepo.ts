@@ -10,7 +10,7 @@ export interface ILikesRepo {
     where: User_target_Ids;
   }) => Promise<[unknown, number | null]>;
   getCount: (args: {
-    where: { target_id: number };
+    where: { target_id: number }; // target_id could be post_id, comment_id, etc.
   }) => Promise<[unknown, number | null]>;
   getDetails: (args: {
     pagination: Pagination;

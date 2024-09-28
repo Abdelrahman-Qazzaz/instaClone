@@ -9,7 +9,7 @@ export class GetPostDTO {
     return error ?? val;
   })
   @IsNumber()
-  id: number;
+  id?: number;
 
   @IsOptional()
   @Transform(({ value }) => {
@@ -17,8 +17,8 @@ export class GetPostDTO {
     return error ?? val;
   })
   @IsNumber()
-  user_id: number;
+  user_id?: number;
 
   @IsOptional()
-  caption: string;
+  caption?: string;
 }
