@@ -1,7 +1,6 @@
 import { User } from "src/models/User.ts";
-import { ICRUDLikesRepo } from "../ICRUDLikesRepo.ts";
+import { ICRUDLikesRepo } from "src/repositories/ICRUDLikesRepo.ts";
 import { db } from "src/db.ts";
-import { Id_userId } from "src/dto/utils/dto.Id_userId.ts";
 import { Pagination } from "src/types/Pagination.ts";
 import { Target_id_User_id } from "src/dto/utils/dto.user_target_ids.ts";
 

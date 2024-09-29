@@ -49,8 +49,13 @@ class UsersController implements ICRUDController {
     });
     if (error) return httpResponses.InternalServerError(res);
 
-    // should probably filter out the passwords.
-    return httpResponses.SuccessResponse(res, { users });
+    // filter out the passwords.
+    const filtered = users?.filter((user) => {
+      const { password, ...rest } = user;
+      return rest;
+    });
+
+    return httpResponses.SuccessResponse(res, { users: filtered });
   };
 
   // getting someone else's data, for example for when you're visiting someone else's profile page.
@@ -68,6 +73,7 @@ class UsersController implements ICRUDController {
         message: `User with id ${reqParamsId} doesn't exist.`,
       });
 
+    // filter out the password.
     const { password, ...rest } = target;
     return httpResponses.SuccessResponse(res, { user: rest });
   };

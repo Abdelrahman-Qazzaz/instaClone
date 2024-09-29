@@ -1,7 +1,6 @@
 import express from "express";
 import { checkAuth } from "src/middleware/checkAuth.ts";
-import { postsLikesController } from "src/controllers/posts/controller.posts.likes.ts";
-
+import { postsLikesController } from "src/controllers/posts/posts likes/controller.posts.likes.ts";
 // root:  /posts/:id/likes
 export const postsLikesRouter = express.Router();
 

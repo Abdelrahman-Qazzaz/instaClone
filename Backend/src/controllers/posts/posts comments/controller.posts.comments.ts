@@ -12,10 +12,12 @@ import { validateAndTypeCast } from "src/utils/validate_typeCast.ts";
 class PostsCommentsController implements ICRUDController {
   take: 10;
   create: ReqHandler = async (req, res) => {
+    const [_error, parent_id] = stringToNumber(req.params.comment_id);
     const [typeErrors, data] = await validateAndTypeCast(CreatePostCommentDTO, {
       ...req.body,
       user_id: req.user!.id,
       post_id: req.params.post_id,
+      parent_id: parent_id, // number | null
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 

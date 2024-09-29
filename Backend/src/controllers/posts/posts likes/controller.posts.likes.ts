@@ -1,8 +1,8 @@
 import { RequestHandler } from "express";
-import { ILikesController } from "../ILikesController.ts";
-import { anyToNumber, stringToNumber } from "src/utils/convertToNumber.ts";
+import { ILikesController } from "../../ILikesController.ts";
+import { anyToNumber } from "src/utils/convertToNumber.ts";
 import { httpResponses } from "src/utils/HTTPResponses.ts";
-import { postsLikesRepo } from "src/repositories/posts/repo.posts.likes.ts";
+import { postsLikesRepo } from "src/repositories/posts/posts likes/repo.posts.likes.ts";
 import { Pagination } from "src/types/Pagination.ts";
 import { validateAndTypeCast } from "src/utils/validate_typeCast.ts";
 import { CreatePostLikeDTO } from "src/dto/posts/posts likes/dto.posts.likes.create.ts";

@@ -83,14 +83,6 @@ class PostsController implements ICRUDController {
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
-    const existing = await postsRepo.getOne({
-      where: { id: data.id, user_id: data.user_id },
-    });
-    if (!existing)
-      return httpResponses.BadRequest(res, {
-        message: `Post with id ${data.id} doesn't exist.`,
-      });
-
     const [error, post] = await postsRepo.delete({
       where: { id: data.id, user_id: data.user_id },
     });

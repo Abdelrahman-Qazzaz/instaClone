@@ -2,7 +2,7 @@ import express from "express";
 import { postsController } from "src/controllers/posts/controller.posts.ts";
 import { checkAuth } from "src/middleware/checkAuth.ts";
 
-import { postsLikesRouter } from "./router.posts.likes.ts";
+import { postsLikesRouter } from "./posts likes/router.posts.likes.ts";
 import { postsCommentsRouter } from "./posts comments/router.posts.comments.ts";
 
 export const postsRouter = express.Router();
