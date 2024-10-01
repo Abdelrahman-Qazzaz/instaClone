@@ -9,7 +9,7 @@ export interface ICRUDRepo<T, C, U, G, D> {
   create: (args: { data: Instance_Of_CRUD_DTO<C> }) => AsyncResultTuple<T>;
 
   getOne: (args: {
-    where: { id: number; user_id?: number };
+    where: { id: number; user_id: number };
   }) => AsyncResultTuple<T>;
 
   get: (args: {

@@ -7,6 +7,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model chats {
+  id             Int              @id @default(autoincrement())
+  name           String           @db.VarChar(100)
+  created_at     DateTime?        @default(now()) @db.Timestamp(6)
+  chats_members  chats_members[]
+  chats_messages chats_messages[]
+}
+
+model chats_members {
+  chat_id    Int
+  user_id    Int
+  is_admin   Boolean   @default(false)
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  chats      chats     @relation(fields: [chat_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([chat_id, user_id])
+}
+
+model chats_messages {
+  id         Int       @id @default(autoincrement())
+  chat_id    Int?
+  sender_id  Int?
+  content    String
+  urls       String[]
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  chats      chats?    @relation(fields: [chat_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users      users?    @relation(fields: [sender_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
 model follows {
   follower_id                      Int
   followed_id                      Int
@@ -67,6 +97,8 @@ model users {
   email                              String                 @unique
   password                           String
   pfp_url                            String                 @default("instaCloneDefaultPFP.jpg")
+  chats_members                      chats_members[]
+  chats_messages                     chats_messages[]
   follows_follows_followed_idTousers follows[]              @relation("follows_followed_idTousers")
   follows_follows_follower_idTousers follows[]              @relation("follows_follower_idTousers")
   posts                              posts[]

@@ -1,58 +1,82 @@
-import { ObjectId } from "mongodb";
-import { db } from "../db.ts";
+import { RequestHandler } from "express";
 
-class ChatsController {
-  async getById(req, res) {
-    try {
-      const Chats = db.collection("Chats");
+import { ICRUDController } from "./ICRUDController.ts";
+import { validateAndTypeCast } from "src/utils/validate_typeCast.ts";
+import { httpResponses } from "src/utils/HTTPResponses.ts";
+import { CreateChatDTO } from "src/dto/chats/dto.chats.create.ts";
+import { UpdateChatDTO } from "src/dto/chats/dto.chats.update.ts";
+import { anyToNumber } from "src/utils/convertToNumber.ts";
+import { GetChatDTO, GetChatsDTO } from "src/dto/chats/dto.chats.get.ts";
+import { DeleteChatDTO } from "src/dto/chats/dto.chats.delete.ts";
+import { chatsRepo } from "src/repositories/chats/repo.chats.ts";
+import { ExtendedChat } from "src/models/Chat.ts";
 
-      const filter = { _id: ObjectId.createFromHexString(req.params.chat_id) };
-      const targetChat = await Chats.findOne(filter);
-      if (
-        req.user._id == targetChat.user1_id ||
-        req.user._id == targetChat.user2_id
-      ) {
-        const Users = db.collection("Users");
-        targetChat.user1 = await Users.findOne({ _id: targetChat.user1_id });
-        targetChat.user2 = await Users.findOne({ _id: targetChat.user2_id });
-
-        return res.json({ targetChat });
-      } else {
-        return res.sendStatus(401);
-      }
-    } catch (error) {
-      console.log(error);
-      return res.sendStatus(500);
-    }
-  }
-
-  async createChat(req, res) {
-    const Chats = db.collection("Chats");
-    const { user1_id, user2_id } = req.body;
-    const targetChat = await Chats.findOne({
-      user1_id: ObjectId.createFromHexString(user1_id),
-      user2_id: ObjectId.createFromHexString(user2_id),
+class ChatsController implements ICRUDController {
+  take: 10;
+  create: RequestHandler = async (req, res) => {
+    const [typeErrors, data] = await validateAndTypeCast(CreateChatDTO, {
+      ...req.body,
+      user_id: req.user!.id,
     });
-    if (targetChat) {
-      return res.json({ targetChat }); //resource already exists
-    } else {
-      const { insertedId } = await Chats.insertOne({
-        user1_id: ObjectId.createFromHexString(user1_id),
-        user2_id: ObjectId.createFromHexString(user2_id),
-      });
-      const Users = db.collection("Users");
-      const filter = {
-        $or: [
-          { _id: ObjectId.createFromHexString(user1_id) },
-          { _id: ObjectId.createFromHexString(user2_id) },
-        ],
-      };
+    if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
-      const update = { $push: { chats_ids: insertedId } };
-      await Users.updateMany(filter, update);
-      return res.status(201).json({ chat_id: insertedId });
-    }
-  }
+    const [error, chat] = await chatsRepo.create({ data });
+    if (error) return httpResponses.InternalServerError(res);
+
+    return httpResponses.SuccessResponse(res, { chat });
+  };
+  update: RequestHandler = async (req, res) => {
+    const [typeErrors, data] = await validateAndTypeCast(UpdateChatDTO, {
+      ...req.body,
+      user_id: req.user!.id,
+      id: req.params.chat_id,
+    });
+    if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
+
+    const [error, chat] = await chatsRepo.update({
+      where: { id: data.id, user_id: data.user_id },
+      data,
+    });
+    if (error) return httpResponses.InternalServerError(res);
+
+    return httpResponses.SuccessResponse(res, { chat });
+  };
+
+  get: RequestHandler = async (req, res) => {
+    const [typeError, page] = anyToNumber(req.query.page);
+    if (typeError) return httpResponses.BadRequest(res, { typeError });
+
+    const [typeErrors, typeCastedFilter] = await validateAndTypeCast(
+      GetChatsDTO,
+      { user_id: req.user!.id }
+    );
+    if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
+
+    const [error, chats] = await chatsRepo.get({
+      where: { user_id: typeCastedFilter.user_id },
+      pagination: { take: this.take, skip: this.take * page },
+    });
+    if (error) return httpResponses.InternalServerError(res);
+
+    return httpResponses.SuccessResponse(res, { chats });
+  };
+
+  getById: RequestHandler = async (req, res) => {};
+
+  delete: RequestHandler = async (req, res) => {
+    const [typeErrors, data] = await validateAndTypeCast(DeleteChatDTO, {
+      user_id: req.user!.id,
+      id: req.params.chat_id,
+    });
+    if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
+
+    const [error, chat] = await chatsRepo.delete({
+      where: { id: data.id, user_id: data.user_id },
+    });
+    if (error) return httpResponses.InternalServerError(res);
+
+    return httpResponses.SuccessResponse(res, { chat });
+  };
 }
 
 export const chatsController = new ChatsController();

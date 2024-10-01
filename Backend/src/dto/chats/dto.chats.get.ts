@@ -1,12 +1,14 @@
 import { Transform } from "class-transformer";
-import { IsNumber, IsOptional } from "class-validator";
-import { CreatePostDTO } from "./dto.posts.create.ts";
+import { Id_userId } from "../utils/dto.Id_userId.ts";
 import { transformToNumber } from "../utils/helper functions/transformToNumber.ts";
+import { IsNumber } from "class-validator";
 
-export class UpdatePostDTO extends CreatePostDTO {
+export class GetChatsDTO {
   @Transform(({ value }) => transformToNumber(value), {
     toClassOnly: true,
   })
   @IsNumber()
-  id: number;
+  user_id: number;
 }
+
+export class GetChatDTO extends Id_userId {}
