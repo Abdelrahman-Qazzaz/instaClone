@@ -3,7 +3,7 @@ import { stringToNumber } from "src/utils/convertToNumber.ts";
 import { IsNumber } from "class-validator";
 
 // id : message id
-export class DeleteChatMessagesDTO {
+export class DeleteChatMessageDTO {
   @Transform(({ value }) => {
     const [error, val] = stringToNumber(value);
     return error ?? val;

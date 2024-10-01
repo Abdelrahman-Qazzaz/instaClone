@@ -1,6 +1,6 @@
 import express from "express";
 import { uploadImagesAndVids } from "../../upload.ts";
-import { chatsController } from "../../controllers/controller.chats.ts";
+import { chatsController } from "src/controllers/chats/controller.chats.ts";
 import { checkAuth } from "src/middleware/checkAuth.ts";
 import { chatsMembersRouter } from "./chats members/router.chats.members.ts";
 import { chatsMessagesRouter } from "./chats messages/router.chats.messages.ts";

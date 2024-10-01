@@ -1,78 +1,89 @@
-import { User } from "src/models/User.ts";
-import { ICRUDLikesRepo } from "src/repositories/ICRUDLikesRepo.ts";
+import { ChatMessage } from "src/models/Chat.ts";
 import { db } from "src/db.ts";
+import { ICRUDRepo } from "src/repositories/ICRUDRepo.ts";
+import { CreateChatMessageDTO } from "src/dto/chats/chats messages/dto.chats.messages.create.ts";
+import { UpdateChatMessageDTO } from "src/dto/chats/chats messages/dto.chats.messages.update.ts";
+import { GetChatMessagesDTO } from "src/dto/chats/chats messages/dto.chats.messages.get.ts";
+import { DeleteChatMessageDTO } from "src/dto/chats/chats messages/dto.chats.messages.delete.ts";
 import { Pagination } from "src/types/Pagination.ts";
-import { Target_id_User_id } from "src/dto/utils/dto.user_target_ids.ts";
+import { Id_userId } from "src/dto/utils/dto.Id_userId.ts";
 
-class PostsLikesRepo implements ICRUDLikesRepo {
-  create: (args: {
-    data: Target_id_User_id;
-  }) => Promise<[unknown, number | null]> = async (args) => {
-    const { data } = args;
+type AsyncChatMessageTuple = Promise<[unknown, ChatMessage | null]>;
+type AsyncChatMessageTupleArray = Promise<[unknown, ChatMessage[] | null]>;
 
+class ChatsMessagesRepo
+  implements
+    ICRUDRepo<
+      ChatMessage,
+      CreateChatMessageDTO,
+      UpdateChatMessageDTO,
+      GetChatMessagesDTO,
+      DeleteChatMessageDTO
+    >
+{
+  create: (args: { data: CreateChatMessageDTO }) => AsyncChatMessageTuple =
+    async (args) => {
+      const { data } = args;
+      try {
+        const chatMessage = await db.chats_messages.create({ data });
+        return [null, chatMessage];
+      } catch (error) {
+        return [error, null];
+      }
+    };
+  getOne: (args: {
+    where: { id: number; user_id?: number };
+  }) => AsyncChatMessageTuple = async (args) => {
     try {
-      await db.posts_likes.create({
-        data: { user_id: data.user_id, post_id: data.target_id },
-      });
-
-      const [error, newLikeCount] = await this.getCount({
-        where: { target_id: data.target_id },
-      });
-      if (error) return [error, null];
-      return [null, newLikeCount];
+      const { where } = args;
+      const chatMessage: ChatMessage | null = await db.chats_messages.findFirst(
+        { where }
+      );
+      return [null, chatMessage];
     } catch (error) {
       console.log(error);
       return [error, null];
     }
   };
-  delete: (args: {
-    where: Target_id_User_id;
-  }) => Promise<[unknown, number | null]> = async (args) => {
-    const { where } = args;
-    try {
-      await db.posts_likes.delete({
-        where: {
-          post_id_user_id: { post_id: where.target_id, user_id: where.user_id },
-        },
-      });
-      const [error, newLikeCount] = await this.getCount({
-        where: { target_id: where.target_id },
-      });
-      if (error) return [error, null];
-      return [null, newLikeCount];
-    } catch (error) {
-      return [error, null];
-    }
-  };
-  getCount: (args: {
-    where: { target_id: number };
-  }) => Promise<[unknown, number | null]> = async (args) => {
-    const { where } = args;
-    try {
-      const likeCount = await db.posts_likes.count({
-        where: { post_id: where.target_id },
-      });
-      return [null, likeCount];
-    } catch (error) {
-      return [error, null];
-    }
-  };
-  getDetails: (args: {
+  get: (args: {
     pagination: Pagination;
-    where: { target_id: number };
-  }) => Promise<[unknown, User[] | null]> = async (args) => {
+    where?: GetChatMessagesDTO | undefined;
+  }) => AsyncChatMessageTupleArray = async (args) => {
     const { pagination, where } = args;
     try {
-      const users = await db.users.findMany({
-        where: { posts_likes: { every: { post_id: where.target_id } } },
+      const chatMessages: ChatMessage[] = await db.chats_messages.findMany({
+        where,
         ...pagination,
       });
-      return [null, users];
+
+      return [null, chatMessages];
     } catch (error) {
-      console.log(error);
       return [error, null];
     }
   };
+  update: (args: {
+    data: UpdateChatMessageDTO;
+    where: Id_userId;
+  }) => AsyncChatMessageTuple = async (args) => {
+    const { data, where } = args;
+    try {
+      const chatMessage = await db.chats_messages.update({ where, data });
+      return [null, chatMessage];
+    } catch (error) {
+      return [error, null];
+    }
+  };
+  delete: (args: { where: DeleteChatMessageDTO }) => AsyncChatMessageTuple =
+    async (args) => {
+      const { where } = args;
+
+      try {
+        const chatMessage = await db.chats_messages.delete({ where });
+        return [null, chatMessage];
+      } catch (error) {
+        return [error, null];
+      }
+    };
 }
 
-export const postsLikesRepo = new PostsLikesRepo();
+export const chatsMessagesRepo = new ChatsMessagesRepo();
