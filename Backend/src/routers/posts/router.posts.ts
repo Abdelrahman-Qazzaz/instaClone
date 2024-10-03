@@ -7,6 +7,16 @@ import { postsCommentsRouter } from "./posts comments/router.posts.comments.ts";
 
 export const postsRouter = express.Router();
 
+/*
+ for the protected routes,
+  the form of auth here is to include the user_id in the where clause, 
+  so for example like => 
+  update post with
+  post_id: (typecasted) req.params.post_id
+  AND
+  user_id: req.user.id
+*/
+
 /* ( /posts/:post_id/likes ) */
 postsRouter.use("/:post_id/likes", postsLikesRouter);
 /* ( /posts/:post_id/comments ) */

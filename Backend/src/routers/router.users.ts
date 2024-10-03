@@ -5,6 +5,7 @@ import { Compare_reqUserId_To_reqParamsId } from "src/middleware/compareNumToReq
 
 export const usersRouter = express.Router();
 
+// for the protected routes, the form of auth here is to compare the req.user.id to the (type casted) req.params.user_id
 usersRouter.get("/", usersController.get);
 
 usersRouter.get("/:id", usersController.getById);
