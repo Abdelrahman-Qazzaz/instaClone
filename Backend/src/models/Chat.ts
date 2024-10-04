@@ -1,3 +1,5 @@
+import { User } from "./User.ts";
+
 export type Chat = {
   id: number;
   name: string;
@@ -12,3 +14,10 @@ export type ChatMessage = {
   urls: string[];
   created_at: Date | null;
 };
+
+export type ChatMember = {
+  chat_id: number;
+  user_id: number;
+  is_admin: boolean;
+  created_at: Date | null;
+} & User;

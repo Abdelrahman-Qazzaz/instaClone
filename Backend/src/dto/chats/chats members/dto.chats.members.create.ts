@@ -10,13 +10,6 @@ export class CreateChatMembersDTO {
     return error ?? val;
   })
   @IsNumber()
-  user_id: number;
-
-  @Transform(({ value }) => {
-    const [error, val] = stringToNumber(value);
-    return error ?? val;
-  })
-  @IsNumber()
   chat_id: number;
 
   @Transform(
@@ -31,5 +24,5 @@ export class CreateChatMembersDTO {
     }
   )
   @IsArray()
-  members_ids: number[];
+  users_ids: number[];
 }

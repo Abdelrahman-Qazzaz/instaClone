@@ -6,7 +6,9 @@ type AsyncResultTupleArray<T> = Promise<[unknown, T[] | null]>;
 type Instance_Of_CRUD_DTO<T> = InstanceType<new (...args: any[]) => T>;
 
 export interface ICRUDRepo<T, C, U, G, D> {
-  create: (args: { data: Instance_Of_CRUD_DTO<C> }) => AsyncResultTuple<T>;
+  create: (args: {
+    data: Instance_Of_CRUD_DTO<C>;
+  }) => AsyncResultTuple<T> | AsyncResultTupleArray<T>;
 
   getOne: (args: {
     where: { id: number; user_id: number };

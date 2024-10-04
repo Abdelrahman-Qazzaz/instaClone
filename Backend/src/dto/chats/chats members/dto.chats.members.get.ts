@@ -9,12 +9,5 @@ export class GetChatMembersDTO {
     return error ?? val;
   })
   @IsNumber()
-  user_id: number;
-
-  @Transform(({ value }) => {
-    const [error, val] = stringToNumber(value);
-    return error ?? val;
-  })
-  @IsNumber()
   chat_id: number;
 }

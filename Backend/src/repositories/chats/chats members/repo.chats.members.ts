@@ -1,46 +1,65 @@
-import { PostComment } from "src/models/PostComment.ts";
 import { db } from "src/db.ts";
+import { ChatMember } from "src/models/Chat.ts";
 import { ICRUDRepo } from "src/repositories/ICRUDRepo.ts";
-import { CreatePostCommentDTO } from "src/dto/posts/posts comments/dto.posts.comments.create.ts";
-import { UpdatePostCommentDTO } from "src/dto/posts/posts comments/dto.posts.comments.update.ts";
-import { GetPostCommentDTO } from "src/dto/posts/posts comments/dto.posts.comments.get.ts";
+import { CreateChatMembersDTO } from "src/dto/chats/chats members/dto.chats.members.create.ts";
+import { GetChatMembersDTO } from "src/dto/chats/chats members/dto.chats.members.get.ts";
+import { UpdateChatMemberDTO } from "src/dto/chats/chats members/dto.chats.members.update.ts";
+import { DeleteChatMembersDTO } from "src/dto/chats/chats members/dto.chats.members.delete.ts";
+
 import { Pagination } from "src/types/Pagination.ts";
-import { DeletePostCommentDTO } from "src/dto/posts/posts comments/dto.posts.comments.delete.ts";
 import { Id_userId } from "src/dto/utils/dto.Id_userId.ts";
+import { flattenChatMember, UnformattedChatMember } from "./index.ts";
+import { httpResponses } from "src/utils/HTTPResponses.ts";
 
-type AsyncPostTuple = Promise<[unknown, PostComment | null]>;
-type AsyncPostTupleArray = Promise<[unknown, PostComment[] | null]>;
+type AsyncChatMemberTuple = Promise<[unknown, ChatMember | null]>;
+type AsyncChatMemberTupleArray = Promise<[unknown, ChatMember[] | null]>;
 
-class PostsCommentsRepo
+class ChatsMembersRepo
   implements
     ICRUDRepo<
-      PostComment,
-      CreatePostCommentDTO,
-      UpdatePostCommentDTO,
-      GetPostCommentDTO,
-      DeletePostCommentDTO
+      ChatMember,
+      CreateChatMembersDTO,
+      UpdateChatMemberDTO,
+      GetChatMembersDTO,
+      DeleteChatMembersDTO
     >
 {
-  create: (args: { data: CreatePostCommentDTO }) => AsyncPostTuple = async (
+  create: (args: { data: CreateChatMembersDTO }) => AsyncChatMemberTupleArray =
+    async (args) => {
+      const { chat_id, users_ids } = args.data;
+
+      const chatMembers: ChatMember[] = [];
+      try {
+        for (const user_id of users_ids) {
+          const unformattedChatMember: UnformattedChatMember =
+            await db.chats_members.create({
+              data: { chat_id, user_id },
+              include: { users: true },
+            });
+          const chatMember = flattenChatMember(unformattedChatMember);
+          chatMembers.push(chatMember);
+        }
+
+        return [null, chatMembers];
+      } catch (error) {
+        return [error, null];
+      }
+    };
+  getOne: (args: { where: { id: number } }) => AsyncChatMemberTuple = async (
     args
   ) => {
-    const { data } = args;
-    try {
-      const postComment = await db.posts_comments.create({ data });
-      return [null, postComment];
-    } catch (error) {
-      return [error, null];
-    }
-  };
-  getOne: (args: {
-    where: { id: number; user_id?: number };
-  }) => AsyncPostTuple = async (args) => {
     const { where } = args;
+
     try {
-      const postComment: PostComment | null = await db.posts_comments.findFirst(
-        { where }
-      );
-      return [null, postComment];
+      const unformattedChatMember: UnformattedChatMember | null =
+        await db.chats_members.findFirst({
+          where: { user_id: where.id },
+          include: { users: true },
+        });
+      if (!unformattedChatMember) return [null, null];
+
+      const chatMember = flattenChatMember(unformattedChatMember);
+      return [null, chatMember];
     } catch (error) {
       console.log(error);
       return [error, null];
@@ -48,45 +67,66 @@ class PostsCommentsRepo
   };
   get: (args: {
     pagination: Pagination;
-    where?: GetPostCommentDTO | undefined;
-  }) => AsyncPostTupleArray = async (args) => {
+    where?: GetChatMembersDTO | undefined;
+  }) => AsyncChatMemberTupleArray = async (args) => {
     const { pagination, where } = args;
+
     try {
-      const postComments: PostComment[] = await db.posts_comments.findMany({
-        where,
-        ...pagination,
-      });
-      return [null, postComments];
+      const unformattedChatMembers: UnformattedChatMember[] =
+        await db.chats_members.findMany({
+          where,
+          include: { users: true },
+          ...pagination,
+        });
+      const chatMembers: ChatMember[] = [];
+      for (const unformattedChatMember of unformattedChatMembers) {
+        chatMembers.push(flattenChatMember(unformattedChatMember));
+      }
+      return [null, chatMembers];
     } catch (error) {
       return [error, null];
     }
   };
   update: (args: {
-    data: UpdatePostCommentDTO;
-    where: Id_userId;
-  }) => AsyncPostTuple = async (args) => {
+    data: UpdateChatMemberDTO;
+    where: { id: number; chat_id: number };
+  }) => AsyncChatMemberTuple = async (args) => {
     const { where, data } = args;
+
     try {
-      const postComment = await db.posts_comments.update({
-        where,
+      const unformattedChatMember = await db.chats_members.update({
+        where: {
+          chat_id_user_id: { chat_id: where.chat_id, user_id: where.id },
+        },
         data,
+        include: { users: true },
       });
-      return [null, postComment];
+      const chatMember = flattenChatMember(unformattedChatMember);
+      return [null, chatMember];
     } catch (error) {
       return [error, null];
     }
   };
-  delete: (args: { where: DeletePostCommentDTO }) => AsyncPostTuple = async (
-    args
-  ) => {
-    const { where } = args;
-    try {
-      const postComment = await db.posts_comments.delete({ where });
-      return [null, postComment];
-    } catch (error) {
-      return [error, null];
-    }
-  };
+  delete: (args: { where: DeleteChatMembersDTO }) => AsyncChatMemberTuple =
+    async (args) => {
+      const { chat_id, users_ids } = args.where;
+
+      try {
+        const chatMembers: ChatMember[] = [];
+        for (const user_id of users_ids) {
+          const unformattedChatMember = await db.chats_members.delete({
+            where: { chat_id_user_id: { chat_id, user_id } },
+            include: { users: true },
+          });
+          const formattedChatMember = flattenChatMember(unformattedChatMember);
+          chatMembers.push(formattedChatMember);
+        }
+
+        return [null, chatMembers];
+      } catch (error) {
+        return [error, null];
+      }
+    };
 }
 
-export const postsCommentsRepo = new PostsCommentsRepo();
+export const chatsMembersRepo = new ChatsMembersRepo();
