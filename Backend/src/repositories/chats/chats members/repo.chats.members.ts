@@ -17,10 +17,10 @@ class ChatsMembersRepo
   implements
     ICRUDRepo<
       ChatMember,
+      WhereClauseChatMembersDTO,
       CreateChatMembersDTO,
       UpdateChatMemberDTO,
-      GetChatMembersDTO,
-      DeleteChatMembersDTO
+      GetChatMembersDTO
     >
 {
   create: (args: { data: CreateChatMembersDTO }) => AsyncChatMemberTupleArray =
