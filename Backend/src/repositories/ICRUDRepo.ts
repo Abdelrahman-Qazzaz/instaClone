@@ -5,14 +5,20 @@ type AsyncResultTuple<T> = Promise<[unknown, T | null]>;
 type AsyncResultTupleArray<T> = Promise<[unknown, T[] | null]>;
 type Instance_Of_CRUD_DTO<T> = InstanceType<new (...args: any[]) => T>;
 
-export interface ICRUDRepo<T, C, U, G, D> {
-  create: (args: {
-    data: Instance_Of_CRUD_DTO<C>;
-  }) => AsyncResultTuple<T> | AsyncResultTupleArray<T>;
+export class WhereType {
+  id: number;
+  chat_id: number;
+}
 
-  getOne: (args: {
-    where: { id: number; user_id: number };
-  }) => AsyncResultTuple<T>;
+// T: model
+// W: where clause
+// C: Create dto
+// U: Update dto
+// G: Get dto
+export interface ICRUDRepo<T, W, C, U, G> {
+  create: (args: { data: Instance_Of_CRUD_DTO<C> }) => AsyncResultTuple<T>;
+
+  getOne: (args: { where: Instance_Of_CRUD_DTO<W> }) => AsyncResultTuple<T>;
 
   get: (args: {
     pagination: Pagination;
@@ -21,8 +27,8 @@ export interface ICRUDRepo<T, C, U, G, D> {
 
   update: (args: {
     data: Instance_Of_CRUD_DTO<U>;
-    where: Id_userId;
+    where: Id_userId & { chat_id: number };
   }) => AsyncResultTuple<T>;
 
-  delete: (args: { where: Instance_Of_CRUD_DTO<D> }) => AsyncResultTuple<T>;
+  delete: (args: { where: Instance_Of_CRUD_DTO<W> }) => AsyncResultTuple<T>;
 }

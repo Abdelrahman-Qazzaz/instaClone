@@ -12,17 +12,10 @@ export class CreateChatMembersDTO {
   @IsNumber()
   chat_id: number;
 
-  @Transform(
-    ({ value }) => {
-      if (!Array.isArray(value)) {
-        value = [value];
-      }
-      return value.map((val: string) => transformToNumber(val));
-    },
-    {
-      toClassOnly: true,
-    }
-  )
-  @IsArray()
-  users_ids: number[];
+  @Transform(({ value }) => {
+    const [error, val] = stringToNumber(value);
+    return error ?? val;
+  })
+  @IsNumber()
+  user_id: number;
 }
