@@ -8,8 +8,6 @@ import { checkChatAdmin } from "src/middleware/chats/checkChatAdmin.ts";
 
 export const chatsRouter = express.Router();
 
-// for the protected routes, the form of auth here is to use middleware to check whether the req.user.id is an admin in the targeted chat or not
-
 chatsRouter.use("/:chat_id/members", chatsMembersRouter);
 chatsRouter.use("/:chat_id/messages", chatsMessagesRouter);
 

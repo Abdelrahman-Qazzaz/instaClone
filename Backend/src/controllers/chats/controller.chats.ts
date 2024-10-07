@@ -7,7 +7,7 @@ import { CreateChatDTO } from "src/dto/chats/dto.chats.create.ts";
 import { UpdateChatDTO } from "src/dto/chats/dto.chats.update.ts";
 import { anyToNumber } from "src/utils/convertToNumber.ts";
 import { GetChatsDTO } from "src/dto/chats/dto.chats.get.ts";
-import { DeleteChatDTO } from "src/dto/chats/dto.chats.delete.ts";
+import { WhereChatDTO } from "src/dto/chats/dto.chats.where.ts";
 import { chatsRepo } from "src/repositories/chats/repo.chats.ts";
 
 class ChatsController implements ICRUDController {
@@ -15,7 +15,6 @@ class ChatsController implements ICRUDController {
   create: RequestHandler = async (req, res) => {
     const [typeErrors, data] = await validateAndTypeCast(CreateChatDTO, {
       ...req.body,
-      user_id: req.user!.id,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
@@ -27,7 +26,6 @@ class ChatsController implements ICRUDController {
   update: RequestHandler = async (req, res) => {
     const [typeErrors, data] = await validateAndTypeCast(UpdateChatDTO, {
       ...req.body,
-      user_id: req.user!.id,
       id: req.params.chat_id,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
@@ -45,9 +43,7 @@ class ChatsController implements ICRUDController {
     const [typeError, page] = anyToNumber(req.query.page);
     if (typeError) return httpResponses.BadRequest(res, { typeError });
 
-    const [typeErrors, where] = await validateAndTypeCast(GetChatsDTO, {
-      user_id: req.user!.id,
-    });
+    const [typeErrors, where] = await validateAndTypeCast(GetChatsDTO, {});
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
     const [error, chats] = await chatsRepo.get({
@@ -62,8 +58,7 @@ class ChatsController implements ICRUDController {
   getById: RequestHandler = async (req, res) => {};
 
   delete: RequestHandler = async (req, res) => {
-    const [typeErrors, where] = await validateAndTypeCast(DeleteChatDTO, {
-      user_id: req.user!.id,
+    const [typeErrors, where] = await validateAndTypeCast(WhereChatDTO, {
       id: req.params.chat_id,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });

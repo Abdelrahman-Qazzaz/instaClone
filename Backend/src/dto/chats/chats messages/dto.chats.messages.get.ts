@@ -3,18 +3,4 @@ import { IsNumber } from "class-validator";
 
 import { stringToNumber } from "src/utils/convertToNumber.ts";
 
-export class GetChatMessagesDTO {
-  @Transform(({ value }) => {
-    const [error, val] = stringToNumber(value);
-    return error ?? val;
-  })
-  @IsNumber()
-  user_id: number;
-
-  @Transform(({ value }) => {
-    const [error, val] = stringToNumber(value);
-    return error ?? val;
-  })
-  @IsNumber()
-  chat_id: number;
-}
+export class GetChatMessagesDTO {}

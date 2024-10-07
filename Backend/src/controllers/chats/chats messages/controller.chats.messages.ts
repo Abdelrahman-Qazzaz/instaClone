@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { ICRUDController } from "src/controllers/ICRUDController.ts";
 import { CreateChatMessageDTO } from "src/dto/chats/chats messages/dto.chats.messages.create.ts";
-import { DeleteChatMessageDTO } from "src/dto/chats/chats messages/dto.chats.messages.delete.ts";
+import { WhereChatMessageDTO } from "src/dto/chats/chats messages/dto.chats.messages.where.ts";
 import { GetChatMessagesDTO } from "src/dto/chats/chats messages/dto.chats.messages.get.ts";
 import { UpdateChatMessageDTO } from "src/dto/chats/chats messages/dto.chats.messages.update.ts";
 import { chatsMessagesRepo } from "src/repositories/chats/chats messages/repo.chats.messages.ts";
@@ -14,7 +14,6 @@ class ChatsMessagesController implements ICRUDController {
   create: RequestHandler = async (req, res) => {
     const [typeErrors, data] = await validateAndTypeCast(CreateChatMessageDTO, {
       ...req.body,
-      user_id: req.user!.id,
       chat_id: req.params.chat_id,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
@@ -27,7 +26,6 @@ class ChatsMessagesController implements ICRUDController {
   update: RequestHandler = async (req, res) => {
     const [typeErrors, data] = await validateAndTypeCast(UpdateChatMessageDTO, {
       ...req.body,
-      user_id: req.user!.id,
       id: req.params.message_id,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
@@ -46,7 +44,6 @@ class ChatsMessagesController implements ICRUDController {
     if (typeError) return httpResponses.BadRequest(res, { typeError });
 
     const [typeErrors, where] = await validateAndTypeCast(GetChatMessagesDTO, {
-      user_id: req.user!.id,
       chat_id: req.params.chat_id,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
@@ -63,13 +60,9 @@ class ChatsMessagesController implements ICRUDController {
   getById: RequestHandler = async (req, res) => {};
 
   delete: RequestHandler = async (req, res) => {
-    const [typeErrors, where] = await validateAndTypeCast(
-      DeleteChatMessageDTO,
-      {
-        user_id: req.user!.id,
-        id: req.params.message_id,
-      }
-    );
+    const [typeErrors, where] = await validateAndTypeCast(WhereChatMessageDTO, {
+      id: req.params.message_id,
+    });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
     const [error, chat] = await chatsMessagesRepo.delete({

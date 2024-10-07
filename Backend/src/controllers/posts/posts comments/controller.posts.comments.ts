@@ -1,6 +1,6 @@
 import { ICRUDController } from "src/controllers/ICRUDController.ts";
 import { CreatePostCommentDTO } from "src/dto/posts/posts comments/dto.posts.comments.create.ts";
-import { DeletePostCommentDTO } from "src/dto/posts/posts comments/dto.posts.comments.delete.ts";
+import { WherePostCommentDTO } from "src/dto/posts/posts comments/dto.posts.comments.where.ts";
 import { GetPostCommentDTO } from "src/dto/posts/posts comments/dto.posts.comments.get.ts";
 import { UpdatePostCommentDTO } from "src/dto/posts/posts comments/dto.posts.comments.update.ts";
 import { postsCommentsRepo } from "src/repositories/posts/posts comments/repo.posts.comments.ts";
@@ -15,7 +15,7 @@ class PostsCommentsController implements ICRUDController {
     const [_error, parent_id] = stringToNumber(req.params.comment_id);
     const [typeErrors, data] = await validateAndTypeCast(CreatePostCommentDTO, {
       ...req.body,
-      user_id: req.user!.id,
+
       post_id: req.params.post_id,
       parent_id: parent_id, // number | null
     });
@@ -29,7 +29,7 @@ class PostsCommentsController implements ICRUDController {
   update: ReqHandler = async (req, res) => {
     const [typeErrors, data] = await validateAndTypeCast(UpdatePostCommentDTO, {
       ...req.body,
-      user_id: req.user!.id,
+
       id: req.params.comment_id,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
@@ -77,9 +77,9 @@ class PostsCommentsController implements ICRUDController {
     return httpResponses.SuccessResponse(res, { post: target });
   };
   delete: ReqHandler = async (req, res) => {
-    const [typeErrors, data] = await validateAndTypeCast(DeletePostCommentDTO, {
+    const [typeErrors, data] = await validateAndTypeCast(WherePostCommentDTO, {
       ...req.body,
-      user_id: req.user!.id,
+
       id: req.params.comment_id,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });

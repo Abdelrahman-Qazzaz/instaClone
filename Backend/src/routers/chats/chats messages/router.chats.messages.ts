@@ -3,21 +3,33 @@ import { chatsMessagesController } from "src/controllers/chats/chats messages/co
 import { checkAuth } from "src/middleware/checkAuth.ts";
 import { checkChatAdmin } from "src/middleware/chats/checkChatAdmin.ts";
 import { checkChatMember } from "src/middleware/chats/checkChatMember.ts";
+import { Compare_reqUserId_To_messageUserId } from "src/middleware/chats/chats messages/Compare_reqUserId_To_messageUserId.ts";
+
 export const chatsMessagesRouter = express.Router();
 
-// for the protected routes, the form of auth here is to use middleware to check whether the req.user.id is a member of the targeted chat or not
-
-chatsMessagesRouter.get("/", checkAuth, chatsMessagesController.get);
-chatsMessagesRouter.post("/", checkAuth, chatsMessagesController.create);
+chatsMessagesRouter.get(
+  "/",
+  checkAuth,
+  checkChatMember,
+  chatsMessagesController.get
+);
+chatsMessagesRouter.post(
+  "/",
+  checkAuth,
+  checkChatMember,
+  chatsMessagesController.create
+);
 chatsMessagesRouter.patch(
   "/:message_id",
   checkAuth,
   checkChatMember,
+  Compare_reqUserId_To_messageUserId,
   chatsMessagesController.update
 );
 chatsMessagesRouter.delete(
   "/:message_id",
   checkAuth,
-  checkChatAdmin,
+  checkChatMember,
+  Compare_reqUserId_To_messageUserId,
   chatsMessagesController.delete
 );

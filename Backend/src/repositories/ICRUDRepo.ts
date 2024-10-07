@@ -15,7 +15,7 @@ export class WhereType {
 // C: Create dto
 // U: Update dto
 // G: Get dto
-export interface ICRUDRepo<T, W, C, U, G> {
+export interface ICRUDRepo<T, C, U, G, W> {
   create: (args: { data: Instance_Of_CRUD_DTO<C> }) => AsyncResultTuple<T>;
 
   getOne: (args: { where: Instance_Of_CRUD_DTO<W> }) => AsyncResultTuple<T>;
@@ -27,7 +27,7 @@ export interface ICRUDRepo<T, W, C, U, G> {
 
   update: (args: {
     data: Instance_Of_CRUD_DTO<U>;
-    where: Id_userId & { chat_id: number };
+    where: Instance_Of_CRUD_DTO<W>;
   }) => AsyncResultTuple<T>;
 
   delete: (args: { where: Instance_Of_CRUD_DTO<W> }) => AsyncResultTuple<T>;

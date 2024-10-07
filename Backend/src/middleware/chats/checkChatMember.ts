@@ -18,5 +18,6 @@ export const checkChatMember: Middleware = async (req, res, next) => {
       Message: "You're not an Member in this chat.",
     });
 
+  req.chat = { id: chat_id };
   next();
 };

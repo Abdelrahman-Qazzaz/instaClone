@@ -8,7 +8,7 @@ import { Id_userId } from "src/dto/utils/dto.Id_userId.ts";
 import { CreateChatDTO } from "src/dto/chats/dto.chats.create.ts";
 import { UpdateChatDTO } from "src/dto/chats/dto.chats.update.ts";
 import { GetChatDTO, GetChatsDTO } from "src/dto/chats/dto.chats.get.ts";
-import { DeleteChatDTO } from "src/dto/chats/dto.chats.delete.ts";
+import { WhereChatDTO } from "src/dto/chats/dto.chats.where.ts";
 
 type AsyncChatTuple = Promise<[unknown, Chat | null]>;
 
@@ -16,7 +16,7 @@ type AsyncChatTupleArray = Promise<[unknown, Chat[] | null]>;
 
 class ChatsRepo
   implements
-    ICRUDRepo<Chat, CreateChatDTO, UpdateChatDTO, GetChatDTO, DeleteChatDTO>
+    ICRUDRepo<Chat, CreateChatDTO, UpdateChatDTO, GetChatDTO, WhereChatDTO>
 {
   create: (args: { data: CreateChatDTO }) => AsyncChatTuple = async (args) => {
     const { data } = args;
@@ -40,7 +40,7 @@ class ChatsRepo
 
     try {
       const chats = await db.chats.findMany({
-        where: { chats_members: { some: { user_id: where?.user_id } } },
+        where: { chats_members: { some: { user_id: where?.user_id }, },AND: },
         ...pagination,
       });
       return [null, chats];
@@ -58,7 +58,7 @@ class ChatsRepo
         return [error, null];
       }
     };
-  delete: (args: { where: DeleteChatDTO }) => AsyncChatTuple = async (args) => {
+  delete: (args: { where: WhereChatDTO }) => AsyncChatTuple = async (args) => {
     const { where } = args;
 
     try {

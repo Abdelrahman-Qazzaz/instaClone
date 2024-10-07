@@ -2,6 +2,7 @@ import express from "express";
 import { checkAuth } from "src/middleware/checkAuth.ts";
 import { postsCommentsLikesRouter } from "./posts comments likes/router.posts.comments.likes.ts";
 import { postsCommentsController } from "src/controllers/posts/posts comments/controller.posts.comments.ts";
+import { Compare_reqUserId_To_postCommentUserId } from "src/middleware/posts/posts comments/Compare_reqUserId_To_postCommentUserId.ts";
 
 export const postsCommentsRouter = express.Router();
 
@@ -12,6 +13,7 @@ postsCommentsRouter.get("/", postsCommentsController.get); // will probably be p
 postsCommentsRouter.get("/:comment_id", postsCommentsController.getById);
 
 postsCommentsRouter.post("/", checkAuth, postsCommentsController.create);
+
 // reply
 postsCommentsRouter.post(
   "/:comment_id",
@@ -22,20 +24,13 @@ postsCommentsRouter.post(
 postsCommentsRouter.patch(
   "/:comment_id",
   checkAuth,
+  Compare_reqUserId_To_postCommentUserId,
   postsCommentsController.update
 );
 
 postsCommentsRouter.delete(
   "/:comment_id",
   checkAuth,
+  Compare_reqUserId_To_postCommentUserId,
   postsCommentsController.delete
 );
-
-/*
-  addComment: ReqHandler = async (req, res) => {};
-  
-   */
-
-/*
-comment_toggleLike: ReqHandler = async (req, res) => {};
- */

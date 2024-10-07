@@ -7,14 +7,13 @@ import { postsRepo } from "src/repositories/posts/repo.posts.ts";
 import { CreatePostDTO } from "src/dto/posts/dto.posts.create.ts";
 import { GetPostDTO } from "src/dto/posts/dto.posts.get.ts";
 import { anyToNumber, stringToNumber } from "src/utils/convertToNumber.ts";
-import { DeletePostDTO } from "src/dto/posts/dto.posts.delete.ts";
+import { WherePostDTO } from "src/dto/posts/dto.posts.where.ts";
 
 class PostsController implements ICRUDController {
   take: 10;
   create: ReqHandler = async (req, res) => {
     const [typeErrors, data] = await validateAndTypeCast(CreatePostDTO, {
       ...req.body,
-      user_id: req.user!.id,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
@@ -24,15 +23,15 @@ class PostsController implements ICRUDController {
     return httpResponses.SuccessResponse(res, { post });
   };
   update: ReqHandler = async (req, res) => {
+    const { id } = req.post!;
+
     const [typeErrors, data] = await validateAndTypeCast(UpdatePostDTO, {
       ...req.body,
-      user_id: req.user!.id,
-      id: req.params.post_id,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
     const [error, post] = await postsRepo.update({
-      where: { id: data.id, user_id: data.user_id },
+      where: { id },
       data,
     });
     if (error) return httpResponses.InternalServerError(res);
@@ -43,7 +42,7 @@ class PostsController implements ICRUDController {
     const [typeError, page] = anyToNumber(req.query.page);
     if (typeError) return httpResponses.BadRequest(res, { typeError });
 
-    const [typeErrors, typeCastedFilter] = await validateAndTypeCast(
+    const [typeErrors, where] = await validateAndTypeCast(
       GetPostDTO,
       req.query
     );
@@ -51,7 +50,7 @@ class PostsController implements ICRUDController {
 
     const [error, posts] = await postsRepo.get({
       pagination: { skip: this.take * page, take: this.take },
-      where: typeCastedFilter,
+      where,
     });
     if (error) return httpResponses.InternalServerError(res);
 
@@ -76,15 +75,10 @@ class PostsController implements ICRUDController {
     return httpResponses.SuccessResponse(res, { post: target });
   };
   delete: ReqHandler = async (req, res) => {
-    const [typeErrors, data] = await validateAndTypeCast(DeletePostDTO, {
-      ...req.body,
-      user_id: req.user!.id,
-      id: req.params.post_id,
-    });
-    if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
+    const { id } = req.post!;
 
     const [error, post] = await postsRepo.delete({
-      where: { id: data.id, user_id: data.user_id },
+      where: { id },
     });
     if (error) return httpResponses.InternalServerError(res);
 

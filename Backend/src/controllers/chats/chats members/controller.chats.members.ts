@@ -10,7 +10,7 @@ import {
   GetChatMemberDTO,
   GetChatMembersDTO,
 } from "src/dto/chats/chats members/dto.chats.members.get.ts";
-import { DeleteChatMembersDTO } from "src/dto/chats/chats members/dto.chats.members.delete.ts";
+import { DeleteChatMembersDTO } from "src/dto/chats/chats members/dto.chats.members.where.ts";
 import { chatsMembersRepo } from "src/repositories/chats/chats members/repo.chats.members.ts";
 import { ChatMember } from "src/models/Chat.ts";
 

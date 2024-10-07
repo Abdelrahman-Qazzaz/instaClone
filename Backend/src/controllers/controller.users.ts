@@ -22,7 +22,7 @@ class UsersController implements ICRUDController {
     );
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
-    const [error, user] = await usersRepo.update({
+    data.const[(error, user)] = await usersRepo.update({
       data,
       where: { id, user_id: -1 },
     });

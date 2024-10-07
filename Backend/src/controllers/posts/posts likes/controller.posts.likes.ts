@@ -6,7 +6,7 @@ import { postsLikesRepo } from "src/repositories/posts/posts likes/repo.posts.li
 import { Pagination } from "src/types/Pagination.ts";
 import { validateAndTypeCast } from "src/utils/validate_typeCast.ts";
 import { CreatePostLikeDTO } from "src/dto/posts/posts likes/dto.posts.likes.create.ts";
-import { DeletePostLikeDTO } from "src/dto/posts/posts likes/dto.posts.likes.delete.ts";
+import { DeletePostLikeDTO } from "src/dto/posts/posts likes/dto.posts.likes.where.ts";
 import { GetPostLikesCountDTO } from "src/dto/posts/posts likes/dto.posts.likesCount.get.ts";
 import { GetPostLikesDetailsDTO } from "src/dto/posts/posts likes/dto.posts.likes.getDetails.ts";
 
@@ -14,7 +14,6 @@ class PostsLikesController implements ILikesController {
   take: 10;
   create: RequestHandler = async (req, res) => {
     const [typeErrors, data] = await validateAndTypeCast(CreatePostLikeDTO, {
-      user_id: req.user!.id,
       post_id: req.params.post_id,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
@@ -28,7 +27,6 @@ class PostsLikesController implements ILikesController {
   };
   delete: RequestHandler = async (req, res) => {
     const [typeErrors, data] = await validateAndTypeCast(DeletePostLikeDTO, {
-      user_id: req.user!.id,
       post_id: req.params.post_id,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });

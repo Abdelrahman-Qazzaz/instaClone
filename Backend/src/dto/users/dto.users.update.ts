@@ -7,9 +7,9 @@ import {
   IsUrl,
   Length,
 } from "class-validator";
-import { DeleteUserDTO } from "./dto.users.delete.ts";
+import { WhereUserDTO } from "./dto.users.where.ts";
 
-export class UpdateUserDTO extends DeleteUserDTO {
+export class UpdateUserDTO extends WhereUserDTO {
   @IsOptional()
   @IsEmail()
   email: string;

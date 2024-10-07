@@ -4,7 +4,7 @@ import { ICRUDRepo } from "src/repositories/ICRUDRepo.ts";
 import { CreateChatMessageDTO } from "src/dto/chats/chats messages/dto.chats.messages.create.ts";
 import { UpdateChatMessageDTO } from "src/dto/chats/chats messages/dto.chats.messages.update.ts";
 import { GetChatMessagesDTO } from "src/dto/chats/chats messages/dto.chats.messages.get.ts";
-import { DeleteChatMessageDTO } from "src/dto/chats/chats messages/dto.chats.messages.delete.ts";
+import { WhereChatMessageDTO } from "src/dto/chats/chats messages/dto.chats.messages.where.ts";
 import { Pagination } from "src/types/Pagination.ts";
 import { Id_userId } from "src/dto/utils/dto.Id_userId.ts";
 
@@ -18,7 +18,7 @@ class ChatsMessagesRepo
       CreateChatMessageDTO,
       UpdateChatMessageDTO,
       GetChatMessagesDTO,
-      DeleteChatMessageDTO
+      WhereChatMessageDTO
     >
 {
   create: (args: { data: CreateChatMessageDTO }) => AsyncChatMessageTuple =
@@ -73,7 +73,7 @@ class ChatsMessagesRepo
       return [error, null];
     }
   };
-  delete: (args: { where: DeleteChatMessageDTO }) => AsyncChatMessageTuple =
+  delete: (args: { where: WhereChatMessageDTO }) => AsyncChatMessageTuple =
     async (args) => {
       const { where } = args;
 

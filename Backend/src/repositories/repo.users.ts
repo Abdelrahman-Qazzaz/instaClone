@@ -5,7 +5,7 @@ import { ICRUDRepo } from "./ICRUDRepo.ts";
 import { User } from "src/models/User.ts";
 import { GetUserDTO } from "src/dto/users/dto.users.get.ts";
 import { Pagination } from "src/types/Pagination.ts";
-import { DeleteUserDTO } from "src/dto/users/dto.users.delete.ts";
+import { WhereUserDTO } from "src/dto/users/dto.users.where.ts";
 import { Id_userId } from "src/dto/utils/dto.Id_userId.ts";
 
 type AsyncUserTuple = Promise<[unknown, User | null]>;
@@ -13,7 +13,7 @@ type AsyncUserTupleArray = Promise<[unknown, User[] | null]>;
 
 class UsersRepo
   implements
-    ICRUDRepo<User, RegisterDTO, UpdateUserDTO, GetUserDTO, DeleteUserDTO>
+    ICRUDRepo<User, RegisterDTO, UpdateUserDTO, GetUserDTO, WhereUserDTO>
 {
   create: (args: { data: RegisterDTO }) => AsyncUserTuple = async (args) => {
     const { data } = args;
@@ -61,7 +61,7 @@ class UsersRepo
       return [error, null];
     }
   };
-  delete: (args: { where: DeleteUserDTO }) => AsyncUserTuple = async (args) => {
+  delete: (args: { where: WhereUserDTO }) => AsyncUserTuple = async (args) => {
     const { where } = args;
     try {
       const user = await db.users.delete({ where });

@@ -18,5 +18,6 @@ export const checkChatAdmin: Middleware = async (req, res, next) => {
       Message: "You're not an Admin in this chat.",
     });
 
+  req.chat = { id: chat_id };
   next();
 };

@@ -4,12 +4,6 @@ import { UpdatePostDTO } from "./dto.posts.update.ts";
 import { transformToNumber } from "../utils/helper functions/transformToNumber.ts";
 
 export class CreatePostDTO {
-  @Transform(({ value }) => transformToNumber(value), {
-    toClassOnly: true,
-  })
-  @IsNumber()
-  user_id: number;
-
   @IsOptional()
   caption: string;
 

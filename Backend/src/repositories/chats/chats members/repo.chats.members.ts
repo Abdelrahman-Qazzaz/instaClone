@@ -5,7 +5,7 @@ import { ICRUDRepo } from "src/repositories/ICRUDRepo.ts";
 import { CreateChatMembersDTO } from "src/dto/chats/chats members/dto.chats.members.create.ts";
 import { GetChatMembersDTO } from "src/dto/chats/chats members/dto.chats.members.get.ts";
 import { UpdateChatMemberDTO } from "src/dto/chats/chats members/dto.chats.members.update.ts";
-import { DeleteChatMembersDTO } from "src/dto/chats/chats members/dto.chats.members.delete.ts";
+import { DeleteChatMembersDTO } from "src/dto/chats/chats members/dto.chats.members.where.ts";
 
 import { Pagination } from "src/types/Pagination.ts";
 import { flattenChatMember, UnformattedChatMember } from "./index.ts";
@@ -17,7 +17,7 @@ class ChatsMembersRepo
   implements
     ICRUDRepo<
       ChatMember,
-      WhereClauseChatMembersDTO,
+      WhereChatMembersDTO,
       CreateChatMembersDTO,
       UpdateChatMemberDTO,
       GetChatMembersDTO

@@ -7,7 +7,7 @@ import { Pagination } from "src/types/Pagination.ts";
 import { validateAndTypeCast } from "src/utils/validate_typeCast.ts";
 import { CreatePostCommentLikeDTO } from "src/dto/posts/posts comments/posts comments likes/dto.posts.comments.likes.create.ts";
 import { postsCommentsLikesRepo } from "src/repositories/posts/posts comments/posts comments likes/repo.posts.comments.likes.ts";
-import { DeletePostCommentLikeDTO } from "src/dto/posts/posts comments/posts comments likes/dto.posts.comments.likes.delete.ts";
+import { DeletePostCommentLikeDTO } from "src/dto/posts/posts comments/posts comments likes/dto.posts.comments.likes.where.ts";
 import { GetPostCommentLikesDetailsDTO } from "src/dto/posts/posts comments/posts comments likes/dto.posts.comments.likes.getDetails.ts";
 
 class PostsCommentsLikesController implements ILikesController {
@@ -16,7 +16,6 @@ class PostsCommentsLikesController implements ILikesController {
     const [typeErrors, data] = await validateAndTypeCast(
       CreatePostCommentLikeDTO,
       {
-        user_id: req.user!.id,
         comment_id: req.params.comment_id,
       }
     );
@@ -33,7 +32,6 @@ class PostsCommentsLikesController implements ILikesController {
     const [typeErrors, data] = await validateAndTypeCast(
       DeletePostCommentLikeDTO,
       {
-        user_id: req.user!.id,
         comment_id: req.params.comment_id,
       }
     );

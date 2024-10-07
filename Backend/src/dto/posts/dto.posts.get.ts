@@ -1,24 +1,6 @@
-import { Transform } from "class-transformer";
-import { IsNumber, IsOptional } from "class-validator";
-import { stringToNumber } from "src/utils/convertToNumber.ts";
+import { IsOptional } from "class-validator";
 
 export class GetPostDTO {
-  @IsOptional()
-  @Transform(({ value }) => {
-    const [error, val] = stringToNumber(value);
-    return error ?? val;
-  })
-  @IsNumber()
-  id?: number;
-
-  @IsOptional()
-  @Transform(({ value }) => {
-    const [error, val] = stringToNumber(value);
-    return error ?? val;
-  })
-  @IsNumber()
-  user_id?: number;
-
   @IsOptional()
   caption?: string;
 }

@@ -9,7 +9,7 @@ export type Chat = {
 export type ChatMessage = {
   id: number;
   chat_id: number | null;
-  sender_id: number | null;
+  user_id: number | null;
   content: string;
   urls: string[];
   created_at: Date | null;
