@@ -5,9 +5,8 @@ import { validateAndTypeCast } from "src/utils/validate_typeCast.ts";
 import { httpResponses } from "src/utils/HTTPResponses.ts";
 import { CreateChatDTO } from "src/dto/chats/dto.chats.create.ts";
 import { UpdateChatDTO } from "src/dto/chats/dto.chats.update.ts";
-import { anyToNumber } from "src/utils/convertToNumber.ts";
+import { anyToNumber, stringToNumber } from "src/utils/convertToNumber.ts";
 import { GetChatsDTO } from "src/dto/chats/dto.chats.get.ts";
-import { WhereChatDTO } from "src/dto/chats/dto.chats.where.ts";
 import { chatsRepo } from "src/repositories/chats/repo.chats.ts";
 
 class ChatsController implements ICRUDController {
@@ -24,14 +23,16 @@ class ChatsController implements ICRUDController {
     return httpResponses.SuccessResponse(res, { chat });
   };
   update: RequestHandler = async (req, res) => {
+    const [typeError, id] = stringToNumber(req.params.chat_id);
+    if (typeError) return httpResponses.BadRequest(res, { typeError });
+
     const [typeErrors, data] = await validateAndTypeCast(UpdateChatDTO, {
       ...req.body,
-      id: req.params.chat_id,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
     const [error, chat] = await chatsRepo.update({
-      where: { id: data.id, user_id: data.user_id },
+      where: { id },
       data,
     });
     if (error) return httpResponses.InternalServerError(res);
@@ -58,11 +59,10 @@ class ChatsController implements ICRUDController {
   getById: RequestHandler = async (req, res) => {};
 
   delete: RequestHandler = async (req, res) => {
-    const [typeErrors, where] = await validateAndTypeCast(WhereChatDTO, {
-      id: req.params.chat_id,
-    });
-    if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
+    const [typeError, id] = stringToNumber(req.params.chat_id);
+    if (typeError) return httpResponses.BadRequest(res, { typeError });
 
+    const where = { id };
     const [error, chat] = await chatsRepo.delete({
       where,
     });

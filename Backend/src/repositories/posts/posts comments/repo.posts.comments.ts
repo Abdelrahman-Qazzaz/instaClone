@@ -5,8 +5,7 @@ import { CreatePostCommentDTO } from "src/dto/posts/posts comments/dto.posts.com
 import { UpdatePostCommentDTO } from "src/dto/posts/posts comments/dto.posts.comments.update.ts";
 import { GetPostCommentDTO } from "src/dto/posts/posts comments/dto.posts.comments.get.ts";
 import { Pagination } from "src/types/Pagination.ts";
-import { WherePostCommentDTO } from "src/dto/posts/posts comments/dto.posts.comments.where.ts";
-import { Id_userId } from "src/dto/utils/dto.Id_userId.ts";
+import { WhereChatDTO } from "src/dto/chats/dto.chats.where.ts";
 
 type AsyncPostTuple = Promise<[unknown, PostComment | null]>;
 type AsyncPostTupleArray = Promise<[unknown, PostComment[] | null]>;
@@ -18,7 +17,7 @@ class PostsCommentsRepo
       CreatePostCommentDTO,
       UpdatePostCommentDTO,
       GetPostCommentDTO,
-      WherePostCommentDTO
+      WhereChatDTO
     >
 {
   create: (args: { data: CreatePostCommentDTO }) => AsyncPostTuple = async (
@@ -32,9 +31,7 @@ class PostsCommentsRepo
       return [error, null];
     }
   };
-  getOne: (args: {
-    where: { id: number; user_id?: number };
-  }) => AsyncPostTuple = async (args) => {
+  getOne: (args: { where: WhereChatDTO }) => AsyncPostTuple = async (args) => {
     const { where } = args;
     try {
       const postComment: PostComment | null = await db.posts_comments.findFirst(
@@ -63,7 +60,7 @@ class PostsCommentsRepo
   };
   update: (args: {
     data: UpdatePostCommentDTO;
-    where: Id_userId;
+    where: WhereChatDTO;
   }) => AsyncPostTuple = async (args) => {
     const { where, data } = args;
     try {
@@ -76,9 +73,7 @@ class PostsCommentsRepo
       return [error, null];
     }
   };
-  delete: (args: { where: WherePostCommentDTO }) => AsyncPostTuple = async (
-    args
-  ) => {
+  delete: (args: { where: WhereChatDTO }) => AsyncPostTuple = async (args) => {
     const { where } = args;
     try {
       const postComment = await db.posts_comments.delete({ where });

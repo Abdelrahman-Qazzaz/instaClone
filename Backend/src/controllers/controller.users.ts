@@ -19,10 +19,11 @@ class UsersController implements ICRUDController {
     const [typeErrors, data] = await validateAndTypeCast(
       UpdateUserDTO,
       req.body
+
     );
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
-    data.const[(error, user)] = await usersRepo.update({
+    const[(error, user)] = await usersRepo.update({
       data,
       where: { id, user_id: -1 },
     });

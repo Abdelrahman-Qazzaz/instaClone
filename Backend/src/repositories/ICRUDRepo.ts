@@ -1,4 +1,3 @@
-import { Id_userId } from "src/dto/utils/dto.Id_userId.ts";
 import { Pagination } from "src/types/Pagination.ts";
 
 type AsyncResultTuple<T> = Promise<[unknown, T | null]>;
@@ -11,24 +10,24 @@ export class WhereType {
 }
 
 // T: model
-// W: where clause
-// C: Create dto
-// U: Update dto
-// G: Get dto
+// class C: Create dto
+// class U: Update dto
+// class G: Get dto
+// type W: where clause
 export interface ICRUDRepo<T, C, U, G, W> {
   create: (args: { data: Instance_Of_CRUD_DTO<C> }) => AsyncResultTuple<T>;
 
-  getOne: (args: { where: Instance_Of_CRUD_DTO<W> }) => AsyncResultTuple<T>;
+  getOne: (args: { where: W }) => AsyncResultTuple<T>;
 
   get: (args: {
     pagination: Pagination;
-    where?: Instance_Of_CRUD_DTO<G>;
+    where: Instance_Of_CRUD_DTO<G>;
   }) => AsyncResultTupleArray<T>;
 
   update: (args: {
     data: Instance_Of_CRUD_DTO<U>;
-    where: Instance_Of_CRUD_DTO<W>;
+    where: W;
   }) => AsyncResultTuple<T>;
 
-  delete: (args: { where: Instance_Of_CRUD_DTO<W> }) => AsyncResultTuple<T>;
+  delete: (args: { where: W }) => AsyncResultTuple<T>;
 }

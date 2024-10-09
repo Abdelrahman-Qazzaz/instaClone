@@ -7,7 +7,6 @@ import { postsRepo } from "src/repositories/posts/repo.posts.ts";
 import { CreatePostDTO } from "src/dto/posts/dto.posts.create.ts";
 import { GetPostDTO } from "src/dto/posts/dto.posts.get.ts";
 import { anyToNumber, stringToNumber } from "src/utils/convertToNumber.ts";
-import { WherePostDTO } from "src/dto/posts/dto.posts.where.ts";
 
 class PostsController implements ICRUDController {
   take: 10;
