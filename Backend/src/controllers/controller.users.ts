@@ -16,16 +16,16 @@ class UsersController implements ICRUDController {
   update: ReqHandler = async (req, res) => {
     const id = req.user!.id;
 
-    const [typeErrors, data] = await validateAndTypeCast(
-      UpdateUserDTO,
-      req.body
+    const [typeErrors, data] = await validateAndTypeCast(UpdateUserDTO, {
+      ...req.body,
+      pfp_url: req.firebaseUrls[0],
+    });
 
-    );
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
-    const[(error, user)] = await usersRepo.update({
+    const [error, user] = await usersRepo.update({
       data,
-      where: { id, user_id: -1 },
+      where: { id },
     });
     if (error) return httpResponses.InternalServerError(res);
 

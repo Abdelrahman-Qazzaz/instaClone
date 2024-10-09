@@ -14,6 +14,7 @@ class ChatsController implements ICRUDController {
   create: RequestHandler = async (req, res) => {
     const [typeErrors, data] = await validateAndTypeCast(CreateChatDTO, {
       ...req.body,
+      image_url: req.firebaseUrls[0],
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
@@ -28,6 +29,7 @@ class ChatsController implements ICRUDController {
 
     const [typeErrors, data] = await validateAndTypeCast(UpdateChatDTO, {
       ...req.body,
+      image_url: req.firebaseUrls[0],
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 

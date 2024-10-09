@@ -1,20 +1,24 @@
 import { RequestHandler } from "express";
 import { ICRUDController } from "src/controllers/ICRUDController.ts";
 import { CreateChatMessageDTO } from "src/dto/chats/chats messages/dto.chats.messages.create.ts";
-import { WhereChatMessageDTO } from "src/dto/chats/chats messages/dto.chats.messages.where.ts";
+import { WhereChatMessageDTO } from "src/dto/chats/dto.chats.where.ts";
 import { GetChatMessagesDTO } from "src/dto/chats/chats messages/dto.chats.messages.get.ts";
 import { UpdateChatMessageDTO } from "src/dto/chats/chats messages/dto.chats.messages.update.ts";
 import { chatsMessagesRepo } from "src/repositories/chats/chats messages/repo.chats.messages.ts";
-import { anyToNumber } from "src/utils/convertToNumber.ts";
+import { anyToNumber, stringToNumber } from "src/utils/convertToNumber.ts";
 import { httpResponses } from "src/utils/HTTPResponses.ts";
 import { validateAndTypeCast } from "src/utils/validate_typeCast.ts";
 
 class ChatsMessagesController implements ICRUDController {
   take: 10;
   create: RequestHandler = async (req, res) => {
+    const [typeError, chat_id] = stringToNumber(req.params.chat_id);
+    if (typeError) return httpResponses.BadRequest(res, { typeError });
+
     const [typeErrors, data] = await validateAndTypeCast(CreateChatMessageDTO, {
       ...req.body,
-      chat_id: req.params.chat_id,
+      chat_id,
+      urls: req.firebaseUrls,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
@@ -24,14 +28,17 @@ class ChatsMessagesController implements ICRUDController {
     return httpResponses.SuccessResponse(res, { chatMessage });
   };
   update: RequestHandler = async (req, res) => {
+    const [typeError, id] = stringToNumber(req.params.message_id);
+    if (typeError) return httpResponses.BadRequest(res, { typeError });
+
     const [typeErrors, data] = await validateAndTypeCast(UpdateChatMessageDTO, {
       ...req.body,
-      id: req.params.message_id,
+      urls: req.firebaseUrls,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
     const [error, chat] = await chatsMessagesRepo.update({
-      where: { id: data.id, user_id: data.user_id },
+      where: { id },
       data,
     });
     if (error) return httpResponses.InternalServerError(res);
@@ -60,13 +67,11 @@ class ChatsMessagesController implements ICRUDController {
   getById: RequestHandler = async (req, res) => {};
 
   delete: RequestHandler = async (req, res) => {
-    const [typeErrors, where] = await validateAndTypeCast(WhereChatMessageDTO, {
-      id: req.params.message_id,
-    });
-    if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
+    const [typeError, id] = stringToNumber(req.params.message_id);
+    if (typeError) return httpResponses.BadRequest(res, { typeError });
 
     const [error, chat] = await chatsMessagesRepo.delete({
-      where,
+      where: { id },
     });
     if (error) return httpResponses.InternalServerError(res);
 

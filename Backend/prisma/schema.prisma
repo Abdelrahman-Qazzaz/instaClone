@@ -11,6 +11,7 @@ model chats {
   id             Int              @id @default(autoincrement())
   name           String           @db.VarChar(100)
   created_at     DateTime?        @default(now()) @db.Timestamp(6)
+  image_url      String           @default("instaCloneDefaultPFP.jpg")
   chats_members  chats_members[]
   chats_messages chats_messages[]
 }

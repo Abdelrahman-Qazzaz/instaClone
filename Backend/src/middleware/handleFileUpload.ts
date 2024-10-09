@@ -3,9 +3,10 @@ import admin from "firebase-admin";
 import fs from "fs";
 import mime from "mime";
 
-import { upload } from "../server.ts";
 import Middleware from "src/types/Middleware.ts";
 import { httpResponses } from "src/utils/HTTPResponses.ts";
+import multer from "multer";
+export const upload = multer({ dest: "uploads/" });
 
 env.config();
 const serviceAccount = JSON.parse(

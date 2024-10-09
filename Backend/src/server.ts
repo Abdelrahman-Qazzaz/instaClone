@@ -2,7 +2,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
 import http from "http";
-import multer from "multer";
+
 import { Server } from "socket.io";
 import { rateLimit } from "express-rate-limit";
 
@@ -10,8 +10,6 @@ import { authRouter } from "./routers/router.auth.ts";
 import { usersRouter } from "./routers/router.users.ts";
 import { postsRouter } from "./routers/posts/router.posts.ts";
 import { chatsRouter } from "./routers/chats/router.chats.ts";
-
-export const upload = multer({ dest: "uploads/" });
 
 const app = express();
 const server = http.createServer(app);

@@ -1,9 +1,10 @@
-import { Transform } from "class-transformer";
-import { IsArray, IsNumber, IsString } from "class-validator";
-
-import { transformToNumber } from "../utils/helper functions/transformToNumber.ts";
+import { IsOptional, IsString } from "class-validator";
 
 export class CreateChatDTO {
   @IsString()
   name: string;
+
+  @IsOptional()
+  @IsString()
+  image_url: string;
 }
