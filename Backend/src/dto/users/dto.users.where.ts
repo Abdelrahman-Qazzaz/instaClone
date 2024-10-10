@@ -1,3 +1,5 @@
-export type WhereUserDTO = {
-  id: number;
-};
+export type WhereGetOneUserDTO =
+  | {
+      id: number;
+    }
+  | { email: string };

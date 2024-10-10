@@ -1,0 +1,87 @@
+.login-form-container {
+  width: 350px;
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin: auto; /* Centering the form */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.instaCloneTextLogo {
+  color: #333;
+  font-family: "Pacifico", cursive;
+  font-weight: 400;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Space between inputs */
+}
+
+input {
+  width: 100%;
+  padding: 8px; /* Reduced padding for shorter height */
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+  font-size: 0.9rem; /* Slightly smaller font size */
+  transition: border-color 0.3s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #0095f6; /* Change border color on focus */
+}
+
+.login-button {
+  width: 100%;
+  padding: 10px; /* Adjusted padding for consistency */
+  background-color: #0095f6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-button:hover {
+  background-color: #007bb5; /* Darker shade on hover */
+}
+
+.fb-login {
+  background-color: #4267b2;
+  color: white;
+  width: 100%;
+  padding: 10px; /* Adjusted padding for consistency */
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.fb-login:hover {
+  background-color: #365899; /* Darker shade on hover */
+}
+
+.divider {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.divider span {
+  background: white;
+  padding: 0 10px;
+}
+
+.signup-prompt {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}

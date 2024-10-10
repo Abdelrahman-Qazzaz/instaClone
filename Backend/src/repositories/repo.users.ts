@@ -5,14 +5,14 @@ import { ICRUDRepo } from "./ICRUDRepo.ts";
 import { User } from "src/models/User.ts";
 import { GetUserDTO } from "src/dto/users/dto.users.get.ts";
 import { Pagination } from "src/types/Pagination.ts";
-import { WhereUserDTO } from "src/dto/users/dto.users.where.ts";
+import { WhereGetOneUserDTO } from "src/dto/users/dto.users.where.ts";
 
 type AsyncUserTuple = Promise<[unknown, User | null]>;
 type AsyncUserTupleArray = Promise<[unknown, User[] | null]>;
 
 class UsersRepo
   implements
-    ICRUDRepo<User, RegisterDTO, UpdateUserDTO, GetUserDTO, WhereUserDTO>
+    ICRUDRepo<User, RegisterDTO, UpdateUserDTO, GetUserDTO, WhereGetOneUserDTO>
 {
   create: (args: { data: RegisterDTO }) => AsyncUserTuple = async (args) => {
     const { data } = args;
@@ -23,8 +23,11 @@ class UsersRepo
       return [error, null];
     }
   };
-  getOne: (args: { where: WhereUserDTO }) => AsyncUserTuple = async (args) => {
+  getOne: (args: { where: WhereGetOneUserDTO }) => AsyncUserTuple = async (
+    args
+  ) => {
     const { where } = args;
+
     try {
       const user: User | null = await db.users.findFirst({ where });
       return [null, user];
@@ -47,7 +50,7 @@ class UsersRepo
   };
   update: (args: {
     data: UpdateUserDTO;
-    where: WhereUserDTO /*target_id here is useless */;
+    where: WhereGetOneUserDTO;
   }) => AsyncUserTuple = async (args) => {
     const { data, where } = args;
     try {
@@ -60,7 +63,9 @@ class UsersRepo
       return [error, null];
     }
   };
-  delete: (args: { where: WhereUserDTO }) => AsyncUserTuple = async (args) => {
+  delete: (args: { where: WhereGetOneUserDTO }) => AsyncUserTuple = async (
+    args
+  ) => {
     const { where } = args;
     try {
       const user = await db.users.delete({ where });

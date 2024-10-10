@@ -1,0 +1,46 @@
+.carousel-container {
+  width: 350px;
+  margin: auto;
+  background: white;
+
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.login-slide {
+  text-align: center;
+}
+
+.logo {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+}
+
+button {
+  width: 48%;
+  padding: 10px;
+  background-color: #0095f6;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.carousel-buttons {
+  display: flex;
+  justify-content: space-between;
+}
