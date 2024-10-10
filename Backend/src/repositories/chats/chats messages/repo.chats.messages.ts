@@ -4,9 +4,8 @@ import { ICRUDRepo } from "src/repositories/ICRUDRepo.ts";
 import { CreateChatMessageDTO } from "src/dto/chats/chats messages/dto.chats.messages.create.ts";
 import { UpdateChatMessageDTO } from "src/dto/chats/chats messages/dto.chats.messages.update.ts";
 import { GetChatMessagesDTO } from "src/dto/chats/chats messages/dto.chats.messages.get.ts";
-import { WhereChatMessageDTO } from "src/dto/chats/chats messages/dto.chats.messages.where.ts";
+import { WhereChatMessageDTO } from "src/dto/chats/dto.chats.where.ts";
 import { Pagination } from "src/types/Pagination.ts";
-import { Id_userId } from "src/dto/utils/dto.Id_userId.ts";
 
 type AsyncChatMessageTuple = Promise<[unknown, ChatMessage | null]>;
 type AsyncChatMessageTupleArray = Promise<[unknown, ChatMessage[] | null]>;
@@ -31,9 +30,9 @@ class ChatsMessagesRepo
         return [error, null];
       }
     };
-  getOne: (args: {
-    where: { id: number; user_id?: number };
-  }) => AsyncChatMessageTuple = async (args) => {
+  getOne: (args: { where: { id: number } }) => AsyncChatMessageTuple = async (
+    args
+  ) => {
     try {
       const { where } = args;
       const chatMessage: ChatMessage | null = await db.chats_messages.findFirst(
@@ -63,7 +62,7 @@ class ChatsMessagesRepo
   };
   update: (args: {
     data: UpdateChatMessageDTO;
-    where: Id_userId;
+    where: WhereChatMessageDTO;
   }) => AsyncChatMessageTuple = async (args) => {
     const { data, where } = args;
     try {
