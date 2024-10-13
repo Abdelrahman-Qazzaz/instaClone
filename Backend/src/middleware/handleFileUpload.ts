@@ -36,6 +36,7 @@ export const uploadFile: Middleware = async (req, res, next) => {
       if (error) return httpResponses.InternalServerError(res);
 
       req.firebaseUrls = firebaseUrls;
+
       next();
     });
   } catch (err) {

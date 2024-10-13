@@ -1,11 +1,12 @@
 import { useState } from "react";
-import "./PasswordInput.css";
+import styles from "./PasswordInput.module.css";
+import { Button } from "react-bootstrap";
 export const PasswordInput = ({
   password,
-  setPassword,
+  handleChange,
 }: {
   password: string;
-  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -14,20 +15,21 @@ export const PasswordInput = ({
   };
 
   return (
-    <div className="password-input-container">
+    <div className={styles.passwordInputContainer}>
       <input
+        name="password"
         type={isVisible ? "text" : "password"}
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Enter your password"
+        onChange={handleChange}
+        placeholder="Password"
       />
-      <button
+      <Button
         type="button"
         onClick={toggleVisibility}
-        className="toggle-button"
+        className={`${styles.toggleButton} toggle-button bg-transparent border-0 text-dark fw-bold`}
       >
         {isVisible ? "Hide" : "Show"}
-      </button>
+      </Button>
     </div>
   );
 };

@@ -8,7 +8,7 @@ import { LoginDTO } from "src/dto/users/dto.Login.ts";
 import { verifyPassword } from "src/utils/verifyPassword.ts";
 
 class AuthController {
-  register: ReqHandler = async (req, res) => {
+  signup: ReqHandler = async (req, res) => {
     try {
       const [validationErrors, typeCastedInput] = await validateAndTypeCast(
         RegisterDTO,

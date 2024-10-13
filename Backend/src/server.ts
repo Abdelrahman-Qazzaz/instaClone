@@ -37,6 +37,7 @@ app.use(express.json());
 
 app.use("/auth", authRouter);
 app.use("/users", usersRouter);
+app.use("/stories", storiesRouter);
 app.use("/posts", postsRouter);
 app.use("/chats", chatsRouter);
 

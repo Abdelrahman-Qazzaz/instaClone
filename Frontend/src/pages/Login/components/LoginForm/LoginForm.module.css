@@ -1,4 +1,4 @@
-.login-form-container {
+.loginFormContainer {
   width: 350px;
   background: #fff;
   border: 1px solid #dbdbdb;
@@ -19,7 +19,7 @@
   margin-bottom: 1.5rem;
 }
 
-.login-form {
+.loginForm {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -40,7 +40,7 @@ input:focus {
   border-color: #0095f6; /* Change border color on focus */
 }
 
-.login-button {
+.loginButton {
   width: 100%;
   padding: 10px; /* Adjusted padding for consistency */
   background-color: #0095f6;
@@ -52,22 +52,8 @@ input:focus {
   transition: background-color 0.3s;
 }
 
-.login-button:hover {
+.loginButton:hover {
   background-color: #007bb5; /* Darker shade on hover */
-}
-
-.fb-login {
-  background-color: #4267b2;
-  color: white;
-  width: 100%;
-  padding: 10px; /* Adjusted padding for consistency */
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-}
-
-.fb-login:hover {
-  background-color: #365899; /* Darker shade on hover */
 }
 
 .divider {
@@ -75,13 +61,7 @@ input:focus {
   margin: 1rem 0;
 }
 
-.divider span {
-  background: white;
-  padding: 0 10px;
-}
-
-.signup-prompt {
+.signupPrompt {
   text-align: center;
   font-size: 0.9rem;
-  margin-top: 1rem;
 }

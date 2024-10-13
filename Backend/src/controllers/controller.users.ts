@@ -8,6 +8,8 @@ import { anyToNumber, stringToNumber } from "src/utils/convertToNumber.ts";
 import { ICRUDController } from "./ICRUDController.ts";
 import { GetUserDTO } from "src/dto/users/dto.users.get.ts";
 import { Pagination } from "src/types/Pagination.ts";
+import { storiesRepo } from "src/repositories/stories/repo.stories.ts";
+import { GetStoriesDTO } from "src/dto/stories/dto.stories.where.ts";
 
 class UsersController implements ICRUDController {
   take: 10;
@@ -61,7 +63,7 @@ class UsersController implements ICRUDController {
 
   // getting someone else's data, for example for when you're visiting someone else's profile page.
   getById: ReqHandler = async (req, res) => {
-    const [typeError, reqParamsId] = stringToNumber(req.params.id);
+    const [typeError, reqParamsId] = stringToNumber(req.params.user_id);
     if (typeError) return httpResponses.BadRequest(res, { message: "NaN" });
 
     const [error, target] = await usersRepo.getOne({
@@ -91,6 +93,17 @@ class UsersController implements ICRUDController {
     if (error) return httpResponses.InternalServerError(res);
 
     return httpResponses.SuccessResponse(res, { user });
+  };
+
+  getStories: ReqHandler = async (req, res) => {
+    const [typeError, user_id] = stringToNumber(req.params.user_id);
+    if (typeError) return httpResponses.BadRequest(res, { typeError });
+
+    const where: GetStoriesDTO = { user_id };
+    const [error, stories] = await storiesRepo.get({ where });
+    if (error) return httpResponses.InternalServerError(res);
+
+    return httpResponses.SuccessResponse(res, { stories });
   };
 }
 

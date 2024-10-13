@@ -1,41 +1,55 @@
 import { useState, FormEvent } from "react";
-import "./LoginForm.css";
+import styles from "./LoginForm.module.css";
 import { Button } from "react-bootstrap";
 import { PasswordInput } from "../../../../components/Password Input/PasswordInput";
-import api from "../../../../api/api";
+import { api } from "../../../../api/api";
+import { Link } from "react-router-dom";
 
 export const LoginForm = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-  const handleLogin = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    api.auth.login;
+
+    await api.auth.login(formData);
   };
 
   return (
-    <div className="login-form-container">
-      <h1 className="instaCloneTextLogo">InstaClone</h1>
-      <form onSubmit={handleLogin} className="login-form">
+    <div className={styles.loginFormContainer}>
+      <h1 className={styles.instaCloneTextLogo}>InstaClone</h1>
+      <form onSubmit={handleSubmit} className={styles.loginForm}>
         <input
+          name="email"
           type="text"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={formData.email}
+          onChange={handleChange}
           required
         />
-        <PasswordInput password={password} setPassword={setPassword} />
-        <Button type="submit" className="login-button">
+        <PasswordInput
+          password={formData.password}
+          handleChange={handleChange}
+        />
+        <Button type="submit" className={styles.loginButton}>
           Log In
         </Button>
       </form>
-      <div className="divider">
+      <div className={styles.divider}>
         <span>OR</span>
       </div>
-      <Button className="fb-login" type="button">
-        Log in with Facebook
-      </Button>
-      <p className="signup-prompt">Don't have an account? Sign up</p>
+
+      <p className={styles.signupPrompt}>
+        Don't have an account? <Link to={"/signup"}>Sign up</Link>
+      </p>
     </div>
   );
 };

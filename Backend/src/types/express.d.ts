@@ -7,6 +7,7 @@ declare global {
     interface Request {
       firebaseUrls: string[];
       user?: { id: number };
+      story?: { id: number };
       post?: { id: number };
       postComment?: { id: number };
       chat?: { id: number };

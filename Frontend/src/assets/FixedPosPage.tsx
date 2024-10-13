@@ -1,26 +1,25 @@
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 
 export function FixedPosPage({
   children,
-  justifyContent = "center",
-  alignItems = "center",
+  center,
 }: {
   children: ReactNode;
-  justifyContent?: "center" | "space-around";
-  alignItems?: "center";
+  center?: boolean;
 }) {
-  return (
-    <div
-      style={{
-        position: "fixed",
-        height: "100vh",
-        width: "100vw",
-        display: "flex",
-        justifyContent,
-        alignItems,
-      }}
-    >
-      {children}
-    </div>
-  );
+  const style = useMemo(() => {
+    const temp: React.CSSProperties = {
+      position: "fixed",
+      height: "100vh",
+      width: "100vw",
+    };
+    if (center) {
+      temp.display = "flex";
+      temp.justifyContent = "center";
+      temp.alignItems = "center";
+    }
+    return temp;
+  }, []);
+
+  return <div style={style}>{children}</div>;
 }

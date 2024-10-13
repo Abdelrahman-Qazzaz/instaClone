@@ -1,18 +1,24 @@
 import axios from "axios";
-import * as auth from "./auth";
+import { login, signup } from "./Auth";
 
-export const api = axios.create({
-  baseURL: "http://localhost:4000",
-  timeout: 10000,
-});
+class Api {
+  request = axios.create({
+    baseURL: "http://localhost:4000",
+    timeout: 10000,
+  });
 
-// api.interceptors.request.use(
-//   (config) => {
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
+  // api.interceptors.request.use(
+  //   (config) => {
+  //     return config;
+  //   },
+  //   (error) => {
+  //     return Promise.reject(error);
+  //   }
+  // );
+  auth = {
+    login,
+    signup,
+  };
+}
 
-export default { auth };
+export const api = new Api();
