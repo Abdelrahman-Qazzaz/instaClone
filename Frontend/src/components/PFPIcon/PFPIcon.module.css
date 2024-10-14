@@ -1,25 +1,26 @@
-.container {
+/* .container {
   display: flex;
   justify-content: center;
   align-items: center;
 
   border-radius: 50%;
-}
+} */
 
-.profilePicture {
-  width: 97%;
-  height: 97%;
+.storyIcon {
+  background-image: linear-gradient(45deg, #ffd366, #ff6903, #ec0075);
   border-radius: 50%;
   overflow: hidden;
-  position: relative;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
 }
+.innerStoryIcon {
+  width: 95%;
+  height: 95%;
+  border-radius: 50%;
+  overflow: hidden;
+}
 
-.profilePicture img {
-  width: 100%;
-  height: 100%;
+.innerStoryIcon img {
   object-fit: cover;
 }

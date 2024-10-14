@@ -1,5 +1,6 @@
 import axios from "axios";
 import { login, signup } from "./Auth";
+import { getByUserId } from "./Stories";
 
 class Api {
   request = axios.create({
@@ -18,6 +19,10 @@ class Api {
   auth = {
     login,
     signup,
+  };
+
+  stories = {
+    getByUserId,
   };
 }
 

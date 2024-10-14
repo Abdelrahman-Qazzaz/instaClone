@@ -10,8 +10,6 @@ export const usersRouter = express.Router();
 
 usersRouter.get("/", usersController.get);
 
-usersRouter.get("/:user_id/stories", usersController.getStories);
-
 usersRouter.get("/:user_id", usersController.getById);
 
 usersRouter.patch(

@@ -7,6 +7,7 @@ import { httpResponses } from "src/utils/HTTPResponses.ts";
 import { stringToNumber } from "src/utils/convertToNumber.ts";
 import { CreateStoryDTO } from "src/dto/stories/dto.stories.create.ts";
 import { storiesRepo } from "src/repositories/stories/repo.stories.ts";
+import { GetStoriesDTO } from "src/dto/stories/dto.stories.where.ts";
 
 class StoriesController implements ICRUDController {
   take: 10;
@@ -78,6 +79,17 @@ class StoriesController implements ICRUDController {
     if (error) return httpResponses.InternalServerError(res);
 
     return httpResponses.SuccessResponse(res, { story });
+  };
+
+  getByUserId: ReqHandler = async (req, res) => {
+    const [typeError, user_id] = stringToNumber(req.params.user_id);
+    if (typeError) return httpResponses.BadRequest(res, { typeError });
+
+    const where: GetStoriesDTO = { user_id };
+    const [error, stories] = await storiesRepo.get({ where });
+    if (error) return httpResponses.InternalServerError(res);
+
+    return httpResponses.SuccessResponse(res, { stories });
   };
 }
 

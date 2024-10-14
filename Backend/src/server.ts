@@ -10,6 +10,7 @@ import { authRouter } from "./routers/router.auth.ts";
 import { usersRouter } from "./routers/router.users.ts";
 import { postsRouter } from "./routers/posts/router.posts.ts";
 import { chatsRouter } from "./routers/chats/router.chats.ts";
+import { storiesRouter } from "./routers/router.stories.ts";
 
 const app = express();
 const server = http.createServer(app);

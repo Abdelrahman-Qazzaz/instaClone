@@ -9,7 +9,6 @@ import { ICRUDController } from "./ICRUDController.ts";
 import { GetUserDTO } from "src/dto/users/dto.users.get.ts";
 import { Pagination } from "src/types/Pagination.ts";
 import { storiesRepo } from "src/repositories/stories/repo.stories.ts";
-import { GetStoriesDTO } from "src/dto/stories/dto.stories.where.ts";
 
 class UsersController implements ICRUDController {
   take: 10;
@@ -93,17 +92,6 @@ class UsersController implements ICRUDController {
     if (error) return httpResponses.InternalServerError(res);
 
     return httpResponses.SuccessResponse(res, { user });
-  };
-
-  getStories: ReqHandler = async (req, res) => {
-    const [typeError, user_id] = stringToNumber(req.params.user_id);
-    if (typeError) return httpResponses.BadRequest(res, { typeError });
-
-    const where: GetStoriesDTO = { user_id };
-    const [error, stories] = await storiesRepo.get({ where });
-    if (error) return httpResponses.InternalServerError(res);
-
-    return httpResponses.SuccessResponse(res, { stories });
   };
 }
 

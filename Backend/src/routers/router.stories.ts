@@ -9,6 +9,8 @@ export const upload = multer({ dest: "uploads/" });
 
 export const storiesRouter = express.Router();
 
+storiesRouter.get("/:user_id", storiesController.getByUserId);
+
 storiesRouter.post(
   "/",
   checkAuth,
