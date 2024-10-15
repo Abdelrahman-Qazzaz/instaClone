@@ -1,5 +1,5 @@
 import { api } from "../../api/api";
-import { ViewStoryOrVisitProfilePanel } from "../../panels/ViewStoryOrVisitProfilePanel";
+import { usePanelsStore } from "../../store";
 import styles from "./PFPIcon.module.css";
 import { useNavigate } from "react-router-dom";
 
@@ -11,12 +11,17 @@ export const PFPIcon = ({
   user: { id: number; pfp_url: string };
 }) => {
   const navigate = useNavigate();
+
+  const toggleviewStoryOrVisitProfilePanel = usePanelsStore(
+    (state) => state.viewStoryOrVisitProfilePanel.toggle
+  );
+
   async function handleClick() {
-    // const [error, stories] = await api.stories.getByUserId(user.id);
-    // const hasStories = stories.length ? true : false;
+    const [error, stories] = await api.stories.getByUserId(user.id);
+    const hasStories = stories && stories.length ? true : false;
     // if (error || !hasStories) return navigate(`/users/${user.id}`);
 
-    return <ViewStoryOrVisitProfilePanel />;
+    toggleviewStoryOrVisitProfilePanel();
   }
 
   return (

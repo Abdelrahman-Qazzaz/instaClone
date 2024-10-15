@@ -12,6 +12,7 @@ export function FixedPosPage({
       position: "fixed",
       height: "100vh",
       width: "100vw",
+      zIndex: 1,
     };
     if (center) {
       temp.display = "flex";
