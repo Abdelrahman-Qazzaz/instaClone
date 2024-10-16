@@ -12,8 +12,8 @@ export const PFPIcon = ({
 }) => {
   const navigate = useNavigate();
 
-  const toggleviewStoryOrVisitProfilePanel = usePanelsStore(
-    (state) => state.viewStoryOrVisitProfilePanel.toggle
+  const showViewStoryOrVisitProfilePanel = usePanelsStore(
+    (state) => state.viewStoryOrVisitProfilePanel.show
   );
 
   async function handleClick() {
@@ -21,7 +21,7 @@ export const PFPIcon = ({
     const hasStories = stories && stories.length ? true : false;
     // if (error || !hasStories) return navigate(`/users/${user.id}`);
 
-    toggleviewStoryOrVisitProfilePanel();
+    showViewStoryOrVisitProfilePanel();
   }
 
   return (

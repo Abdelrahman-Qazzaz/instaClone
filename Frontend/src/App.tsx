@@ -5,7 +5,6 @@ import { Feed } from "./pages/Feed/Feed";
 import { usePanelsStore } from "./store";
 import { ViewStoryOrVisitProfilePanel } from "./panels/ViewStoryOrVisitProfilePanel/ViewStoryOrVisitProfilePanel";
 import { BlackBackground } from "./assets/BlackBackground";
-import { useMemo } from "react";
 
 function App() {
   const { viewStoryOrVisitProfilePanel } = usePanelsStore((store) => store);

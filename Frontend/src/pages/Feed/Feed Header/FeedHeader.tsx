@@ -1,5 +1,5 @@
 import { PFPIcon } from "../../../components/PFPIcon/PFPIcon";
-import { mockUser } from "../../../dev/MockUser";
+import { mockUser } from "../../../dev/mockUser";
 import styles from "./FeedHeader.module.css";
 export const FeedHeader = () => {
   return (
