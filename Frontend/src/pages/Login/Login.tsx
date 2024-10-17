@@ -1,9 +1,8 @@
-import { FixedPosPage } from "../../assets/FixedPosPage";
+import { FixedPosPage } from "../../assets/FixedPosPage/FixedPosPage";
 import { LoginCarousel } from "./components/LoginCarousel/LoginCarousel";
 import { LoginForm } from "./components/LoginForm/LoginForm";
-import { DisplayMDup } from "../../assets/DisplayMDup";
-import { Iphone } from "../../components/Iphone";
-import styles from "./Login.module.css";
+import { DisplayMDup } from "../../assets/MD breakpoint/DisplayMDup";
+import { Iphone } from "../../components/IPhone/Iphone";
 
 export const Login = () => {
   return (

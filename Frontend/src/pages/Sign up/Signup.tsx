@@ -1,4 +1,4 @@
-import { FixedPosPage } from "../../assets/FixedPosPage";
+import { FixedPosPage } from "../../assets/FixedPosPage/FixedPosPage";
 
 import { SignupForm } from "./SignupForm/SignupForm";
 

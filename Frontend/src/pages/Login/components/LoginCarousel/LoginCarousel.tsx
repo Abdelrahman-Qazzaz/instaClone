@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
-import { Iphone } from "../../../../components/Iphone";
 
+//to do: replace these pics with ones from instaClone... also make sure to take theme state into consideration by using window.matchMedia
 const sources: string[] = [
   "../../../../../public/chatpic.png",
   "../../../../../public/girlcatpic.png",
 ];
 export const LoginCarousel = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [_, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(nextImage, 3000);

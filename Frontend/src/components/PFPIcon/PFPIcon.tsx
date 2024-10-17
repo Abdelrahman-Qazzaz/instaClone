@@ -1,5 +1,5 @@
 import { api } from "../../api/api";
-import { usePanelsStore } from "../../store";
+import { usePanelsStore } from "../../store/usePanelsStore";
 import styles from "./PFPIcon.module.css";
 import { useNavigate } from "react-router-dom";
 

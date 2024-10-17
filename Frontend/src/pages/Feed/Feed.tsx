@@ -1,4 +1,4 @@
-import { FixedPosPage } from "../../assets/FixedPosPage";
+import { FixedPosPage } from "../../assets/FixedPosPage/FixedPosPage";
 
 import { FeedHeader } from "./Feed Header/FeedHeader";
 

@@ -1,40 +1,44 @@
 import React from "react";
-import { FixedPosPage } from "../assets/FixedPosPage";
 import { Button } from "react-bootstrap";
-import { XIcon } from "../icons/XIcon";
-import { usePanelsStore } from "../store";
+
+import { usePanelsStore } from "../store/usePanelsStore";
+import styles from "./Panel.module.css";
 
 export type ButtonsProps = { text: string; onClick: React.MouseEventHandler }[];
 export const Panel = ({ buttonsProps }: { buttonsProps: ButtonsProps }) => {
   const panelsStore = usePanelsStore((state) => state);
   return (
-    <FixedPosPage center={true}>
+    <div
+      style={{
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        zIndex: 3,
+      }}
+    >
       <div
         style={{ width: "350px" }}
-        className="border bg-white pb-3 rounded shadow"
+        className={`${styles.container} rounded shadow`}
       >
-        <div className="d-flex justify-content-end">
-          <Button
-            onClick={panelsStore.closeAll}
-            className="bg-transparent border-0 text-dark p-2"
-            style={{ width: "fit-content" }}
-          >
-            <XIcon width="1.5rem" />
-          </Button>
-        </div>
-
-        <div className="mt-3">
+        <div>
           {buttonsProps.map((buttonProps, index) => (
             <Button
               key={index}
-              className="text-center bg-transparent border-0 text-dark w-100 text-start mb-2"
+              className={`${styles.button} text-center bg-transparent w-100 text-start `}
               onClick={buttonProps.onClick}
             >
               {buttonProps.text}
             </Button>
           ))}
+          <Button
+            className={`${styles.button} text-center bg-transparent w-100 text-start`}
+            onClick={panelsStore.closeAll}
+          >
+            Cancel
+          </Button>
         </div>
       </div>
-    </FixedPosPage>
+    </div>
   );
 };

@@ -1,5 +1,7 @@
 import { ReactNode, useMemo } from "react";
 
+import styles from "./FixedPosPage.module.css";
+
 export function FixedPosPage({
   children,
   center,
@@ -8,19 +10,19 @@ export function FixedPosPage({
   center?: boolean;
 }) {
   const style = useMemo(() => {
-    const temp: React.CSSProperties = {
-      position: "fixed",
-      height: "100vh",
-      width: "100vw",
-      zIndex: 1,
-    };
+    const temp: React.CSSProperties = {};
     if (center) {
       temp.display = "flex";
       temp.justifyContent = "center";
       temp.alignItems = "center";
     }
+
     return temp;
   }, []);
 
-  return <div style={style}>{children}</div>;
+  return (
+    <div style={style} className={`${styles.container}`}>
+      {children}
+    </div>
+  );
 }

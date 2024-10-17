@@ -1,0 +1,21 @@
+:root {
+  --primary-fixedpospage-color: white;
+
+  --primary-color: #fff;
+  --secondary-color: rgb(38, 38, 38);
+
+  --primary-border-color: #eeeeee;
+  /* --secondary-border-color: #eeeeee; */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-fixedpospage-color: black;
+
+    --primary-color: rgb(38, 38, 38);
+    --secondary-color: #fff;
+
+    --primary-border-color: #3c3d37;
+    /* --secondary-border-color: #3c3d37; */
+  }
+}

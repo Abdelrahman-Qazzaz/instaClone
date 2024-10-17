@@ -1,0 +1,4 @@
+.container {
+  border: 12px solid var(--secondary-color);
+  background-color: var(--secondary-color);
+}

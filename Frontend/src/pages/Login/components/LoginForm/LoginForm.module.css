@@ -1,18 +1,18 @@
 .loginFormContainer {
   width: 350px;
-  background: #fff;
-  border: 1px solid #dbdbdb;
   border-radius: 10px;
   padding: 2rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin: auto; /* Centering the form */
+  margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  border: 2px solid var(--secondary-border-color);
 }
 
 .instaCloneTextLogo {
-  color: #333;
+  color: var(--secondary-color);
   font-family: "Pacifico", cursive;
   font-weight: 400;
   font-size: 2.5rem;
@@ -23,26 +23,25 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1rem; /* Space between inputs */
+  gap: 1rem;
 }
 
 input {
   width: 100%;
-  padding: 8px; /* Reduced padding for shorter height */
+  padding: 8px;
   border: 1px solid #dbdbdb;
   border-radius: 5px;
-  font-size: 0.9rem; /* Slightly smaller font size */
-  transition: border-color 0.3s;
+  font-size: 0.9rem;
 }
 
 input:focus {
   outline: none;
-  border-color: #0095f6; /* Change border color on focus */
+  border-color: #0095f6;
 }
 
 .loginButton {
   width: 100%;
-  padding: 10px; /* Adjusted padding for consistency */
+  padding: 10px;
   background-color: #0095f6;
   color: white;
   border: none;
@@ -53,7 +52,7 @@ input:focus {
 }
 
 .loginButton:hover {
-  background-color: #007bb5; /* Darker shade on hover */
+  background-color: #007bb5;
 }
 
 .divider {
