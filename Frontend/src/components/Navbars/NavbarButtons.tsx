@@ -9,8 +9,10 @@ import { HeartIcon } from "../../icons/icon.Heart";
 import { PlusInsideSquareIcon } from "../../icons/icon.PlusInsideSquare";
 import { ListIcon } from "../../icons/icon.List";
 import { ReelsIcon } from "../../icons/icon.Reels";
+import { PFPIcon } from "@/components/PFPIcon/PFPIcon";
 
-// const pfpIcon = () => PFPIcon({ width: "1rem", user: { id: 1, pfp_url: "" } });
+const pfpIcon = () =>
+  PFPIcon({ width: "1rem", user: { id: 1, pfp_url: "/girlcatpic.png" } });
 const InstaCloneNavbarButton = () => {
   return (
     <Button className={styles.navbarButton}>
@@ -92,7 +94,7 @@ export const SideNavbarButtons: JSXElementFunc[] = [
   MessengerNavbarButton,
   HeartNavbarButton,
   PlusInsideSquareNavbarButton,
-  // pfpIcon,
+  pfpIcon,
   ListNavbarButton,
 ];
 

@@ -7,7 +7,7 @@ export const PFPIcon = ({
   width,
   user,
 }: {
-  width: number | string;
+  width?: number | string;
   user: { id: number; pfp_url: string };
 }) => {
   const navigate = useNavigate();
