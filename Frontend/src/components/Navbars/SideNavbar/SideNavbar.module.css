@@ -6,19 +6,15 @@
   padding: 0 0.5rem 0 0.5rem;
   height: 100vh;
   border-right: 1px solid var(--primary-border-color);
-  background-color: var(--primary-color);
+  background-color: var(--primary-fixedpospage-color);
   z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-around;
 }
 
-.container:first-child {
-  flex-grow: 1;
-  border: 2px solid red;
-}
-
-.container:last-child {
-  flex-grow: 1;
-  border: 2px solid red;
+.container i {
+  display: block;
+  font-size: 1.2rem;
 }

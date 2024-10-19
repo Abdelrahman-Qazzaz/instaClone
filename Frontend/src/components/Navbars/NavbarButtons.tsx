@@ -1,27 +1,110 @@
 import { Button } from "react-bootstrap";
-import { HomeIcon } from "../../icons/Home Icons/icon.Home";
+import { HomeIcon } from "../../icons/icon.Home";
 import styles from "./NavbarButtons.module.css";
-import { SearchIcon } from "../../icons/Search Icon/SearchIcon";
-export const InstaCloneNavbarButton = () => {
-  return <div>InstaCloneNavbarButton</div>;
-};
+import { SearchIcon } from "../../icons/icon.Search";
+import { ExploreIcon } from "../../icons/icon.Explore";
+import { InstaCloneIcon } from "../../icons/Icon.InstaClone";
+import { MessengerIcon } from "../../icons/icon.Messenger";
+import { HeartIcon } from "../../icons/icon.Heart";
+import { PlusInsideSquareIcon } from "../../icons/icon.PlusInsideSquare";
+import { ListIcon } from "../../icons/icon.List";
+import { ReelsIcon } from "../../icons/icon.Reels";
 
-export const HomeNavbarButton = () => {
+// const pfpIcon = () => PFPIcon({ width: "1rem", user: { id: 1, pfp_url: "" } });
+const InstaCloneNavbarButton = () => {
   return (
     <Button className={styles.navbarButton}>
-      <HomeIcon width={"1.5rem"} />
+      <InstaCloneIcon />
     </Button>
   );
 };
 
-export const SearchNavbarButton = () => {
+const HomeNavbarButton = () => {
   return (
     <Button className={styles.navbarButton}>
-      <SearchIcon width={"1.5rem"} />
+      <HomeIcon />
     </Button>
   );
 };
 
-export const ExploreNavbarButton = () => {
-  return <div>InstaCloneNavbarButton</div>;
+const SearchNavbarButton = () => {
+  return (
+    <Button className={styles.navbarButton}>
+      <SearchIcon />
+    </Button>
+  );
 };
+
+const ExploreNavbarButton = () => {
+  return (
+    <Button className={styles.navbarButton}>
+      <ExploreIcon />
+    </Button>
+  );
+};
+
+const ReelsNavbarButton = () => {
+  return (
+    <Button className={styles.navbarButton}>
+      <ReelsIcon />
+    </Button>
+  );
+};
+
+const MessengerNavbarButton = () => {
+  return (
+    <Button className={styles.navbarButton}>
+      <MessengerIcon />
+    </Button>
+  );
+};
+
+const HeartNavbarButton = () => {
+  return (
+    <Button className={styles.navbarButton}>
+      <HeartIcon />
+    </Button>
+  );
+};
+
+const PlusInsideSquareNavbarButton = () => {
+  return (
+    <Button className={styles.navbarButton}>
+      <PlusInsideSquareIcon />
+    </Button>
+  );
+};
+
+const ListNavbarButton = () => {
+  return (
+    <Button className={styles.navbarButton}>
+      <ListIcon />
+    </Button>
+  );
+};
+type JSXElementFunc = () => JSX.Element;
+export const SideNavbarButtons: JSXElementFunc[] = [
+  InstaCloneNavbarButton,
+  HomeNavbarButton,
+  SearchNavbarButton,
+  ExploreNavbarButton,
+  ReelsNavbarButton,
+  MessengerNavbarButton,
+  HeartNavbarButton,
+  PlusInsideSquareNavbarButton,
+  // pfpIcon,
+  ListNavbarButton,
+];
+
+export const TopNavbarButtons: JSXElementFunc[] = [
+  InstaCloneNavbarButton,
+  HeartNavbarButton,
+];
+
+export const BottomNavbarButtons: JSXElementFunc[] = [
+  HomeNavbarButton,
+  ExploreNavbarButton,
+  ReelsNavbarButton,
+  PlusInsideSquareNavbarButton,
+  MessengerNavbarButton,
+];

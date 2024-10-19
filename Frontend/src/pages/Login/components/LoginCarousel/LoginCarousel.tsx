@@ -2,10 +2,7 @@ import { useEffect, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 
 //to do: replace these pics with ones from instaClone... also make sure to take theme state into consideration by using window.matchMedia
-const sources: string[] = [
-  "../../../../../public/chatpic.png",
-  "../../../../../public/girlcatpic.png",
-];
+const sources: string[] = ["/chatpic.png", "/girlcatpic.png"];
 export const LoginCarousel = () => {
   const [_, setCurrentIndex] = useState(0);
 
