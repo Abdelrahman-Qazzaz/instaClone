@@ -8,10 +8,11 @@ import { BlackBackground } from "./assets/BlackBackground";
 import { DisplayMDup } from "./assets/MD breakpoint/DisplayMDup";
 import { DisplayBelowMD } from "./assets/MD breakpoint/DisplayBelowMD";
 import "./global.css";
-import styles from "./app.module.css";
+
 import { SideNavbar } from "./components/Navbars/SideNavbar/SideNavbar";
-import { BottomNavBar } from "@/components/Navbars/BottomNavbar/BottomNavbar";
-import { TopNavBar } from "@/components/Navbars/TopNavbar/TopNavbar";
+
+import { TopNavBar } from "@/components/Navbars/Vertical Navbars/VerticalNavbars";
+import { BottomNavBar } from "@/components/Navbars/Vertical Navbars/VerticalNavbars";
 
 function App() {
   const { viewStoryOrVisitProfilePanel } = usePanelsStore((store) => store);

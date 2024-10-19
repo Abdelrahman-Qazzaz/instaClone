@@ -1,0 +1,23 @@
+.navbar {
+  position: fixed;
+  width: 100vw;
+  height: fit-content;
+  padding: 0 0.5rem 0 0.5rem;
+  background-color: var(--primary-fixedpospage-color);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.navbar.topNavbar {
+  top: 0;
+}
+
+.navbar.bottomNavbar {
+  bottom: 0;
+}
+.navbar i {
+  display: block;
+  font-size: 1.2rem;
+}

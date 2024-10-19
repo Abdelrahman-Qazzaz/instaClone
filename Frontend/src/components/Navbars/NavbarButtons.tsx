@@ -9,13 +9,22 @@ import { HeartIcon } from "../../icons/icon.Heart";
 import { PlusInsideSquareIcon } from "../../icons/icon.PlusInsideSquare";
 import { ListIcon } from "../../icons/icon.List";
 import { ReelsIcon } from "../../icons/icon.Reels";
-import { PFPIcon } from "@/components/PFPIcon/PFPIcon";
 
-const pfpIcon = () =>
-  PFPIcon({ width: "1rem", user: { id: 1, pfp_url: "/girlcatpic.png" } });
-const InstaCloneNavbarButton = () => {
+import { useNavigate } from "react-router-dom";
+import { mockUser } from "@/dev/mockUser";
+
+const NavBarPFPIcon = () => {
   return (
-    <Button className={styles.navbarButton}>
+    <i>
+      <img src={mockUser.pfp_url} alt="Profile" />
+    </i>
+  );
+};
+
+const InstaCloneNavbarButton = () => {
+  const navigate = useNavigate();
+  return (
+    <Button className={styles.navbarButton} onClick={() => navigate("/")}>
       <InstaCloneIcon />
     </Button>
   );
@@ -84,6 +93,19 @@ const ListNavbarButton = () => {
     </Button>
   );
 };
+
+export const PFPNavbarButton = () => {
+  const navigate = useNavigate();
+  return (
+    <Button
+      className={styles.navbarButton}
+      onClick={() => navigate(`/users/${mockUser.id}`)}
+    >
+      {NavBarPFPIcon()}
+    </Button>
+  );
+};
+
 type JSXElementFunc = () => JSX.Element;
 export const SideNavbarButtons: JSXElementFunc[] = [
   InstaCloneNavbarButton,
@@ -94,7 +116,7 @@ export const SideNavbarButtons: JSXElementFunc[] = [
   MessengerNavbarButton,
   HeartNavbarButton,
   PlusInsideSquareNavbarButton,
-  pfpIcon,
+  PFPNavbarButton,
   ListNavbarButton,
 ];
 
