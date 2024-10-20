@@ -1,3 +1,4 @@
+import styles from "./icon.module.css";
 export const InstaCloneIcon = () => {
-  return <i className="bi bi-instagram"></i>;
+  return <i className={`${styles.icon} bi bi-instagram`}></i>;
 };

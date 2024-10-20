@@ -1,6 +1,7 @@
 import axios from "axios";
 import { login, signup } from "./Auth";
 import { getByUserId } from "./Stories";
+import { getByUsername } from "@/api/Users";
 
 class Api {
   request = axios.create({
@@ -16,9 +17,14 @@ class Api {
   //     return Promise.reject(error);
   //   }
   // );
+
   auth = {
     login,
     signup,
+  };
+
+  users = {
+    getByUsername,
   };
 
   stories = {

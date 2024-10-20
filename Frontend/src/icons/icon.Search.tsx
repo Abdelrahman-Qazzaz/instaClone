@@ -1,3 +1,5 @@
+import styles from "./icon.module.css";
+
 export const SearchIcon = () => {
-  return <i className="bi bi-search"></i>;
+  return <i className={`${styles.icon} bi bi-search`}></i>;
 };

@@ -5,6 +5,9 @@
   padding: 0 0.5rem 0 0.5rem;
   background-color: var(--primary-fixedpospage-color);
   z-index: 2;
+}
+
+.flex {
   display: flex;
   align-items: center;
   justify-content: space-around;

@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  background-color: var(--primary-color) !important;
+  padding: 0 0.5rem 0 0.5rem;
+  border-radius: 0.4rem;
+}
+
+.searchBar {
+  background-color: transparent !important;
+  color: var(--secondary-color) !important;
+  border: none !important;
+}
+
+.searchBar::placeholder {
+  color: var(--primary-border-color) !important;
+}
+
+.searchBar:focus {
+  border: none !important;
+  background-color: transparent !important;
+  outline: none;
+}
+
+.searchBar::-webkit-search-cancel-button {
+  display: none; /*  Chrome, Safari */
+}
+
+.searchBar::-ms-clear {
+  display: none; /*  Internet Explorer */
+}

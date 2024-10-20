@@ -12,33 +12,35 @@ import { ReelsIcon } from "../../icons/icon.Reels";
 
 import { useNavigate } from "react-router-dom";
 import { mockUser } from "@/dev/mockUser";
+import { useCustomNavigate } from "@/hooks/useCustomNavigate";
 
-const NavBarPFPIcon = () => {
+export const NavBarPFPIcon = () => {
   return (
-    <i>
+    <i style={{ borderRadius: "50%", overflow: "hidden" }}>
       <img src={mockUser.pfp_url} alt="Profile" />
     </i>
   );
 };
 
-const InstaCloneNavbarButton = () => {
-  const navigate = useNavigate();
+export const InstaCloneNavbarButton = () => {
+  const customNav = useCustomNavigate();
   return (
-    <Button className={styles.navbarButton} onClick={() => navigate("/")}>
+    <Button className={styles.navbarButton} onClick={customNav.goToRoot}>
       <InstaCloneIcon />
     </Button>
   );
 };
 
-const HomeNavbarButton = () => {
+export const HomeNavbarButton = () => {
+  const customNav = useCustomNavigate();
   return (
-    <Button className={styles.navbarButton}>
+    <Button className={styles.navbarButton} onClick={customNav.goToRoot}>
       <HomeIcon />
     </Button>
   );
 };
 
-const SearchNavbarButton = () => {
+export const SearchNavbarButton = () => {
   return (
     <Button className={styles.navbarButton}>
       <SearchIcon />
@@ -46,7 +48,7 @@ const SearchNavbarButton = () => {
   );
 };
 
-const ExploreNavbarButton = () => {
+export const ExploreNavbarButton = () => {
   return (
     <Button className={styles.navbarButton}>
       <ExploreIcon />
@@ -54,7 +56,7 @@ const ExploreNavbarButton = () => {
   );
 };
 
-const ReelsNavbarButton = () => {
+export const ReelsNavbarButton = () => {
   return (
     <Button className={styles.navbarButton}>
       <ReelsIcon />
@@ -62,7 +64,7 @@ const ReelsNavbarButton = () => {
   );
 };
 
-const MessengerNavbarButton = () => {
+export const MessengerNavbarButton = () => {
   return (
     <Button className={styles.navbarButton}>
       <MessengerIcon />
@@ -70,7 +72,7 @@ const MessengerNavbarButton = () => {
   );
 };
 
-const HeartNavbarButton = () => {
+export const HeartNavbarButton = () => {
   return (
     <Button className={styles.navbarButton}>
       <HeartIcon />
@@ -78,7 +80,7 @@ const HeartNavbarButton = () => {
   );
 };
 
-const PlusInsideSquareNavbarButton = () => {
+export const PlusInsideSquareNavbarButton = () => {
   return (
     <Button className={styles.navbarButton}>
       <PlusInsideSquareIcon />
@@ -86,7 +88,7 @@ const PlusInsideSquareNavbarButton = () => {
   );
 };
 
-const ListNavbarButton = () => {
+export const ListNavbarButton = () => {
   return (
     <Button className={styles.navbarButton}>
       <ListIcon />
@@ -105,30 +107,3 @@ export const PFPNavbarButton = () => {
     </Button>
   );
 };
-
-type JSXElementFunc = () => JSX.Element;
-export const SideNavbarButtons: JSXElementFunc[] = [
-  InstaCloneNavbarButton,
-  HomeNavbarButton,
-  SearchNavbarButton,
-  ExploreNavbarButton,
-  ReelsNavbarButton,
-  MessengerNavbarButton,
-  HeartNavbarButton,
-  PlusInsideSquareNavbarButton,
-  PFPNavbarButton,
-  ListNavbarButton,
-];
-
-export const TopNavbarButtons: JSXElementFunc[] = [
-  InstaCloneNavbarButton,
-  HeartNavbarButton,
-];
-
-export const BottomNavbarButtons: JSXElementFunc[] = [
-  HomeNavbarButton,
-  ExploreNavbarButton,
-  ReelsNavbarButton,
-  PlusInsideSquareNavbarButton,
-  MessengerNavbarButton,
-];
