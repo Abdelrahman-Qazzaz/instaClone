@@ -13,6 +13,7 @@ import { ReelsIcon } from "../../icons/icon.Reels";
 import { useNavigate } from "react-router-dom";
 import { mockUser } from "@/dev/mockUser";
 import { useCustomNavigate } from "@/hooks/useCustomNavigate";
+import { InstaCloneTextLogo } from "@/components/InstaCloneTextLogo/InstaCloneTextLogo";
 
 export const NavBarPFPIcon = () => {
   return (
@@ -31,6 +32,15 @@ export const InstaCloneNavbarButton = () => {
   );
 };
 
+export const InstaCloneTextLogoButton = () => {
+  const customNav = useCustomNavigate();
+  return (
+    <Button className={styles.navbarButton} onClick={customNav.goToRoot}>
+      <InstaCloneTextLogo fontSize="1.4rem" />
+    </Button>
+  );
+};
+
 export const HomeNavbarButton = () => {
   const customNav = useCustomNavigate();
   return (
@@ -40,9 +50,13 @@ export const HomeNavbarButton = () => {
   );
 };
 
-export const SearchNavbarButton = () => {
+export const SearchNavbarButton = ({
+  onClick,
+}: {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}) => {
   return (
-    <Button className={styles.navbarButton}>
+    <Button onClick={onClick} className={styles.navbarButton}>
       <SearchIcon />
     </Button>
   );

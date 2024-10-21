@@ -12,6 +12,19 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  border: 2px solid red;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    align-items: start;
+  }
+}
+
+.container div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container i {

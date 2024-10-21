@@ -25,10 +25,12 @@ export const TopNavBar = () => {
           <SearchBar setSearchResults={setSearchResults} />
           <HeartNavbarButton />
         </div>
-        <div className="w-100 d-flex justify-content-center">
-          <UserTab user={mockUser} />
-          {/* {searchResults.length &&
-        searchResults.map((elem, idx) => <UserTab key={idx} user={elem} />)} */}
+        <div className="w-100 d-flex flex-column gap-1 align-items-center">
+          {searchResults.length
+            ? searchResults.map((elem, idx) => (
+                <UserTab key={idx} user={elem} />
+              ))
+            : null}
         </div>
       </div>
     </>

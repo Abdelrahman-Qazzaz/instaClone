@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import { PasswordInput } from "../../../../components/Password Input/PasswordInput";
 import { api } from "../../../../api/api";
 import { Link } from "react-router-dom";
+import { InstaCloneTextLogo } from "@/components/InstaCloneTextLogo/InstaCloneTextLogo";
 
 export const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -25,7 +26,10 @@ export const LoginForm = () => {
 
   return (
     <div className={styles.loginFormContainer}>
-      <h1 className={styles.instaCloneTextLogo}>InstaClone</h1>
+      <div className="mb-3">
+        <InstaCloneTextLogo />
+      </div>
+
       <form onSubmit={handleSubmit} className={styles.loginForm}>
         <input
           name="email"

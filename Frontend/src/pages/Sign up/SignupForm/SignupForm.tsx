@@ -4,6 +4,7 @@ import styles from "./SignupForm.module.css";
 import { PasswordInput } from "../../../components/Password Input/PasswordInput";
 import { Link } from "react-router-dom";
 import { api } from "../../../api/api";
+import { InstaCloneTextLogo } from "@/components/InstaCloneTextLogo/InstaCloneTextLogo";
 
 export const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -24,7 +25,9 @@ export const SignupForm = () => {
   };
   return (
     <div className={styles.signupFormContainer}>
-      <h1 className={styles.instaCloneTextLogo}>InstaClone</h1>
+      <div className="mb-3">
+        <InstaCloneTextLogo />
+      </div>
       <form onSubmit={handleSubmit}>
         <div className={styles.inputGroup}>
           <input
