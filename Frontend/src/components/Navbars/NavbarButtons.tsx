@@ -63,24 +63,27 @@ export const SearchNavbarButton = ({
 };
 
 export const ExploreNavbarButton = () => {
+  const customNav = useCustomNavigate();
   return (
-    <Button className={styles.navbarButton}>
+    <Button onClick={customNav.goToExplore} className={styles.navbarButton}>
       <ExploreIcon />
     </Button>
   );
 };
 
 export const ReelsNavbarButton = () => {
+  const customNav = useCustomNavigate();
   return (
-    <Button className={styles.navbarButton}>
+    <Button onClick={customNav.goToReels} className={styles.navbarButton}>
       <ReelsIcon />
     </Button>
   );
 };
 
 export const MessengerNavbarButton = () => {
+  const customNav = useCustomNavigate();
   return (
-    <Button className={styles.navbarButton}>
+    <Button onClick={customNav.goToChats} className={styles.navbarButton}>
       <MessengerIcon />
     </Button>
   );

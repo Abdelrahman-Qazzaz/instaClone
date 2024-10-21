@@ -12,5 +12,16 @@ export const useCustomNavigate = () => {
     return goTo(`/users/${id}`);
   }
 
-  return { goToRoot, goToUserId };
+  function goToExplore() {
+    return goTo(`/explore`);
+  }
+
+  function goToReels() {
+    return goTo(`/reels`);
+  }
+
+  function goToChats() {
+    return goTo(`/chats`);
+  }
+  return { goToRoot, goToUserId, goToExplore, goToReels, goToChats };
 };
