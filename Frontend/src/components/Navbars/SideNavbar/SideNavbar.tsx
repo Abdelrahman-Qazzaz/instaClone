@@ -93,18 +93,22 @@ export const SideNavbar = () => {
         </div>
       </div>
 
-      <SlideInLeftToRight show={showExtension}>
-        <div className={styles.navbarExtension}>
-          <div className="my-3">
-            <h5 className={`${styles.text} mt-2 mb-4`}>Search</h5>
-            <SearchBar setSearchResults={setSearchResults} />
-          </div>
-          <div className="w-100 border-top">
-            <div className={`${styles.text} mt-3`}>Recent</div>
-            <div></div>
-          </div>
-        </div>
-      </SlideInLeftToRight>
+      <AnimatePresence>
+        {showExtension && (
+          <SlideInLeftToRight>
+            <div className={styles.navbarExtension}>
+              <div className="my-3">
+                <h5 className={`${styles.text} mt-2 mb-4`}>Search</h5>
+                <SearchBar setSearchResults={setSearchResults} />
+              </div>
+              <div className="w-100 border-top">
+                <div className={`${styles.text} mt-3`}>Recent</div>
+                <div></div>
+              </div>
+            </div>
+          </SlideInLeftToRight>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
