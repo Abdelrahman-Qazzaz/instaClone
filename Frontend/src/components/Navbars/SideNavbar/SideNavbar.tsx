@@ -15,12 +15,15 @@ import {
 } from "../NavbarButtons";
 import { DisplayXLUp } from "@/assets/XL breakpoint/DisplayXLup";
 import { DisplayBelowXL } from "@/assets/XL breakpoint/DisplayBelowXL";
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { SearchBar } from "@/components/SearchBar/SearchBar";
+import { AnimatePresence, motion } from "framer-motion";
+import { SlideInLeftToRight } from "@/assets/animations/SlideInComponents";
 
 export const SideNavbar = () => {
   const [showExtension, setShowExtension] = useState<boolean>(false);
   const [searchResults, setSearchResults] = useState<any[]>([]);
+
   return (
     <div className={styles.container}>
       <div className={styles.navbar}>
@@ -89,18 +92,22 @@ export const SideNavbar = () => {
           />
         </div>
       </div>
-      {showExtension && (
-        <div className={styles.navbarExtension}>
-          <div className="my-3">
-            <h5 className={`${styles.text} mt-2 mb-4`}>Search</h5>
-            <SearchBar setSearchResults={setSearchResults} />
-          </div>
-          <div className="w-100 border-top">
-            <div className={`${styles.text} mt-3`}>Recent</div>
-            <div></div>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {showExtension && (
+          <SlideInLeftToRight>
+            <div className={styles.navbarExtension}>
+              <div className="my-3">
+                <h5 className={`${styles.text} mt-2 mb-4`}>Search</h5>
+                <SearchBar setSearchResults={setSearchResults} />
+              </div>
+              <div className="w-100 border-top">
+                <div className={`${styles.text} mt-3`}>Recent</div>
+                <div></div>
+              </div>
+            </div>
+          </SlideInLeftToRight>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
