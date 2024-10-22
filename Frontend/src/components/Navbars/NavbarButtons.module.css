@@ -3,9 +3,32 @@
 }
 
 .navbarButton {
+  flex-grow: 1;
+  gap: 1rem;
+  display: flex !important;
+  align-items: center;
   width: fit-content;
-  background-color: transparent !important;
+
   border: none !important;
+  color: var(--secondary-color) !important;
+}
+
+@media (max-width: 767px) {
+  .navbarButton {
+    justify-content: center;
+  }
+}
+
+.navbarButton:not(:hover) {
+  background-color: transparent !important;
+}
+
+.navbarButton:hover {
+  background-color: var(--primary-buttonHover-color) !important;
+}
+
+.navbarButton div {
+  width: fit-content;
 }
 
 .navbarButton i {

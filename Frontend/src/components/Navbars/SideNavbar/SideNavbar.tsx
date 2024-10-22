@@ -40,44 +40,53 @@ export const SideNavbar = () => {
           )}
         </div>
         <div>
-          <HomeNavbarButton />
-          {!showExtension && <DisplayXLUp>Home</DisplayXLUp>}
+          <HomeNavbarButton
+            children={!showExtension && <DisplayXLUp>Home</DisplayXLUp>}
+          />
         </div>
         <div>
           <SearchNavbarButton
             onClick={() => setShowExtension((prev) => !prev)}
+            children={!showExtension && <DisplayXLUp>Search</DisplayXLUp>}
           />
-          {!showExtension && <DisplayXLUp>Search</DisplayXLUp>}
         </div>
         <div>
-          <ExploreNavbarButton />
-
-          {!showExtension && <DisplayXLUp>Explore</DisplayXLUp>}
+          <ExploreNavbarButton
+            children={!showExtension && <DisplayXLUp>Explore</DisplayXLUp>}
+          />
         </div>
         <div>
-          <ReelsNavbarButton />
-          {!showExtension && <DisplayXLUp>Reels</DisplayXLUp>}
+          <ReelsNavbarButton
+            children={!showExtension && <DisplayXLUp>Reels</DisplayXLUp>}
+          />
         </div>
         <div>
-          <MessengerNavbarButton />
-          {!showExtension && <DisplayXLUp>Messages</DisplayXLUp>}
+          <MessengerNavbarButton
+            children={!showExtension && <DisplayXLUp>Messages</DisplayXLUp>}
+          />
         </div>
         <div>
-          <HeartNavbarButton />
-          {!showExtension && <DisplayXLUp>Notifications</DisplayXLUp>}
+          <HeartNavbarButton
+            children={
+              !showExtension && <DisplayXLUp>Notifications</DisplayXLUp>
+            }
+          />
         </div>
         <div>
-          <PlusInsideSquareNavbarButton />
-          {!showExtension && <DisplayXLUp>Create</DisplayXLUp>}
+          <PlusInsideSquareNavbarButton
+            children={!showExtension && <DisplayXLUp>Create</DisplayXLUp>}
+          />
         </div>
         <div>
-          <PFPNavbarButton />
-          {!showExtension && <DisplayXLUp>Profile</DisplayXLUp>}
+          <PFPNavbarButton
+            children={!showExtension && <DisplayXLUp>Profile</DisplayXLUp>}
+          />
         </div>
 
         <div className="mt-4">
-          <ListNavbarButton />
-          {!showExtension && <DisplayXLUp>More</DisplayXLUp>}
+          <ListNavbarButton
+            children={!showExtension && <DisplayXLUp>More</DisplayXLUp>}
+          />
         </div>
       </div>
       {showExtension && (

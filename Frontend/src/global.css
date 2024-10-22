@@ -5,6 +5,7 @@
   --secondary-color: rgb(38, 38, 38);
 
   --primary-border-color: #eeeeee;
+  --primary-buttonHover-color: #eeeeee;
   /* --secondary-border-color: #eeeeee; */
 }
 
@@ -16,6 +17,7 @@
     --secondary-color: #fff;
 
     --primary-border-color: #3c3d37;
+    --primary-buttonHover-color: #3c3d37;
     /* --secondary-border-color: #3c3d37; */
   }
 }

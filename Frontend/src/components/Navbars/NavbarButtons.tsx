@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { mockUser } from "@/dev/mockUser";
 import { useCustomNavigate } from "@/hooks/useCustomNavigate";
 import { InstaCloneTextLogo } from "@/components/InstaCloneTextLogo/InstaCloneTextLogo";
+import { ReactNode } from "react";
 
 export const NavBarPFPIcon = () => {
   return (
@@ -41,79 +42,97 @@ export const InstaCloneTextLogoButton = () => {
   );
 };
 
-export const HomeNavbarButton = () => {
+export const HomeNavbarButton = ({ children }: { children?: ReactNode }) => {
   const customNav = useCustomNavigate();
   return (
     <Button className={styles.navbarButton} onClick={customNav.goToRoot}>
       <HomeIcon />
+      {children ?? null}
     </Button>
   );
 };
 
 export const SearchNavbarButton = ({
+  children,
   onClick,
 }: {
+  children?: ReactNode;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
     <Button onClick={onClick} className={styles.navbarButton}>
       <SearchIcon />
+      {children ?? null}
     </Button>
   );
 };
 
-export const ExploreNavbarButton = () => {
+export const ExploreNavbarButton = ({ children }: { children?: ReactNode }) => {
   const customNav = useCustomNavigate();
   return (
     <Button onClick={customNav.goToExplore} className={styles.navbarButton}>
       <ExploreIcon />
+      {children ?? null}
     </Button>
   );
 };
 
-export const ReelsNavbarButton = () => {
+export const ReelsNavbarButton = ({ children }: { children?: ReactNode }) => {
   const customNav = useCustomNavigate();
   return (
     <Button onClick={customNav.goToReels} className={styles.navbarButton}>
       <ReelsIcon />
+      {children ?? null}
     </Button>
   );
 };
 
-export const MessengerNavbarButton = () => {
+export const MessengerNavbarButton = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
   const customNav = useCustomNavigate();
   return (
     <Button onClick={customNav.goToChats} className={styles.navbarButton}>
       <MessengerIcon />
+      {children ?? null}
     </Button>
   );
 };
 
-export const HeartNavbarButton = () => {
+export const HeartNavbarButton = ({ children }: { children?: ReactNode }) => {
   return (
     <Button className={styles.navbarButton}>
       <HeartIcon />
+      {children ?? null}
     </Button>
   );
 };
 
-export const PlusInsideSquareNavbarButton = () => {
+export const PlusInsideSquareNavbarButton = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
   return (
     <Button className={styles.navbarButton}>
       <PlusInsideSquareIcon />
+      {children ?? null}
     </Button>
   );
 };
 
-export const ListNavbarButton = () => {
+export const ListNavbarButton = ({ children }: { children?: ReactNode }) => {
   return (
     <Button className={styles.navbarButton}>
       <ListIcon />
+      {children ?? null}
     </Button>
   );
 };
 
-export const PFPNavbarButton = () => {
+export const PFPNavbarButton = ({ children }: { children?: ReactNode }) => {
   const navigate = useNavigate();
   return (
     <Button
@@ -121,6 +140,7 @@ export const PFPNavbarButton = () => {
       onClick={() => navigate(`/users/${mockUser.id}`)}
     >
       {NavBarPFPIcon()}
+      {children ?? null}
     </Button>
   );
 };
