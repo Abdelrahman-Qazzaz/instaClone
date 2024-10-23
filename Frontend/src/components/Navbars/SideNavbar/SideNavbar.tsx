@@ -1,5 +1,4 @@
 import styles from "./SideNavbar.module.css";
-
 import {
   InstaCloneNavbarButton,
   HomeNavbarButton,
@@ -15,14 +14,23 @@ import {
 } from "../NavbarButtons";
 import { DisplayXLUp } from "@/assets/XL breakpoint/DisplayXLup";
 import { DisplayBelowXL } from "@/assets/XL breakpoint/DisplayBelowXL";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { SearchBar } from "@/components/SearchBar/SearchBar";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import { SlideInLeftToRight } from "@/assets/animations/SlideInComponents";
+import { SideNavbarSearchExtension } from "@/components/Navbars/SideNavbar/SideNavbar Extensions/SideNavbarSearchExtension/SideNavbarSearchExtension";
+import { SideNavbarNotificationExtension } from "@/components/Navbars/SideNavbar/SideNavbar Extensions/SideNavbarNotificationsExtension/SideNavbarNotificationExtension";
 
 export const SideNavbar = () => {
   const [showExtension, setShowExtension] = useState<boolean>(false);
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+
+  const [showSearchExtension, setShowSearchExtension] = useState(false);
+  const [showNotificationExtension, setShowNotificationExtension] =
+    useState(false);
+  const extensionsShowStates = [showSearchExtension, showNotificationExtension];
+
+  useEffect(() => {
+    setShowExtension(extensionsShowStates.some((state) => state === true));
+  }, extensionsShowStates);
 
   return (
     <div className={styles.container}>
@@ -49,7 +57,7 @@ export const SideNavbar = () => {
         </div>
         <div>
           <SearchNavbarButton
-            onClick={() => setShowExtension((prev) => !prev)}
+            onClick={() => setShowSearchExtension((prev) => !prev)}
             children={!showExtension && <DisplayXLUp>Search</DisplayXLUp>}
           />
         </div>
@@ -70,6 +78,7 @@ export const SideNavbar = () => {
         </div>
         <div>
           <HeartNavbarButton
+            onClick={() => setShowNotificationExtension((prev) => !prev)}
             children={
               !showExtension && <DisplayXLUp>Notifications</DisplayXLUp>
             }
@@ -94,18 +103,14 @@ export const SideNavbar = () => {
       </div>
 
       <AnimatePresence>
-        {showExtension && (
+        {showSearchExtension && (
           <SlideInLeftToRight>
-            <div className={styles.navbarExtension}>
-              <div className="my-3">
-                <h5 className={`${styles.text} mt-2 mb-4`}>Search</h5>
-                <SearchBar setSearchResults={setSearchResults} />
-              </div>
-              <div className="w-100 border-top">
-                <div className={`${styles.text} mt-3`}>Recent</div>
-                <div></div>
-              </div>
-            </div>
+            <SideNavbarSearchExtension />
+          </SlideInLeftToRight>
+        )}
+        {showNotificationExtension && (
+          <SlideInLeftToRight>
+            <SideNavbarNotificationExtension />
           </SlideInLeftToRight>
         )}
       </AnimatePresence>

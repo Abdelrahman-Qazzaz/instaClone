@@ -101,9 +101,15 @@ export const MessengerNavbarButton = ({
   );
 };
 
-export const HeartNavbarButton = ({ children }: { children?: ReactNode }) => {
+export const HeartNavbarButton = ({
+  children,
+  onClick,
+}: {
+  children?: ReactNode;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}) => {
   return (
-    <Button className={styles.navbarButton}>
+    <Button onClick={onClick} className={styles.navbarButton}>
       <HeartIcon />
       {children ?? null}
     </Button>

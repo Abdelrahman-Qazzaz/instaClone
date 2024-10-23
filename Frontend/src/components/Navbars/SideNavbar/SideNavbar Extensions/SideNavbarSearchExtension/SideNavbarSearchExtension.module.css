@@ -1,0 +1,10 @@
+.navbarSearchExtension {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1.5rem 0 1.5rem;
+}
+
+.text {
+  color: var(--secondary-color);
+}
