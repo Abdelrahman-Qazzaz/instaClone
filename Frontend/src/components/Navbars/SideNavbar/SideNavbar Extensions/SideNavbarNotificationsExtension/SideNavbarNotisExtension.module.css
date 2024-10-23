@@ -1,0 +1,16 @@
+.navbarNotisExtension {
+  padding: 0 2.5rem 0 2.5rem;
+}
+
+.heartBorder {
+  border: 1px solid var(--secondary-color);
+  width: 70px;
+  aspect-ratio: 1/1 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text {
+  color: var(--secondary-color);
+}

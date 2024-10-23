@@ -18,19 +18,12 @@ import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { SlideInLeftToRight } from "@/assets/animations/SlideInComponents";
 import { SideNavbarSearchExtension } from "@/components/Navbars/SideNavbar/SideNavbar Extensions/SideNavbarSearchExtension/SideNavbarSearchExtension";
-import { SideNavbarNotificationExtension } from "@/components/Navbars/SideNavbar/SideNavbar Extensions/SideNavbarNotificationsExtension/SideNavbarNotificationExtension";
+import { SideNavbarNotisExtension } from "@/components/Navbars/SideNavbar/SideNavbar Extensions/SideNavbarNotificationsExtension/SideNavbarNotisExtension";
 
 export const SideNavbar = () => {
-  const [showExtension, setShowExtension] = useState<boolean>(false);
-
   const [showSearchExtension, setShowSearchExtension] = useState(false);
-  const [showNotificationExtension, setShowNotificationExtension] =
-    useState(false);
-  const extensionsShowStates = [showSearchExtension, showNotificationExtension];
-
-  useEffect(() => {
-    setShowExtension(extensionsShowStates.some((state) => state === true));
-  }, extensionsShowStates);
+  const [showNotisExtension, setShowNotisExtension] = useState(false);
+  const showExtension = showSearchExtension || showNotisExtension;
 
   return (
     <div className={styles.container}>
@@ -57,7 +50,10 @@ export const SideNavbar = () => {
         </div>
         <div>
           <SearchNavbarButton
-            onClick={() => setShowSearchExtension((prev) => !prev)}
+            onClick={() => {
+              setShowNotisExtension(false);
+              setShowSearchExtension((prev) => !prev);
+            }}
             children={!showExtension && <DisplayXLUp>Search</DisplayXLUp>}
           />
         </div>
@@ -78,7 +74,10 @@ export const SideNavbar = () => {
         </div>
         <div>
           <HeartNavbarButton
-            onClick={() => setShowNotificationExtension((prev) => !prev)}
+            onClick={() => {
+              setShowSearchExtension(false);
+              setShowNotisExtension((prev) => !prev);
+            }}
             children={
               !showExtension && <DisplayXLUp>Notifications</DisplayXLUp>
             }
@@ -108,9 +107,11 @@ export const SideNavbar = () => {
             <SideNavbarSearchExtension />
           </SlideInLeftToRight>
         )}
-        {showNotificationExtension && (
+      </AnimatePresence>
+      <AnimatePresence>
+        {showNotisExtension && (
           <SlideInLeftToRight>
-            <SideNavbarNotificationExtension />
+            <SideNavbarNotisExtension />
           </SlideInLeftToRight>
         )}
       </AnimatePresence>
