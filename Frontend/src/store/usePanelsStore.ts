@@ -9,6 +9,7 @@ export type PanelsStore = {
   [key: string]: any;
   closeAll: () => void;
   viewStoryOrVisitProfilePanel: PanelProperties;
+  createPostPanel: PanelProperties;
 };
 
 export const usePanelsStore = create<PanelsStore>((set) => ({
@@ -30,6 +31,18 @@ export const usePanelsStore = create<PanelsStore>((set) => ({
         ...state,
         viewStoryOrVisitProfilePanel: {
           ...state.viewStoryOrVisitProfilePanel,
+          display: true,
+        },
+      }));
+    },
+  },
+  createPostPanel: {
+    display: false,
+    show: () => {
+      set((state) => ({
+        ...state,
+        createPostPanel: {
+          ...state.createPostPanel,
           display: true,
         },
       }));

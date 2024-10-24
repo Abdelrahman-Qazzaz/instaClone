@@ -3,21 +3,20 @@
   top: 0;
   left: 0;
   width: fit-content;
-  padding: 0 0.5rem 0 0.5rem;
   height: 100vh;
-  border-right: 1px solid var(--primary-border-color);
   background-color: var(--primary-fixedpospage-color);
   z-index: 2;
-
   display: flex;
 }
 
 .navbar {
+  border-right: 1px solid var(--primary-border-color);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
   height: 100%;
+  padding: 0 0.2rem 0 0.2rem;
 }
 
 @media (min-width: 1200px) {

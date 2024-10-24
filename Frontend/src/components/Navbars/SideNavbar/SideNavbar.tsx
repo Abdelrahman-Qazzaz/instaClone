@@ -103,14 +103,14 @@ export const SideNavbar = () => {
 
       <AnimatePresence>
         {showSearchExtension && (
-          <SlideInLeftToRight>
+          <SlideInLeftToRight style={{ height: "100%" }}>
             <SideNavbarSearchExtension />
           </SlideInLeftToRight>
         )}
       </AnimatePresence>
       <AnimatePresence>
         {showNotisExtension && (
-          <SlideInLeftToRight>
+          <SlideInLeftToRight style={{ height: "100%" }}>
             <SideNavbarNotisExtension />
           </SlideInLeftToRight>
         )}

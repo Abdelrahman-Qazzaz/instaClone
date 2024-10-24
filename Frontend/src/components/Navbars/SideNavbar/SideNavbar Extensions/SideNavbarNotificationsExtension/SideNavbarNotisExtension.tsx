@@ -3,19 +3,21 @@ import styles from "./SideNavbarNotisExtension.module.css";
 
 export const SideNavbarNotisExtension = () => {
   return (
-    <div
-      className={styles.navbarNotisExtension}
-      style={{ border: "2px solid red" }}
-    >
+    <div className={styles.navbarNotisExtension}>
       <div className="my-3">
         <h5 className={`${styles.text} mt-2 mb-4`}>Notifications</h5>
       </div>
-      <div className="w-100 d-flex flex-column align-items-center">
+      <div className="d-flex flex-column align-items-center">
         <div style={{ borderRadius: "50%" }} className={styles.heartBorder}>
           <HeartIcon fontSize="35px" />
         </div>
-        Activity On Your Posts When someone likes or comments on one of your
-        posts, you'll see it here.
+        <div className={`mb-3 ${styles.text} ${styles.subText}`}>
+          Activity On Your Posts
+        </div>
+        <div className={`${styles.text} ${styles.subText}`}>
+          When someone likes or comments on one of your posts, you'll see it
+          here.
+        </div>
       </div>
     </div>
   );

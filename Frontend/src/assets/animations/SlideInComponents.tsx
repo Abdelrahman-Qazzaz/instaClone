@@ -1,10 +1,17 @@
 import { motion } from "framer-motion";
-import { ReactNode, useState } from "react";
-export const SlideInLeftToRight = ({ children }: { children: ReactNode }) => {
+import { CSSProperties, ReactNode, useState } from "react";
+export const SlideInLeftToRight = ({
+  children,
+  style,
+}: {
+  children: ReactNode;
+  style: CSSProperties;
+}) => {
   const [showChildren, setShowChildren] = useState(false);
 
   return (
     <motion.div
+      //style={style}
       initial={{ width: 0 }}
       animate={{ width: "fit-content" }}
       exit={{ width: 0 }}
@@ -18,7 +25,9 @@ export const SlideInLeftToRight = ({ children }: { children: ReactNode }) => {
         }
       }}
     >
-      <div style={{ visibility: showChildren ? "visible" : "hidden" }}>
+      <div
+        style={{ visibility: showChildren ? "visible" : "hidden", ...style }}
+      >
         {children}
       </div>
     </motion.div>
