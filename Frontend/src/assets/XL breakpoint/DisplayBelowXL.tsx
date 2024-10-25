@@ -1,5 +1,8 @@
 import { ReactNode } from "react";
+import { useMediaQuery } from "react-responsive";
 
 export const DisplayBelowXL = ({ children }: { children: ReactNode }) => {
-  return <div className="d-block d-xl-none">{children}</div>;
+  const belowXL = useMediaQuery({ maxWidth: 1199 });
+
+  return belowXL && <div>{children}</div>;
 };

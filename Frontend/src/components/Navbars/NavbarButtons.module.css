@@ -3,13 +3,14 @@
 }
 
 .navbarButton {
-  flex-grow: 1;
   gap: 1rem;
   display: flex !important;
   align-items: center;
-  width: fit-content;
-
+  width: fit-content !important;
+  padding: 0 !important;
+  margin: 0 !important;
   border: none !important;
+
   color: var(--secondary-color) !important;
 }
 

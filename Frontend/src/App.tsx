@@ -19,6 +19,7 @@ function App() {
   const { viewStoryOrVisitProfilePanel, createPostPanel } = usePanelsStore(
     (store) => store
   );
+
   const blackBackground = viewStoryOrVisitProfilePanel.display; // | anotherPanel.display
 
   // BlackBackground zIndex: 0
@@ -35,13 +36,11 @@ function App() {
           <TopNavBar />
           <BottomNavBar />
         </DisplayBelowMD>
-        <div /*className={styles.outlet}*/>
-          <Routes>
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Feed />} />
-          </Routes>
-        </div>
+        <Routes>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Feed />} />
+        </Routes>
       </Router>
 
       {blackBackground && <BlackBackground />}

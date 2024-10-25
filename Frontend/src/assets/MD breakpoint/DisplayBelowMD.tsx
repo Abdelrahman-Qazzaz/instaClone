@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
+import { useMediaQuery } from "react-responsive";
 
 export const DisplayBelowMD = ({ children }: { children: ReactNode }) => {
-  return <div className="d-md-none d-block">{children}</div>;
+  const belowMD = useMediaQuery({ maxWidth: 767 });
+  return belowMD && <div>{children}</div>;
 };

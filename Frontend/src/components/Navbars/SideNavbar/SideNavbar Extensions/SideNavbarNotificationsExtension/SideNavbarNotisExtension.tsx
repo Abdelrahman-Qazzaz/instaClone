@@ -3,7 +3,7 @@ import styles from "./SideNavbarNotisExtension.module.css";
 
 export const SideNavbarNotisExtension = () => {
   return (
-    <div className={styles.navbarNotisExtension}>
+    <div className={styles.SideNavbarNotisExtension}>
       <div className="my-3">
         <h5 className={`${styles.text} mt-2 mb-4`}>Notifications</h5>
       </div>

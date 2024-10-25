@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { useMediaQuery } from "react-responsive";
 
 export const DisplayXLUp = ({
   children,
@@ -7,9 +8,6 @@ export const DisplayXLUp = ({
   children: ReactNode;
   style?: React.CSSProperties;
 }) => {
-  return (
-    <div style={style} className="d-none d-xl-block">
-      {children}
-    </div>
-  );
+  const XLup = useMediaQuery({ minWidth: 1200 });
+  return XLup && <div style={style}>{children}</div>;
 };

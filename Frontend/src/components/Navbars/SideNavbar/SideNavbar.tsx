@@ -14,19 +14,38 @@ import {
 } from "../NavbarButtons";
 import { DisplayXLUp } from "@/assets/XL breakpoint/DisplayXLup";
 import { DisplayBelowXL } from "@/assets/XL breakpoint/DisplayBelowXL";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { SlideInLeftToRight } from "@/assets/animations/SlideInComponents";
 import { SideNavbarSearchExtension } from "@/components/Navbars/SideNavbar/SideNavbar Extensions/SideNavbarSearchExtension/SideNavbarSearchExtension";
 import { SideNavbarNotisExtension } from "@/components/Navbars/SideNavbar/SideNavbar Extensions/SideNavbarNotificationsExtension/SideNavbarNotisExtension";
+import { useOffsetStore } from "@/store/useOffsetStore";
 
 export const SideNavbar = () => {
   const [showSearchExtension, setShowSearchExtension] = useState(false);
   const [showNotisExtension, setShowNotisExtension] = useState(false);
   const showExtension = showSearchExtension || showNotisExtension;
+  const ref = useRef<HTMLDivElement | null>(null);
+  const { updateOffset } = useOffsetStore((store) => store);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (ref.current) updateOffset({ marginLeft: ref.current.clientWidth });
+    };
+
+    const observer = new ResizeObserver(handleResize);
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      observer.disconnect();
+      updateOffset({ marginLeft: 0 });
+    };
+  }, []);
 
   return (
-    <div className={styles.container}>
+    <div ref={ref} className={styles.container}>
       <div className={styles.navbar}>
         <div className="mt-2 mb-3">
           <DisplayBelowXL>

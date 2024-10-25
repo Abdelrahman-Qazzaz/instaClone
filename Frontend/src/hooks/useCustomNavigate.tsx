@@ -23,5 +23,16 @@ export const useCustomNavigate = () => {
   function goToChats() {
     return goTo(`/chats`);
   }
-  return { goToRoot, goToUserId, goToExplore, goToReels, goToChats };
+
+  function goToNotifications() {
+    return goTo(`/notifications`);
+  }
+  return {
+    goToRoot,
+    goToUserId,
+    goToExplore,
+    goToReels,
+    goToChats,
+    goToNotifications,
+  };
 };

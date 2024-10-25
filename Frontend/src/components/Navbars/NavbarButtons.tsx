@@ -90,7 +90,7 @@ export const ReelsNavbarButton = ({ children }: { children?: ReactNode }) => {
 export const MessengerNavbarButton = ({
   children,
 }: {
-  children: ReactNode;
+  children?: ReactNode;
 }) => {
   const customNav = useCustomNavigate();
   return (
@@ -119,7 +119,7 @@ export const HeartNavbarButton = ({
 export const PlusInsideSquareNavbarButton = ({
   children,
 }: {
-  children: ReactNode;
+  children?: ReactNode;
 }) => {
   return (
     <Button className={styles.navbarButton}>

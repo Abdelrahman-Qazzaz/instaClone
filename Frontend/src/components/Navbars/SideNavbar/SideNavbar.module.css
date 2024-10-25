@@ -15,21 +15,25 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  width: fit-content;
   height: 100%;
-  padding: 0 0.2rem 0 0.2rem;
+  padding: 0 0.8rem 0 0.8rem !important;
+}
+
+.navbar div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media (min-width: 1200px) {
   .navbar {
     align-items: start;
   }
-}
-
-.navbar div {
-  width: 100%;
-  display: flex;
-  justify-content: start;
-  align-items: center;
+  .navbar div {
+    justify-content: start;
+  }
 }
 
 .navbar i {
