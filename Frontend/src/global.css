@@ -1,5 +1,6 @@
 :root {
-  --primary-fixedpospage-color: white;
+  --primary-body-color: white;
+  --primary-body-color2: white;
 
   --primary-color: #fff;
   --secondary-color: rgb(38, 38, 38);
@@ -11,7 +12,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --primary-fixedpospage-color: black;
+    --primary-body-color: black;
+    --primary-body-color2: rgb(38, 38, 38);
 
     --primary-color: rgb(38, 38, 38);
     --secondary-color: #fff;

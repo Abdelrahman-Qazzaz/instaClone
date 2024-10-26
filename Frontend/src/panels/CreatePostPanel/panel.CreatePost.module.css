@@ -1,0 +1,39 @@
+.container {
+  width: 500px;
+  aspect-ratio: 3/2.5;
+  border: 1px solid var(--primary-border-color);
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.2rem;
+}
+
+.header {
+  border-bottom: 1px solid var(--primary-border-color);
+  font-weight: 570;
+}
+
+.iconsContainer {
+  display: flex;
+  margin-bottom: 1rem;
+}
+.createPostPanelBody {
+  flex-grow: 1;
+  background-color: var(--primary-body-color2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.createPostPanelBody div i {
+  font-size: 3rem !important;
+}
+
+.selectButton {
+  margin-top: 1.3rem;
+  width: fit-content;
+  padding: 0 1rem 0 1rem !important;
+}
+
+.text {
+  color: var(--secondary-color);
+}

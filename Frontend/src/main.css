@@ -25,7 +25,7 @@ html {
 
 body {
   min-height: 100vh;
-  background-color: var(--primary-fixedpospage-color);
+  background-color: var(--primary-body-color);
 }
 
 /* responsive images/videos */

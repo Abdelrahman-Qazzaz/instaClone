@@ -1,12 +1,12 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-import { usePanelsStore } from "../store/usePanelsStore";
-import styles from "./Panel.module.css";
+import { usePromptsStore } from "@/store/usePromptsStore";
+import styles from "./Prompt.module.css";
 
 export type ButtonsProps = { text: string; onClick: React.MouseEventHandler }[];
-export const Panel = ({ buttonsProps }: { buttonsProps: ButtonsProps }) => {
-  const panelsStore = usePanelsStore((state) => state);
+export const Prompt = ({ buttonsProps }: { buttonsProps: ButtonsProps }) => {
+  const promptsStore = usePromptsStore((state) => state);
   return (
     <div
       style={{
@@ -33,7 +33,7 @@ export const Panel = ({ buttonsProps }: { buttonsProps: ButtonsProps }) => {
           ))}
           <Button
             className={`${styles.button} text-center bg-transparent w-100 text-start`}
-            onClick={panelsStore.closeAll}
+            onClick={promptsStore.closeAll}
           >
             Cancel
           </Button>

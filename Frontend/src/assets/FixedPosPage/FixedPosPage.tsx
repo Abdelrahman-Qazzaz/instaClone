@@ -30,15 +30,27 @@ export function FixedPosPage({
     marginTop,
   });
   useEffect(() => {
-    setStyle((prev) => ({
-      ...prev,
-      marginLeft,
-      marginBottom,
-      marginTop,
-      border: "2px solid red",
-      width: `calc(100vw - ${marginLeft}px)`,
-      height: `calc(100vh - ${marginTop}px - ${marginBottom}px)`,
-    }));
+    setStyle((prev) => {
+      let temp: CSSProperties = {
+        marginLeft,
+        marginBottom,
+        marginTop,
+        border: "2px solid red",
+        width: `calc(100vw - ${marginLeft}px)`,
+        height: `calc(100vh - ${marginTop}px - ${marginBottom}px)`,
+      };
+      if (center)
+        temp = {
+          ...temp,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        };
+      return {
+        ...prev,
+        ...temp,
+      };
+    });
   }, [marginLeft, marginBottom, marginTop]);
   return (
     <div style={style} className={`${styles.container}`}>

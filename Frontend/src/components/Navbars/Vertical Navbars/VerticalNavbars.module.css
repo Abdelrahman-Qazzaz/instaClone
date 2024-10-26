@@ -3,7 +3,7 @@
   width: 100vw;
   height: fit-content;
   padding: 0 0.5rem 0 0.5rem;
-  background-color: var(--primary-fixedpospage-color);
+  background-color: var(--primary-body-color);
   z-index: 2;
 }
 

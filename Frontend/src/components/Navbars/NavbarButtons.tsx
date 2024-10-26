@@ -15,6 +15,7 @@ import { mockUser } from "@/dev/mockUser";
 import { useCustomNavigate } from "@/hooks/useCustomNavigate";
 import { InstaCloneTextLogo } from "@/components/InstaCloneTextLogo/InstaCloneTextLogo";
 import { ReactNode } from "react";
+import { usePromptsStore } from "@/store/usePromptsStore";
 import { usePanelsStore } from "@/store/usePanelsStore";
 
 export const NavBarPFPIcon = () => {

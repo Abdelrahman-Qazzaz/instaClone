@@ -1,17 +1,17 @@
 import { create } from "zustand";
 
-type PanelProperties = {
+type PromptProperties = {
   display: boolean;
   show: () => void;
 };
 
-export type PanelsStore = {
+export type PromptsStore = {
   [key: string]: any;
   closeAll: () => void;
-  createPostPanel: PanelProperties;
+  viewStoryOrVisitProfilePrompt: PromptProperties;
 };
 
-export const usePanelsStore = create<PanelsStore>((set) => ({
+export const usePromptsStore = create<PromptsStore>((set) => ({
   closeAll: () => {
     set((state) => {
       const newState = { ...state };
@@ -23,13 +23,13 @@ export const usePanelsStore = create<PanelsStore>((set) => ({
       return newState;
     });
   },
-  createPostPanel: {
+  viewStoryOrVisitProfilePrompt: {
     display: false,
     show: () => {
       set((state) => ({
         ...state,
-        createPostPanel: {
-          ...state.createPostPanel,
+        viewStoryOrVisitProfilePrompt: {
+          ...state.viewStoryOrVisitProfilePrompt,
           display: true,
         },
       }));
