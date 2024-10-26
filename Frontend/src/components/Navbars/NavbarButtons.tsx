@@ -15,6 +15,7 @@ import { mockUser } from "@/dev/mockUser";
 import { useCustomNavigate } from "@/hooks/useCustomNavigate";
 import { InstaCloneTextLogo } from "@/components/InstaCloneTextLogo/InstaCloneTextLogo";
 import { ReactNode } from "react";
+import { usePanelsStore } from "@/store/usePanelsStore";
 
 export const NavBarPFPIcon = () => {
   return (
@@ -121,8 +122,9 @@ export const PlusInsideSquareNavbarButton = ({
 }: {
   children?: ReactNode;
 }) => {
+  const { createPostPanel } = usePanelsStore((state) => state);
   return (
-    <Button className={styles.navbarButton}>
+    <Button onClick={createPostPanel.show} className={styles.navbarButton}>
       <PlusInsideSquareIcon />
       {children ?? null}
     </Button>
