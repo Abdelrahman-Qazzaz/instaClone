@@ -23,10 +23,10 @@ function App() {
   const blackBackground =
     viewStoryOrVisitProfilePrompt.display || createPostPanel.display;
 
-  // BlackBackground zIndex: 0
   // FixedPosPage zIndex: 1
   // Navbars zIndex: 2
-  // prompts zIndex: 3
+  // BlackBackground zIndex: 2
+  // prompts & Panels' zIndex: 3
   return (
     <>
       <Router>

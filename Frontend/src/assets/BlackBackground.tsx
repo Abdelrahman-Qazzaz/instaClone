@@ -9,7 +9,7 @@ export const BlackBackground = () => {
         width: "100vw",
         backgroundColor: "black",
         opacity: 0.4,
-        zIndex: 1,
+        zIndex: 2,
       }}
     />
   );

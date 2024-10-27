@@ -12,7 +12,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --primary-body-color: black;
+    --primary-body-color: rgba(0, 0, 0, 0.98);
     --primary-body-color2: rgb(38, 38, 38);
 
     --primary-color: rgb(38, 38, 38);
