@@ -16,7 +16,7 @@ import { DisplayXLUp } from "@/assets/XL breakpoint/DisplayXLup";
 import { DisplayBelowXL } from "@/assets/XL breakpoint/DisplayBelowXL";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import { SlideInLeftToRight } from "@/assets/animations/SlideInComponents";
+import { SlideInLeftToRight } from "@/assets/animations/animation.SlideInComponents";
 import { SideNavbarSearchExtension } from "@/components/Navbars/SideNavbar/SideNavbar Extensions/SideNavbarSearchExtension/SideNavbarSearchExtension";
 import { SideNavbarNotisExtension } from "@/components/Navbars/SideNavbar/SideNavbar Extensions/SideNavbarNotificationsExtension/SideNavbarNotisExtension";
 import { useOffsetStore } from "@/store/useOffsetStore";
