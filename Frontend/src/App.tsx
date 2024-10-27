@@ -20,7 +20,8 @@ function App() {
   const { viewStoryOrVisitProfilePrompt } = usePromptsStore((store) => store);
   const { createPostPanel } = usePanelsStore((store) => store);
 
-  const blackBackground = viewStoryOrVisitProfilePrompt.display; // | anotherPrompt.display
+  const blackBackground =
+    viewStoryOrVisitProfilePrompt.display || createPostPanel.display;
 
   // BlackBackground zIndex: 0
   // FixedPosPage zIndex: 1
@@ -43,12 +44,14 @@ function App() {
         </Routes>
       </Router>
 
-      {blackBackground && <BlackBackground />}
       <>
-        {viewStoryOrVisitProfilePrompt.display && (
-          <ViewStoryOrVisitProfilePrompt />
-        )}
-        {createPostPanel.display && <CreatePostPanel />}
+        {blackBackground && <BlackBackground />}
+        <>
+          {viewStoryOrVisitProfilePrompt.display && (
+            <ViewStoryOrVisitProfilePrompt />
+          )}
+        </>
+        <>{createPostPanel.display && <CreatePostPanel />}</>
       </>
     </>
   );

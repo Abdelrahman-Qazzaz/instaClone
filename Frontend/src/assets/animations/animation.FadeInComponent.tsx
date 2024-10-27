@@ -1,33 +1,28 @@
-import { motion } from "framer-motion";
-import { ReactNode, useState } from "react";
-export const FadeInComponent = ({
+import { IAnimationComponentProps } from "@/assets/animations/IAnimationComponentProps";
+import { AnimatePresence, motion } from "framer-motion";
+import { CSSProperties, ReactNode, useState } from "react";
+export const FadeInComponent: React.FC<IAnimationComponentProps> = ({
+  condition,
   children,
-  durationInSeconds,
+  style,
 }: {
+  condition: boolean;
   children: ReactNode;
-  durationInSeconds: number;
+  style?: CSSProperties;
 }) => {
-  const [showChildren, setShowChildren] = useState(false);
-
   return (
-    <motion.div
-      //style={style}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: durationInSeconds * 1000 }}
-      onAnimationComplete={() => {
-        setShowChildren(true);
-      }}
-      onAnimationStart={() => {
-        if (showChildren) {
-          setShowChildren(false);
-        }
-      }}
-    >
-      <div style={{ visibility: showChildren ? "visible" : "hidden" }}>
-        {children}
-      </div>
-    </motion.div>
+    <AnimatePresence>
+      {condition && (
+        <motion.div
+          //style={style}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div style={style}>{children}</div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };

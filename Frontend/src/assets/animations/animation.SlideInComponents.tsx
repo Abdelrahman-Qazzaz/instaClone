@@ -1,36 +1,29 @@
-import { motion } from "framer-motion";
-import { CSSProperties, ReactNode, useState } from "react";
-export const SlideInLeftToRight = ({
+import { IAnimationComponentProps } from "@/assets/animations/IAnimationComponentProps";
+import { AnimatePresence, motion } from "framer-motion";
+import { CSSProperties, ReactNode } from "react";
+export const SlideInLeftToRight: React.FC<IAnimationComponentProps> = ({
   children,
+  condition,
   style,
 }: {
   children: ReactNode;
-  style: CSSProperties;
+  condition: boolean;
+  style?: CSSProperties;
 }) => {
-  const [showChildren, setShowChildren] = useState(false);
-
   return (
-    <motion.div
-      //style={style}
-      initial={{ width: 0 }}
-      animate={{ width: "fit-content" }}
-      exit={{ width: 0 }}
-      transition={{ duration: 0.3 }}
-      onAnimationComplete={() => {
-        setShowChildren(true);
-      }}
-      onAnimationStart={() => {
-        if (showChildren) {
-          setShowChildren(false);
-        }
-      }}
-    >
-      <div
-        style={{ visibility: showChildren ? "visible" : "hidden", ...style }}
-      >
-        {children}
-      </div>
-    </motion.div>
+    <AnimatePresence>
+      {condition && (
+        <motion.div
+          style={style}
+          initial={{ width: 0 }}
+          animate={{ width: "fit-content" }}
+          exit={{ width: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div style={style}>{children}</div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
