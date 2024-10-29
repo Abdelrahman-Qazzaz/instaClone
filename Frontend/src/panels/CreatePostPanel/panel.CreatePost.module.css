@@ -12,11 +12,26 @@
   font-weight: 570;
 }
 
-.iconsContainer {
+.filesPreview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+
   display: flex;
-  margin-bottom: 1rem;
+  justify-content: space-between;
 }
+.filesPreview div {
+  margin: 0.5rem;
+  width: 150px;
+}
+.filesPreview button {
+  margin: 0.5rem;
+  width: fit-content;
+}
+
 .createPostPanelBody {
+  position: relative;
   flex-grow: 1;
   background-color: var(--primary-body-color2);
   display: flex;
@@ -26,6 +41,11 @@
 }
 .createPostPanelBody div i {
   font-size: 3rem !important;
+}
+
+.iconsContainer {
+  display: flex;
+  margin-bottom: 1rem;
 }
 
 .selectButton {
