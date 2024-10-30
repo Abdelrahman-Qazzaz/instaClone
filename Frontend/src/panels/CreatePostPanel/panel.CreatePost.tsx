@@ -5,10 +5,13 @@ import { useState } from "react";
 
 import { CreatePostPanelSelectMediaSection } from "@/panels/CreatePostPanel/CreatePostPanel Sections/CreatePostPanelSelectMediaSection/panel.section.CreatePostSelectMedia";
 import { CreatePostPanelCropMediaSection } from "@/panels/CreatePostPanel/CreatePostPanel Sections/CreatePostPanelCropMediaSection/panel.section.CreatePostCropMedia";
+import { PercentCrop } from "react-image-crop";
 
 export type previewFile = {
+  id: number;
   src: string;
   type: string;
+  dimensions?: PercentCrop;
 };
 export const CreatePostPanel = () => {
   const [fileList, setFileList] = useState<FileList>(new DataTransfer().files);
@@ -40,7 +43,10 @@ export const CreatePostPanel = () => {
         )}
 
         {section === "CropMedia" && (
-          <CreatePostPanelCropMediaSection previewFiles={previewFiles} />
+          <CreatePostPanelCropMediaSection
+            previewFiles={previewFiles}
+            setPreviewFiles={setPreviewFiles}
+          />
         )}
       </div>
     </Panel>

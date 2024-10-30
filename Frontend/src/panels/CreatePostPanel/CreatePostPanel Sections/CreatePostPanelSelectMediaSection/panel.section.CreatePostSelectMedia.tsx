@@ -25,7 +25,7 @@ export const CreatePostPanelSelectMediaSection = ({
 
     if (!files) return;
     const dataTransfer = new DataTransfer();
-    const previewFiles: { src: string; type: string }[] = [];
+    const previewFiles: previewFile[] = [];
     if (fileList)
       for (let i = 0; i < fileList.length; i++) {
         dataTransfer.items.add(fileList[i]);
@@ -33,7 +33,7 @@ export const CreatePostPanelSelectMediaSection = ({
         const file = fileList[i];
         const src = URL.createObjectURL(file);
         const type: string = file.type.startsWith("image") ? "image" : "video";
-        previewFiles.push({ src, type });
+        previewFiles.push({ id: previewFiles.length, src, type });
         //
       }
     for (let i = 0; i < files.length; i++) {
@@ -42,7 +42,7 @@ export const CreatePostPanelSelectMediaSection = ({
       const file = files[i];
       const src = URL.createObjectURL(file);
       const type: string = file.type.startsWith("image") ? "image" : "video";
-      previewFiles.push({ src, type });
+      previewFiles.push({ id: previewFiles.length, src, type });
       console.log(previewFiles);
       //
     }
