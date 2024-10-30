@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.ReactCrop {
+  width: 50%;
+}
+
+.ReactCrop img {
+  max-width: 100%;
+}
