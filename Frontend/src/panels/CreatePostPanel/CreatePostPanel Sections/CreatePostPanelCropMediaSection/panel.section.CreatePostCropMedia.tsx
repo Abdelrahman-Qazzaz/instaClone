@@ -1,11 +1,14 @@
 import { previewFile } from "@/panels/CreatePostPanel/panel.CreatePost";
 import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 import ReactCrop, { type Crop } from "react-image-crop";
 
 export const CreatePostPanelCropMediaSection = ({
+  previewFileIndex,
   previewFiles,
   setPreviewFiles,
 }: {
+  previewFileIndex: number;
   previewFiles: previewFile[];
   setPreviewFiles: React.Dispatch<React.SetStateAction<previewFile[]>>;
 }) => {
@@ -44,6 +47,45 @@ export const CreatePostPanelCropMediaSection = ({
           </ReactCrop>
         </>
       ))}
+      <Button onClick={() => {}}>Next</Button>
     </>
   );
 };
+
+/*
+const handleUpload = async () => {
+  if (!croppedImage || !file || !croppedAreaPixels) return;
+
+  // Create a FormData object
+  const formData = new FormData();
+
+  // Append the original file
+  formData.append("file", file);
+
+  // Create a Blob from the cropped image URL
+  const response = await fetch(croppedImage);
+  const blob = await response.blob();
+
+  // Append the cropped image as a Blob
+  formData.append("croppedImage", blob, "croppedImage.jpeg");
+
+  // Create dimensions object
+  const dimensions = {
+    unit: "%",
+    x: croppedAreaPixels.x,
+    y: croppedAreaPixels.y,
+    width: croppedAreaPixels.width,
+    height: croppedAreaPixels.height,
+  };
+
+  // Append dimensions as JSON string
+  formData.append("dimensions", JSON.stringify(dimensions));
+
+  // Replace with your API endpoint
+  await fetch("/api/upload", {
+    method: "POST",
+    body: formData,
+  });
+};
+
+*/

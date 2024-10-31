@@ -14,7 +14,6 @@ export type previewFile = {
   dimensions?: PercentCrop;
 };
 export const CreatePostPanel = () => {
-  const [fileList, setFileList] = useState<FileList>(new DataTransfer().files);
   const [previewFiles, setPreviewFiles] = useState<previewFile[]>([]);
   const [section, setSection] = useState<
     "SelectMedia" | "CropMedia" | "SetCaption"
@@ -34,8 +33,6 @@ export const CreatePostPanel = () => {
         </div>
         {section === "SelectMedia" && (
           <CreatePostPanelSelectMediaSection
-            fileList={fileList}
-            setFileList={setFileList}
             previewFiles={previewFiles}
             setPreviewFiles={setPreviewFiles}
             setSection={setSection}

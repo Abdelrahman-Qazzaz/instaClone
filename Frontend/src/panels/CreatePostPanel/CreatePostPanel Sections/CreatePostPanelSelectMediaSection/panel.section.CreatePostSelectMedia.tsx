@@ -6,14 +6,10 @@ import { ImageIcon } from "@/icons/icon.Image";
 import { ReelsIcon } from "@/icons/icon.Reels";
 
 export const CreatePostPanelSelectMediaSection = ({
-  fileList,
-  setFileList,
   previewFiles,
   setPreviewFiles,
   setSection,
 }: {
-  fileList?: FileList | undefined;
-  setFileList: React.Dispatch<React.SetStateAction<FileList>>;
   previewFiles?: previewFile[];
   setPreviewFiles: React.Dispatch<React.SetStateAction<previewFile[]>>;
   setSection: React.Dispatch<
@@ -24,31 +20,20 @@ export const CreatePostPanelSelectMediaSection = ({
     const files = event.target.files;
 
     if (!files) return;
-    const dataTransfer = new DataTransfer();
-    const previewFiles: previewFile[] = [];
-    if (fileList)
-      for (let i = 0; i < fileList.length; i++) {
-        dataTransfer.items.add(fileList[i]);
-        //
-        const file = fileList[i];
-        const src = URL.createObjectURL(file);
-        const type: string = file.type.startsWith("image") ? "image" : "video";
-        previewFiles.push({ id: previewFiles.length, src, type });
-        //
-      }
+
+    let tempPreviewFiles: previewFile[] = [];
+    if (previewFiles) tempPreviewFiles = [...previewFiles];
+
     for (let i = 0; i < files.length; i++) {
-      dataTransfer.items.add(files[i]);
       //
       const file = files[i];
       const src = URL.createObjectURL(file);
       const type: string = file.type.startsWith("image") ? "image" : "video";
-      previewFiles.push({ id: previewFiles.length, src, type });
-      console.log(previewFiles);
+      tempPreviewFiles.push({ id: tempPreviewFiles.length, src, type });
       //
     }
 
-    setFileList(dataTransfer.files);
-    setPreviewFiles(previewFiles);
+    setPreviewFiles(tempPreviewFiles);
   }
 
   return (
