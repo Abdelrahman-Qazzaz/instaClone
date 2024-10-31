@@ -1,91 +1,92 @@
 import { previewFile } from "@/panels/CreatePostPanel/panel.CreatePost";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Button } from "react-bootstrap";
 import ReactCrop, { type Crop } from "react-image-crop";
 
 export const CreatePostPanelCropMediaSection = ({
-  previewFileIndex,
   previewFiles,
   setPreviewFiles,
 }: {
-  previewFileIndex: number;
   previewFiles: previewFile[];
   setPreviewFiles: React.Dispatch<React.SetStateAction<previewFile[]>>;
 }) => {
   const [crop, setCrop] = useState<Crop>();
+  const imgRef = useRef<HTMLImageElement | null>(null);
+
+  const getCroppedImage = async (previewFile: previewFile) => {
+    if (!imgRef.current || !crop) return;
+
+    const canvas = document.createElement("canvas");
+    const scaleX = imgRef.current.naturalWidth / imgRef.current.width;
+    const scaleY = imgRef.current.naturalHeight / imgRef.current.height;
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    ctx.drawImage(
+      imgRef.current,
+      crop.x * scaleX,
+      crop.y * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
+      0,
+      0,
+      crop.width,
+      crop.height
+    );
+
+    const blob = await new Promise<Blob>((resolve) => {
+      canvas.toBlob(
+        (b) => {
+          resolve(b!);
+        },
+        previewFile.type === "image" ? "image/jpeg" : "video/mp4"
+      );
+    });
+
+    const croppedImageUrl = URL.createObjectURL(blob);
+
+    setPreviewFiles((prev) => {
+      const filteredArray = prev.filter((elem) => elem.id !== previewFile.id);
+
+      const oldPreviewFile = prev.find((elem) => elem.id === previewFile.id);
+      if (!oldPreviewFile) return [...filteredArray];
+
+      const updatedPreviewFile = { ...oldPreviewFile, src: croppedImageUrl };
+
+      console.log(updatedPreviewFile);
+      return [...filteredArray, updatedPreviewFile];
+    });
+  };
 
   return (
     <>
       {previewFiles.map((previewFile) => (
-        <>
+        <div key={previewFile.id}>
           <ReactCrop
             crop={crop}
-            onChange={(c, percentageCrop) => {
+            onChange={(c) => {
               setCrop(c);
-              setPreviewFiles((prev) => {
-                const filteredArray = prev.filter(
-                  (elem) => elem.id !== previewFile.id
-                );
-                const oldPreviewFile = prev.find(
-                  (elem) => elem.id === previewFile.id
-                );
-                if (!oldPreviewFile) return filteredArray;
-
-                const updatedPreviewFile = {
-                  ...oldPreviewFile,
-                  dimensions: percentageCrop,
-                };
-
-                console.log([...filteredArray, updatedPreviewFile]);
-
-                return [...filteredArray, updatedPreviewFile];
-              });
             }}
           >
-            {previewFile.type === "image" && <img src={previewFile.src} />}
+            {previewFile.type === "image" && (
+              <img ref={imgRef} src={previewFile.src} />
+            )}
             {previewFile.type === "video" && <video src={previewFile.src} />}
           </ReactCrop>
-        </>
+        </div>
       ))}
-      <Button onClick={() => {}}>Next</Button>
+      <Button
+        onClick={() => {
+          previewFiles.forEach(
+            async (previewFile) => await getCroppedImage(previewFile)
+          );
+        }}
+      >
+        Next
+      </Button>
     </>
   );
 };
-
-/*
-const handleUpload = async () => {
-  if (!croppedImage || !file || !croppedAreaPixels) return;
-
-  // Create a FormData object
-  const formData = new FormData();
-
-  // Append the original file
-  formData.append("file", file);
-
-  // Create a Blob from the cropped image URL
-  const response = await fetch(croppedImage);
-  const blob = await response.blob();
-
-  // Append the cropped image as a Blob
-  formData.append("croppedImage", blob, "croppedImage.jpeg");
-
-  // Create dimensions object
-  const dimensions = {
-    unit: "%",
-    x: croppedAreaPixels.x,
-    y: croppedAreaPixels.y,
-    width: croppedAreaPixels.width,
-    height: croppedAreaPixels.height,
-  };
-
-  // Append dimensions as JSON string
-  formData.append("dimensions", JSON.stringify(dimensions));
-
-  // Replace with your API endpoint
-  await fetch("/api/upload", {
-    method: "POST",
-    body: formData,
-  });
-};
-
-*/
