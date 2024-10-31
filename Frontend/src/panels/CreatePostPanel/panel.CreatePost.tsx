@@ -41,7 +41,7 @@ export const CreatePostPanel = () => {
 
         {section === "CropMedia" && (
           <CreatePostPanelCropMediaSection
-            previewFiles={previewFiles}
+            previewFile={previewFiles[0]}
             setPreviewFiles={setPreviewFiles}
           />
         )}
