@@ -45,7 +45,9 @@ export const CreatePostPanelSelectMediaSection = ({
             <StackedMedia
               previewFiles={previewFiles}
               setPreviewFiles={setPreviewFiles}
+              style={{ position: "absolute", left: 0 }}
             />
+
             <Button
               className={styles.nextButton}
               style={{ zIndex: 3 }}

@@ -16,9 +16,9 @@ export const ScaleHoverButton: React.FC<IAnimationComponentProps> = ({
         <motion.button
           onClick={onClick}
           initial={{ scale: 1 }}
-          whileHover={{ scale: 1.5 }}
+          whileHover={{ scale: 1.2 }}
           exit={{ scale: 1 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.15 }}
           style={style}
         >
           {children}

@@ -1,4 +1,6 @@
-export const BlackBackground = () => {
+import { CSSProperties } from "react";
+
+export const BlackBackground = ({ style }: { style?: CSSProperties }) => {
   return (
     <div
       style={{
@@ -10,6 +12,7 @@ export const BlackBackground = () => {
         backgroundColor: "black",
         opacity: 0.4,
         zIndex: 2,
+        ...style,
       }}
     />
   );
