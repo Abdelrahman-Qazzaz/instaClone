@@ -1,10 +1,11 @@
 import { previewFile } from "@/panels/CreatePostPanel/panel.CreatePost";
-import styles from "./panel.section.CreatePostSelectMedia.module.css";
+
 import { Button } from "react-bootstrap";
 import { Rotate } from "@/assets/Rotate/Rotate";
 import { ImageIcon } from "@/icons/icon.Image";
 import { ReelsIcon } from "@/icons/icon.Reels";
-
+import { StackedMedia } from "@/components/StackedMedia/StackedMedia";
+import styles from "./panel.section.CreatePostSelectMedia.module.css";
 export const CreatePostPanelSelectMediaSection = ({
   previewFiles,
   setPreviewFiles,
@@ -41,24 +42,12 @@ export const CreatePostPanelSelectMediaSection = ({
       <div className={styles.filesPreview}>
         {previewFiles?.length && (
           <>
-            <div>
-              {previewFiles.map((objectUrl, idx) => (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: idx * 15,
-                    left: idx * 10,
-                  }}
-                >
-                  {objectUrl.type === "image" ? (
-                    <img src={objectUrl.src} />
-                  ) : (
-                    <video src={objectUrl.src} />
-                  )}
-                </div>
-              ))}
-            </div>
+            <StackedMedia
+              previewFiles={previewFiles}
+              setPreviewFiles={setPreviewFiles}
+            />
             <Button
+              className={styles.nextButton}
               style={{ zIndex: 3 }}
               onClick={() => {
                 setSection("CropMedia");

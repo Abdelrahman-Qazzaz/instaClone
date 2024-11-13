@@ -1,0 +1,15 @@
+.mediaContainer {
+  position: absolute;
+  margin: 0.3rem;
+  width: 100px;
+}
+.mediaContainer img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+.mediaContainer video {
+  width: 100px;
+  object-fit: cover;
+  object-fit: cover;
+}

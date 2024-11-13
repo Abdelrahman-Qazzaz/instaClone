@@ -1,6 +1,6 @@
 import { IAnimationComponentProps } from "@/assets/animations/IAnimationComponentProps";
 import { AnimatePresence, motion } from "framer-motion";
-import { CSSProperties, ReactNode, useState } from "react";
+import { CSSProperties, ReactNode } from "react";
 export const FadeInComponent: React.FC<IAnimationComponentProps> = ({
   condition,
   children,
