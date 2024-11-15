@@ -9,8 +9,9 @@
 
 .buttonsContainer {
   background-color: var(--primary-body-color);
+  width: fit-content;
   padding: 0.3rem 0.5rem 0.3rem 0.5rem;
-  position: absolute;
+
   top: 0;
   right: 0;
   zindex: 1;

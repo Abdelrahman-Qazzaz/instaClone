@@ -71,7 +71,7 @@ export const StackedMedia = ({
           />
           <div
             style={{
-              width: "70%",
+              width: "90%",
               display: "flex",
               justifyContent: "end",
             }}
