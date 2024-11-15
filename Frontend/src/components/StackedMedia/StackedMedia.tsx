@@ -5,6 +5,7 @@ import { CSSProperties, useState } from "react";
 import { MediaCarousel } from "@/components/MediaCarousel/MediaCarousel";
 import { FixedPosPage } from "@/assets/FixedPosPage/FixedPosPage";
 import { BlackBackground } from "@/assets/BlackBackground";
+import { XIcon, XIconFill } from "@/icons/icon.X";
 
 export const StackedMedia = ({
   previewFiles,
@@ -55,7 +56,8 @@ export const StackedMedia = ({
             height: "100%",
             top: 0,
             display: "flex",
-            alignItems: "center",
+            flexDirection: "column",
+            justifyContent: "center",
           }}
         >
           <BlackBackground
@@ -67,12 +69,26 @@ export const StackedMedia = ({
               border: "2px solid red",
             }}
           />
+          <div style={{ display: "flex", justifyContent: "end" }}>
+            <ScaleHoverButton
+              style={{
+                zIndex: BlackBackgroundZIndex,
+                backgroundColor: "transparent",
+                width: "fit-content",
+                padding: 0,
+              }}
+              onClick={() => setShowMediaCarousel(false)}
+            >
+              <XIconFill fontSize={"1.5rem"} />
+            </ScaleHoverButton>
+          </div>
           <MediaCarousel
             previewFiles={previewFiles}
             setPreviewFiles={setPreviewFiles}
             editMode={true}
             style={{
               zIndex: BlackBackgroundZIndex + 1,
+              maxWidth: "100%",
             }}
           ></MediaCarousel>
         </div>

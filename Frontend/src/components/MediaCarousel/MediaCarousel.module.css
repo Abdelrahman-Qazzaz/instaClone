@@ -1,4 +1,20 @@
+:root {
+  --padding_x: 3rem;
+  --padding_y: 0.7rem;
+}
+
 .container {
-  padding: 2rem;
-  background-color: var(--);
+  position: relative;
+}
+
+.buttonsContainer {
+  background-color: var(--primary-body-color);
+  padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  zindex: 1;
+  margin: 0.3rem;
+  display: flex;
+  gap: 0.5rem;
 }

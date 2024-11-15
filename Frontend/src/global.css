@@ -8,6 +8,9 @@
   --primary-border-color: #eeeeee;
   --primary-buttonHover-color: #eeeeee;
   /* --secondary-border-color: #eeeeee; */
+
+  --red: #ff2929;
+  --navy: #024caa;
 }
 
 @media (prefers-color-scheme: dark) {

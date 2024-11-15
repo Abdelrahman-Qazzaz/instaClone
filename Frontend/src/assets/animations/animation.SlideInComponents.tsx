@@ -1,7 +1,12 @@
 import { IAnimationComponentProps } from "@/assets/animations/IAnimationComponentProps";
 import { AnimatePresence, motion } from "framer-motion";
 import { CSSProperties, ReactNode } from "react";
-export const SlideInLeftToRight: React.FC<IAnimationComponentProps> = ({
+
+interface ISlideInLeftToRightProps extends IAnimationComponentProps {
+  condition: boolean;
+}
+
+export const SlideInLeftToRight: React.FC<ISlideInLeftToRightProps> = ({
   children,
   condition,
   style,

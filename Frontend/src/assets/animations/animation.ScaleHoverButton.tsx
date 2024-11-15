@@ -1,14 +1,19 @@
 import { IAnimationComponentProps } from "@/assets/animations/IAnimationComponentProps";
 import { AnimatePresence, motion } from "framer-motion";
 import { CSSProperties, ReactNode } from "react";
-export const ScaleHoverButton: React.FC<IAnimationComponentProps> = ({
+
+interface IScaleHoverButtonProps extends IAnimationComponentProps {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+export const ScaleHoverButton: React.FC<IScaleHoverButtonProps> = ({
   children,
-  style,
   onClick,
+  style,
 }: {
   children: ReactNode;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
   style?: CSSProperties;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
     onClick && (
