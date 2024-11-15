@@ -35,7 +35,7 @@ export function FixedPosPage({
         marginLeft,
         marginBottom,
         marginTop,
-        border: "2px solid red",
+
         width: `calc(100vw - ${marginLeft}px)`,
         height: `calc(100vh - ${marginTop}px - ${marginBottom}px)`,
       };

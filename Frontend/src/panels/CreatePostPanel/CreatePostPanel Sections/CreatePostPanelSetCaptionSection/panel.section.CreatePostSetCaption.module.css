@@ -1,0 +1,10 @@
+.container {
+  flex-grow: 1;
+  background-color: var(--primary-body-color2);
+  display: flex;
+}
+
+.setCaptionBody {
+  border: 2px solid red;
+  height: 100%;
+}

@@ -10,6 +10,9 @@
 .header {
   border-bottom: 1px solid var(--primary-border-color);
   font-weight: 570;
+  display: grid;
+  grid-template-columns: repeat(3, 33%);
+  padding: 0.3rem 0 0.3rem 0;
 }
 
 .text {

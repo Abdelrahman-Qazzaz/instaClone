@@ -6,6 +6,9 @@ import { useState } from "react";
 import { CreatePostPanelSelectMediaSection } from "@/panels/CreatePostPanel/CreatePostPanel Sections/CreatePostPanelSelectMediaSection/panel.section.CreatePostSelectMedia";
 
 import { PercentCrop } from "react-image-crop";
+import { CreatePostPanelSetCaptionSection } from "@/panels/CreatePostPanel/CreatePostPanel Sections/CreatePostPanelSetCaptionSection/panel.section.CreatePostSetCaption";
+import { LeftArrowIcon } from "@/icons/icon.Arrow";
+import { ScaleHoverButton } from "@/assets/animations/animation.ScaleHoverButton";
 
 export type previewFile = {
   id: number;
@@ -19,6 +22,7 @@ export type CreatePostSections = "SelectMedia" | "SetCaption";
 export const CreatePostPanel = () => {
   const [previewFiles, setPreviewFiles] = useState<previewFile[]>([]);
   const [section, setSection] = useState<CreatePostSections>("SelectMedia");
+  const xPadding = "1.5rem";
   /*
   const formData = new FormData();
    formData.append('files', files[i])
@@ -27,10 +31,44 @@ export const CreatePostPanel = () => {
   return (
     <Panel>
       <div className={styles.container}>
-        <div
-          className={`${styles.header} ${styles.text} d-flex justify-content-center align-items-center py-2`}
-        >
-          Create new post
+        <div className={`${styles.header} ${styles.text}`}>
+          <ScaleHoverButton
+            style={{
+              backgroundColor: "transparent",
+              display: "flex",
+              justifyContent: "start",
+              alignItems: "center",
+              padding: `0 ${xPadding} 0 ${xPadding}`,
+            }}
+            onClick={() => {
+              setSection((prev) => {
+                return prev === "SetCaption" ? "SelectMedia" : "SetCaption";
+              });
+            }}
+          >
+            <LeftArrowIcon fontSize={"1.6rem"} />
+          </ScaleHoverButton>
+          <div className="d-flex justify-content-center align-items-center">
+            Create new post
+          </div>
+          <div>
+            {section === "SetCaption" && (
+              <ScaleHoverButton
+                onClick={() => {}}
+                style={{
+                  backgroundColor: "transparent",
+                  display: "flex",
+                  justifyContent: "end",
+                  alignItems: "center",
+                  alignContent: "center",
+                  color: "var(--navy)",
+                  padding: `0 ${xPadding} 0 ${xPadding}`,
+                }}
+              >
+                Share
+              </ScaleHoverButton>
+            )}
+          </div>
         </div>
         {section === "SelectMedia" && (
           <CreatePostPanelSelectMediaSection
@@ -40,7 +78,13 @@ export const CreatePostPanel = () => {
           />
         )}
 
-        {section === "SetCaption" && <></>}
+        {section === "SetCaption" && (
+          <CreatePostPanelSetCaptionSection
+            previewFiles={previewFiles}
+            setPreviewFiles={setPreviewFiles}
+            setSection={setSection}
+          />
+        )}
       </div>
     </Panel>
   );
