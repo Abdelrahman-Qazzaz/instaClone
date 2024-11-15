@@ -1,0 +1,14 @@
+{
+  "Typed React Icon Component": {
+    "prefix": "itrafc", // The shortcut you want to use
+    "body": [
+      "import { I_IconProps } from '@/icons/I_iconProps'",
+      "",
+      "export const ${1:ComponentName}: React.FC<I_IconProps> = ({ fontSize,color }) => {",
+      "  return <i style={{fontSize,color}} className=''></i>;",
+      "};",
+      ""
+    ],
+    "description": "Create a typed React functional Icon component"
+  }
+}

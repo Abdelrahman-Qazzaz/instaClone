@@ -1,4 +1,7 @@
-import { previewFile } from "@/panels/CreatePostPanel/panel.CreatePost";
+import {
+  CreatePostSections,
+  previewFile,
+} from "@/panels/CreatePostPanel/panel.CreatePost";
 
 import { Button } from "react-bootstrap";
 import { Rotate } from "@/assets/Rotate/Rotate";
@@ -13,9 +16,7 @@ export const CreatePostPanelSelectMediaSection = ({
 }: {
   previewFiles?: previewFile[];
   setPreviewFiles: React.Dispatch<React.SetStateAction<previewFile[]>>;
-  setSection: React.Dispatch<
-    React.SetStateAction<"SelectMedia" | "CropMedia" | "SetCaption">
-  >;
+  setSection: React.Dispatch<React.SetStateAction<CreatePostSections>>;
 }) => {
   function handleFile(event: React.ChangeEvent<HTMLInputElement>) {
     const files = event.target.files;
@@ -52,7 +53,7 @@ export const CreatePostPanelSelectMediaSection = ({
               className={styles.nextButton}
               style={{ zIndex: 3 }}
               onClick={() => {
-                setSection("CropMedia");
+                setSection("SetCaption");
               }}
             >
               Next

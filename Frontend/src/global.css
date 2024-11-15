@@ -11,6 +11,7 @@
 
   --red: #ff2929;
   --navy: #024caa;
+  --gold: #ec8305;
 }
 
 @media (prefers-color-scheme: dark) {

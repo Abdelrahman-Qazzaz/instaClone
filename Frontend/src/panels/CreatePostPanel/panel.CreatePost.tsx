@@ -13,11 +13,12 @@ export type previewFile = {
   type: string;
   dimensions?: PercentCrop;
 };
+
+export type CreatePostSections = "SelectMedia" | "SetCaption";
+
 export const CreatePostPanel = () => {
   const [previewFiles, setPreviewFiles] = useState<previewFile[]>([]);
-  const [section, setSection] = useState<
-    "SelectMedia" | "CropMedia" | "SetCaption"
-  >("SelectMedia");
+  const [section, setSection] = useState<CreatePostSections>("SelectMedia");
   /*
   const formData = new FormData();
    formData.append('files', files[i])
@@ -39,12 +40,7 @@ export const CreatePostPanel = () => {
           />
         )}
 
-        {section === "CropMedia" && (
-          <CreatePostPanelCropMediaSection
-            previewFile={previewFiles[0]}
-            setPreviewFiles={setPreviewFiles}
-          />
-        )}
+        {section === "SetCaption" && <></>}
       </div>
     </Panel>
   );

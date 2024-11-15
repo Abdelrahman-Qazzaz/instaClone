@@ -58,6 +58,7 @@ export const StackedMedia = ({
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <BlackBackground
@@ -66,10 +67,15 @@ export const StackedMedia = ({
               width: "100%",
               height: "100%",
               overflow: "hidden",
-              border: "2px solid red",
             }}
           />
-          <div style={{ display: "flex", justifyContent: "end" }}>
+          <div
+            style={{
+              width: "70%",
+              display: "flex",
+              justifyContent: "end",
+            }}
+          >
             <ScaleHoverButton
               style={{
                 zIndex: BlackBackgroundZIndex,
@@ -88,7 +94,6 @@ export const StackedMedia = ({
             editMode={true}
             style={{
               zIndex: BlackBackgroundZIndex + 1,
-              maxWidth: "100%",
             }}
           ></MediaCarousel>
         </div>
