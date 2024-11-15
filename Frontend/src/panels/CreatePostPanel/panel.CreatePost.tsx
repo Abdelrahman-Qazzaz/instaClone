@@ -4,7 +4,7 @@ import { Panel } from "@/panels/Panel";
 import { useState } from "react";
 
 import { CreatePostPanelSelectMediaSection } from "@/panels/CreatePostPanel/CreatePostPanel Sections/CreatePostPanelSelectMediaSection/panel.section.CreatePostSelectMedia";
-import { CreatePostPanelCropMediaSection } from "@/panels/CreatePostPanel/CreatePostPanel Sections/CreatePostPanelCropMediaSection/panel.section.CreatePostCropMedia";
+
 import { PercentCrop } from "react-image-crop";
 
 export type previewFile = {

@@ -3,7 +3,7 @@ import React, { useState, useRef } from "react";
 import { Button } from "react-bootstrap";
 import ReactCrop, { type Crop } from "react-image-crop";
 
-export const CreatePostPanelCropMediaSection = ({
+export const CropMedia = ({
   previewFile,
   setPreviewFiles,
 }: {
@@ -78,7 +78,7 @@ export const CreatePostPanelCropMediaSection = ({
       </div>
 
       <Button onClick={async () => await getCroppedImage(previewFile)}>
-        Next
+        Done
       </Button>
     </>
   );

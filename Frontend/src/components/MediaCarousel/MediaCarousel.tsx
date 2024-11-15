@@ -11,6 +11,7 @@ import {
   LeftArrowIcon,
   RightArrowCircleFillIcon,
 } from "@/icons/icon.Arrow";
+import { CropMedia } from "@/components/CropMedia/CropMedia";
 export const MediaCarousel = ({
   previewFiles,
   setPreviewFiles,
@@ -31,6 +32,8 @@ export const MediaCarousel = ({
     height: "fit-content",
     padding: 0,
   };
+
+  const [cropping, setCropping] = useState<boolean>(false);
 
   return (
     <div
@@ -73,9 +76,16 @@ export const MediaCarousel = ({
                   previewFiles={previewFiles}
                   setPreviewFiles={setPreviewFiles}
                   setCurrentIndex={setCurrentIndex}
+                  setCropping={setCropping}
                 />
               )}
-              {previewFile.type === "image" ? (
+
+              {cropping ? (
+                <CropMedia
+                  previewFile={previewFile}
+                  setPreviewFiles={setPreviewFiles}
+                />
+              ) : previewFile.type === "image" ? (
                 <img
                   src={previewFile.src}
                   style={{
@@ -125,11 +135,13 @@ const EditButtons = ({
   previewFiles,
   setPreviewFiles,
   setCurrentIndex,
+  setCropping,
 }: {
   previewFile: previewFile;
   previewFiles: previewFile[];
   setPreviewFiles: React.Dispatch<React.SetStateAction<previewFile[]>>;
   setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
+  setCropping: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const sharedEditButtonsStyles = {
     width: "fit-content",
@@ -152,7 +164,9 @@ const EditButtons = ({
   return (
     <div className={styles.buttonsContainer} style={{ zIndex: 2 }}>
       <ScaleHoverButton
-        onClick={() => {}}
+        onClick={() => {
+          setCropping((prev) => !prev);
+        }}
         style={{
           backgroundColor: "var(--gold)",
           ...sharedEditButtonsStyles,
