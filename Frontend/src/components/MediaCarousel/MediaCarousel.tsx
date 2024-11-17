@@ -12,12 +12,14 @@ import {
 } from "@/icons/icon.Arrow";
 import { CropMedia } from "@/components/CropMedia/CropMedia";
 export const MediaCarousel = ({
+  mediaStyle,
   previewFiles,
   setPreviewFiles,
   editMode,
   style,
   controlsFontSize = "2rem",
 }: {
+  mediaStyle: CSSProperties;
   previewFiles: previewFile[];
   setPreviewFiles?: React.Dispatch<React.SetStateAction<previewFile[]>>;
   editMode?: boolean;
@@ -65,7 +67,14 @@ export const MediaCarousel = ({
                   />
                 </div>
               ) : null}
-              <div style={{ position: "relative" }}>
+              <div
+                style={{
+                  position: "relative",
+                  border: "2px solid green",
+                  maxHeight: "500px",
+                  overflow: "hidden",
+                }}
+              >
                 {previewFiles.length > 1 ? (
                   <div
                     style={{
@@ -125,19 +134,14 @@ export const MediaCarousel = ({
 
                 {cropping && setPreviewFiles ? (
                   <CropMedia
+                    mediaStyle={mediaStyle}
                     previewFile={previewFile}
                     setPreviewFiles={setPreviewFiles}
                   />
                 ) : previewFile.type === "image" ? (
-                  <img
-                    src={previewFile.src}
-                    style={{
-                      zIndex: 1,
-                      objectFit: "cover",
-                    }}
-                  />
+                  <img src={previewFile.src} style={mediaStyle} />
                 ) : (
-                  <video src={previewFile.src} style={{ zIndex: 1 }} />
+                  <video src={previewFile.src} style={mediaStyle} />
                 )}
               </div>
             </div>

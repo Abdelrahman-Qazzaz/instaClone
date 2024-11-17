@@ -1,12 +1,14 @@
 import { previewFile } from "@/panels/CreatePostPanel/panel.CreatePost";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, CSSProperties } from "react";
 import { Button } from "react-bootstrap";
 import ReactCrop, { type Crop } from "react-image-crop";
 
 export const CropMedia = ({
+  mediaStyle,
   previewFile,
   setPreviewFiles,
 }: {
+  mediaStyle: CSSProperties;
   previewFile: previewFile;
   setPreviewFiles: React.Dispatch<React.SetStateAction<previewFile[]>>;
 }) => {
@@ -63,21 +65,35 @@ export const CropMedia = ({
 
   return (
     <>
-      <div>
-        <ReactCrop
-          crop={crop}
-          onChange={(c) => {
-            setCrop(c);
-          }}
-        >
-          {previewFile.type === "image" && (
-            <img ref={imgRef} src={previewFile.src} />
-          )}
-          {previewFile.type === "video" && <video src={previewFile.src} />}
-        </ReactCrop>
-      </div>
+      <ReactCrop
+        style={{
+          border: "2px solid red",
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        crop={crop}
+        onChange={(c) => {
+          setCrop(c);
+        }}
+      >
+        {previewFile.type === "image" && (
+          <img style={mediaStyle} ref={imgRef} src={previewFile.src} />
+        )}
+        {previewFile.type === "video" && (
+          <video src={previewFile.src} style={mediaStyle} />
+        )}
+      </ReactCrop>
 
-      <Button onClick={async () => await getCroppedImage(previewFile)}>
+      <Button
+        style={{
+          marginTop: "0.5rem",
+          border: "2px solid red",
+          position: "relative",
+        }}
+        onClick={async () => await getCroppedImage(previewFile)}
+      >
         Done
       </Button>
     </>

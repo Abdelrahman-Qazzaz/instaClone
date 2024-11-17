@@ -89,6 +89,12 @@ export const StackedMedia = ({
             </ScaleHoverButton>
           </div>
           <MediaCarousel
+            mediaStyle={{
+              zIndex: 1,
+              objectFit: "contain",
+              height: "300px",
+              width: "300px",
+            }}
             previewFiles={previewFiles}
             setPreviewFiles={setPreviewFiles}
             editMode={true}

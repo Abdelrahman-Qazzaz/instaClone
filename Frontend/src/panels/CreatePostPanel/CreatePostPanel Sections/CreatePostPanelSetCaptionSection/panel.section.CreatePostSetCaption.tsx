@@ -26,11 +26,17 @@ export const CreatePostPanelSetCaptionSection = ({
   return (
     <div className={styles.container}>
       <MediaCarousel
+        mediaStyle={{
+          zIndex: 1,
+          objectFit: "contain",
+          height: "300px",
+          width: "300px",
+        }}
         style={{ width: "50%" }}
         previewFiles={previewFiles}
         controlsFontSize={"1.5rem"}
       />
-      <div>dinpsa</div>
+      <div>set caption</div>
     </div>
   );
 };

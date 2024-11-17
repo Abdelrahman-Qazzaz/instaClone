@@ -1,6 +1,7 @@
 .container {
   width: 500px;
-  aspect-ratio: 3/2.5;
+  min-height: 500px;
+  height: fit-content;
   border: 1px solid var(--primary-border-color);
   display: flex;
   flex-direction: column;

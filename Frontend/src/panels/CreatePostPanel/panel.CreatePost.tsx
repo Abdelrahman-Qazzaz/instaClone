@@ -9,6 +9,7 @@ import { PercentCrop } from "react-image-crop";
 import { CreatePostPanelSetCaptionSection } from "@/panels/CreatePostPanel/CreatePostPanel Sections/CreatePostPanelSetCaptionSection/panel.section.CreatePostSetCaption";
 import { LeftArrowIcon } from "@/icons/icon.Arrow";
 import { ScaleHoverButton } from "@/assets/animations/animation.ScaleHoverButton";
+import { usePanelsStore } from "@/store/usePanelsStore";
 
 export type previewFile = {
   id: number;
@@ -20,6 +21,7 @@ export type previewFile = {
 export type CreatePostSections = "SelectMedia" | "SetCaption";
 
 export const CreatePostPanel = () => {
+  const closeAll = usePanelsStore((state) => state.closeAll);
   const [previewFiles, setPreviewFiles] = useState<previewFile[]>([]);
   const [section, setSection] = useState<CreatePostSections>("SelectMedia");
   const xPadding = "1.5rem";
@@ -42,7 +44,12 @@ export const CreatePostPanel = () => {
             }}
             onClick={() => {
               setSection((prev) => {
-                return prev === "SetCaption" ? "SelectMedia" : "SetCaption";
+                if (prev === "SelectMedia") {
+                  closeAll();
+                }
+                if (prev === "SetCaption") return "SelectMedia";
+
+                return "SetCaption";
               });
             }}
           >
