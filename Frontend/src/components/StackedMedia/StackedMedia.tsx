@@ -3,9 +3,9 @@ import styles from "./StackedMedia.module.css";
 import { ScaleHoverButton } from "@/assets/animations/animation.ScaleHoverButton";
 import { CSSProperties, useState } from "react";
 import { MediaCarousel } from "@/components/MediaCarousel/MediaCarousel";
-import { FixedPosPage } from "@/assets/FixedPosPage/FixedPosPage";
+
 import { BlackBackground } from "@/assets/BlackBackground";
-import { XIcon, XIconFill } from "@/icons/icon.X";
+import { XIconFill } from "@/icons/icon.X";
 
 export const StackedMedia = ({
   previewFiles,
@@ -71,7 +71,7 @@ export const StackedMedia = ({
           />
           <div
             style={{
-              width: "100%",
+              width: "280px",
               display: "flex",
               justifyContent: "end",
             }}
@@ -92,8 +92,8 @@ export const StackedMedia = ({
             mediaStyle={{
               zIndex: 1,
               objectFit: "contain",
-              height: "300px",
-              width: "300px",
+              maxHeight: "300px",
+              maxWidth: "300px",
             }}
             previewFiles={previewFiles}
             setPreviewFiles={setPreviewFiles}

@@ -141,7 +141,11 @@ export const MediaCarousel = ({
                 ) : previewFile.type === "image" ? (
                   <img src={previewFile.src} style={mediaStyle} />
                 ) : (
-                  <video src={previewFile.src} style={mediaStyle} />
+                  <video
+                    src={previewFile.src}
+                    style={mediaStyle}
+                    autoPlay={true}
+                  />
                 )}
               </div>
             </div>
