@@ -15,11 +15,13 @@ import { TopNavBar } from "@/components/Navbars/Vertical Navbars/VerticalNavbars
 import { BottomNavBar } from "@/components/Navbars/Vertical Navbars/VerticalNavbars";
 import { CreatePostPanel } from "@/panels/CreatePostPanel/panel.CreatePost";
 import { usePanelsStore } from "@/store/usePanelsStore";
+import { useLoadingStore } from "@/store/useLoadingStore";
+import { Loading } from "@/components/Loading/Loading";
 
 function App() {
   const { viewStoryOrVisitProfilePrompt } = usePromptsStore((store) => store);
   const { createPostPanel } = usePanelsStore((store) => store);
-
+  const isLoading = useLoadingStore((state) => state.isLoading);
   const blackBackground =
     viewStoryOrVisitProfilePrompt.display || createPostPanel.display;
 
@@ -27,6 +29,7 @@ function App() {
   // Navbars zIndex: 2
   // BlackBackground zIndex: 2
   // prompts & Panels' zIndex: 3
+  // Loading zIndex: 4
   return (
     <>
       <Router>
@@ -53,6 +56,7 @@ function App() {
         </>
         <>{createPostPanel.display && <CreatePostPanel />}</>
       </>
+      {isLoading && <Loading />}
     </>
   );
 }
