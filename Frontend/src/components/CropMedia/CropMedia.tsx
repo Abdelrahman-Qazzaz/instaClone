@@ -28,7 +28,7 @@ export const CropMedia = ({
   async function handleClick() {
     setIsLoading(true);
     if (imgRef) await getCroppedImage(previewFile);
-    if (vidRef) await getCroppedVideo(previewFile);
+    // if (vidRef) await getCroppedVideo(previewFile);
     setIsLoading(false);
   }
 
@@ -79,92 +79,78 @@ export const CropMedia = ({
     });
   };
 
-  const getCroppedVideo = async (previewFile: previewFile) => {
-    if (!vidRef.current || !crop) return;
+  // const getCroppedVideo = async (previewFile: previewFile) => {
+  //   if (!vidRef.current || !crop) return;
 
-    // Create a canvas element to draw frames
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+  //   const canvas = document.createElement("canvas");
+  //   const ctx = canvas.getContext("2d");
+  //   if (!ctx) return;
 
-    // Get the video metadata (duration, width, height, etc.)
-    const video = vidRef.current;
-    const videoWidth = video.videoWidth;
-    const videoHeight = video.videoHeight;
+  //   const video = vidRef.current;
+  //   const videoWidth = video.videoWidth;
+  //   const videoHeight = video.videoHeight;
 
-    // Calculate the crop's scale
-    const scaleX = videoWidth / video.clientWidth;
-    const scaleY = videoHeight / video.clientHeight;
+  //   const scaleX = videoWidth / video.clientWidth;
+  //   const scaleY = videoHeight / video.clientHeight;
 
-    // Set canvas size to match the crop dimensions
-    canvas.width = crop.width;
-    canvas.height = crop.height;
+  //   canvas.width = crop.width;
+  //   canvas.height = crop.height;
 
-    // Create a stream to capture the cropped video
-    const stream = canvas.captureStream(video.playbackRate);
+  //   const stream = canvas.captureStream(video.playbackRate);
 
-    // Create a MediaRecorder to encode the cropped video
-    const mimeType = "video/webm";
-    const options = { mimeType };
-    const mediaRecorder = new MediaRecorder(stream, options);
-    const chunks: Blob[] = [];
+  //   const mimeType = "video/webm";
+  //   const options = { mimeType };
+  //   const mediaRecorder = new MediaRecorder(stream, options);
+  //   const chunks: Blob[] = [];
 
-    mediaRecorder.ondataavailable = (event) => {
-      chunks.push(event.data);
-    };
+  //   mediaRecorder.ondataavailable = (event) => {
+  //     chunks.push(event.data);
+  //   };
 
-    mediaRecorder.onstop = async () => {
-      // Once recording is stopped, we can process the video blob
-      const blob = new Blob(chunks, { type: mimeType });
+  //   mediaRecorder.onstop = async () => {
+  //     const blob = new Blob(chunks, { type: mimeType });
 
-      // Create a URL for the blob
-      const croppedVideoUrl = URL.createObjectURL(blob);
+  //     const croppedVideoUrl = URL.createObjectURL(blob);
 
-      // Update the preview file with the cropped video URL
-      setPreviewFiles((prev) => {
-        const filteredArray = prev.filter((elem) => elem.id !== previewFile.id);
+  //     setPreviewFiles((prev) => {
+  //       const filteredArray = prev.filter((elem) => elem.id !== previewFile.id);
 
-        const oldPreviewFile = prev.find((elem) => elem.id === previewFile.id);
-        if (!oldPreviewFile) return [...filteredArray];
+  //       const oldPreviewFile = prev.find((elem) => elem.id === previewFile.id);
+  //       if (!oldPreviewFile) return [...filteredArray];
 
-        const updatedPreviewFile = { ...oldPreviewFile, src: croppedVideoUrl };
-        console.log(updatedPreviewFile);
-        return [...filteredArray, updatedPreviewFile];
-      });
-    };
+  //       const updatedPreviewFile = { ...oldPreviewFile, src: croppedVideoUrl };
+  //       console.log(updatedPreviewFile);
+  //       return [...filteredArray, updatedPreviewFile];
+  //     });
+  //   };
 
-    // Draw the frames to the canvas and record
-    video.currentTime = 0; // Start from the beginning
-    video.play();
+  //   video.currentTime = 0;
+  //   video.play();
 
-    video.ontimeupdate = () => {
-      if (video.paused || video.ended) return;
+  //   video.ontimeupdate = () => {
+  //     if (video.paused || video.ended) return;
 
-      // Clear canvas before drawing new frame
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Draw the cropped part of the current video frame onto the canvas
-      ctx.drawImage(
-        video,
-        crop.x * scaleX,
-        crop.y * scaleY,
-        crop.width * scaleX,
-        crop.height * scaleY,
-        0,
-        0,
-        crop.width,
-        crop.height
-      );
-    };
+  //     ctx.drawImage(
+  //       video,
+  //       crop.x * scaleX,
+  //       crop.y * scaleY,
+  //       crop.width * scaleX,
+  //       crop.height * scaleY,
+  //       0,
+  //       0,
+  //       crop.width,
+  //       crop.height
+  //     );
+  //   };
 
-    // Start recording the video frames
-    mediaRecorder.start();
+  //   mediaRecorder.start();
 
-    // Stop recording after the video duration
-    setTimeout(() => {
-      mediaRecorder.stop();
-    }, video.duration * 1000); // Stop recording after the video has finished
-  };
+  //   setTimeout(() => {
+  //     mediaRecorder.stop();
+  //   }, video.duration * 1000);
+  // };
 
   return (
     <>

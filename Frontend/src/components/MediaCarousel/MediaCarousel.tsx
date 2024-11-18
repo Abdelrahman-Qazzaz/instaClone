@@ -189,20 +189,22 @@ const EditButtons = ({
 
   return (
     <div className={styles.buttonsContainer} style={{ zIndex: 2 }}>
-      <ScaleHoverButton
-        onClick={() => {
-          setCropping((prev) => !prev);
-        }}
-        style={{
-          backgroundColor: "var(--gold)",
-          ...sharedEditButtonsStyles,
-        }}
-      >
-        <CropIcon
-          fontSize={editIconsSharedFontSize.fontSize}
-          color={editIconsSharedFontSize.color}
-        />
-      </ScaleHoverButton>
+      {previewFile.type === "image" && (
+        <ScaleHoverButton
+          onClick={() => {
+            setCropping((prev) => !prev);
+          }}
+          style={{
+            backgroundColor: "var(--gold)",
+            ...sharedEditButtonsStyles,
+          }}
+        >
+          <CropIcon
+            fontSize={editIconsSharedFontSize.fontSize}
+            color={editIconsSharedFontSize.color}
+          />
+        </ScaleHoverButton>
+      )}
 
       <ScaleHoverButton
         onClick={() => deletePreviewFile(previewFile)}
