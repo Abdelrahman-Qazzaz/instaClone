@@ -45,18 +45,16 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Feed />} />
         </Routes>
-      </Router>
 
-      <>
         {blackBackground && <BlackBackground />}
-        <>
-          {viewStoryOrVisitProfilePrompt.display && (
-            <ViewStoryOrVisitProfilePrompt />
-          )}
-        </>
-        <>{createPostPanel.display && <CreatePostPanel />}</>
-      </>
-      {isLoading && <Loading />}
+
+        {viewStoryOrVisitProfilePrompt.display && (
+          <ViewStoryOrVisitProfilePrompt />
+        )}
+        {createPostPanel.display && <CreatePostPanel />}
+
+        {isLoading && <Loading />}
+      </Router>
     </>
   );
 }

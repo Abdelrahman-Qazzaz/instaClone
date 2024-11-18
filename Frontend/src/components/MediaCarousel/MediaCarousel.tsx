@@ -70,7 +70,7 @@ export const MediaCarousel = ({
               <div
                 style={{
                   position: "relative",
-                  border: "2px solid green",
+
                   maxHeight: "500px",
                   overflow: "hidden",
                 }}
