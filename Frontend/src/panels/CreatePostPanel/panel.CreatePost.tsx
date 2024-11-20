@@ -10,6 +10,7 @@ import { CreatePostPanelSetCaptionSection } from "@/panels/CreatePostPanel/Creat
 import { LeftArrowIcon } from "@/icons/icon.Arrow";
 import { ScaleHoverButton } from "@/assets/animations/animation.ScaleHoverButton";
 import { usePanelsStore } from "@/store/usePanelsStore";
+import { useCreatePostStore } from "@/store/useCreatePostStore";
 
 export type previewFile = {
   id: number;
@@ -22,13 +23,8 @@ export type CreatePostSections = "SelectMedia" | "SetCaption";
 
 export const CreatePostPanel = () => {
   const closeAll = usePanelsStore((state) => state.closeAll);
-  const [previewFiles, setPreviewFiles] = useState<previewFile[]>([]);
   const [section, setSection] = useState<CreatePostSections>("SelectMedia");
   const xPadding = "1.5rem";
-  /*
-  const formData = new FormData();
-   formData.append('files', files[i])
-  */
 
   return (
     <Panel>
@@ -78,11 +74,7 @@ export const CreatePostPanel = () => {
           </div>
         </div>
         {section === "SelectMedia" && (
-          <CreatePostPanelSelectMediaSection
-            previewFiles={previewFiles}
-            setPreviewFiles={setPreviewFiles}
-            setSection={setSection}
-          />
+          <CreatePostPanelSelectMediaSection setSection={setSection} />
         )}
 
         {section === "SetCaption" && (

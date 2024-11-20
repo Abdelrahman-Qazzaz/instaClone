@@ -9,34 +9,42 @@ import { ImageIcon } from "@/icons/icon.Image";
 import { ReelsIcon } from "@/icons/icon.Reels";
 import { StackedMedia } from "@/components/StackedMedia/StackedMedia";
 import styles from "./panel.section.CreatePostSelectMedia.module.css";
+import { useCreatePostStore } from "@/store/useCreatePostStore";
+import { ScaleHoverButton } from "@/assets/animations/animation.ScaleHoverButton";
+import { BlackBackground } from "@/assets/BlackBackground";
+import { useState } from "react";
+import { XIconFill } from "@/icons/icon.X";
+import { MediaCarousel } from "@/components/MediaCarousel/MediaCarousel";
 export const CreatePostPanelSelectMediaSection = ({
-  previewFiles,
-  setPreviewFiles,
   setSection,
 }: {
-  previewFiles?: previewFile[];
-  setPreviewFiles: React.Dispatch<React.SetStateAction<previewFile[]>>;
   setSection: React.Dispatch<React.SetStateAction<CreatePostSections>>;
 }) => {
+  const previewFiles = useCreatePostStore((state) => state.previewFiles);
+  const pushPreviewFiles = useCreatePostStore(
+    (state) => state.pushPreviewFiles
+  );
   function handleFile(event: React.ChangeEvent<HTMLInputElement>) {
     const files = event.target.files;
 
     if (!files) return;
 
     let tempPreviewFiles: previewFile[] = [];
-    if (previewFiles) tempPreviewFiles = [...previewFiles];
 
     for (let i = 0; i < files.length; i++) {
       //
       const file = files[i];
       const src = URL.createObjectURL(file);
       const type: string = file.type.startsWith("image") ? "image" : "video";
-      tempPreviewFiles.push({ id: tempPreviewFiles.length, src, type });
+      tempPreviewFiles.push({ id: previewFiles.length, src, type });
       //
     }
 
-    setPreviewFiles(tempPreviewFiles);
+    pushPreviewFiles(tempPreviewFiles);
   }
+
+  const [showMediaCarousel, setShowMediaCarousel] = useState<boolean>(false);
+  const BlackBackgroundZIndex = 4;
 
   return (
     <div className={styles.createPostPanelBody}>
@@ -45,7 +53,9 @@ export const CreatePostPanelSelectMediaSection = ({
           <>
             <StackedMedia
               previewFiles={previewFiles}
-              setPreviewFiles={setPreviewFiles}
+              onClick={() => {
+                setShowMediaCarousel((prev) => !prev);
+              }}
               style={{ position: "absolute", left: 0 }}
             />
 
@@ -59,6 +69,61 @@ export const CreatePostPanelSelectMediaSection = ({
               Next
             </Button>
           </>
+        )}
+        {showMediaCarousel && (
+          <div
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              top: 0,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <BlackBackground
+              style={{
+                zIndex: BlackBackgroundZIndex,
+                width: "100%",
+                height: "100%",
+                overflow: "hidden",
+              }}
+            />
+            <div
+              style={{
+                width: "280px",
+                display: "flex",
+                justifyContent: "end",
+              }}
+            >
+              <ScaleHoverButton
+                style={{
+                  zIndex: BlackBackgroundZIndex,
+                  backgroundColor: "transparent",
+                  width: "fit-content",
+                  padding: 0,
+                }}
+                onClick={() => setShowMediaCarousel(false)}
+              >
+                <XIconFill fontSize={"1.5rem"} />
+              </ScaleHoverButton>
+            </div>
+            <MediaCarousel
+              mediaStyle={{
+                zIndex: 1,
+                objectFit: "contain",
+                maxHeight: "300px",
+                maxWidth: "300px",
+              }}
+              previewFiles={previewFiles}
+              editMode={true}
+              style={{
+                zIndex: BlackBackgroundZIndex + 1,
+              }}
+            />
+          </div>
         )}
       </div>
 

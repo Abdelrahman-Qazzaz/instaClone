@@ -14,11 +14,11 @@ import { Dropdown } from "@/components/Dropdown/Dropdown";
 
 export const CreatePostPanelSetCaptionSection = ({
   previewFiles,
-  setPreviewFiles,
+
   setSection,
 }: {
   previewFiles: previewFile[];
-  setPreviewFiles: React.Dispatch<React.SetStateAction<previewFile[]>>;
+
   setSection: React.Dispatch<React.SetStateAction<CreatePostSections>>;
 }) => {
   return (
