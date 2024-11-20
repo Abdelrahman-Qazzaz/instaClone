@@ -13,8 +13,7 @@ export const Dropdown = ({
   buttonText: string;
 }) => {
   return (
-    <>
-      {showChildren && children}
+    <div style={{ border: "2px solid red" }}>
       <button
         className={styles.button}
         onClick={() => {
@@ -26,7 +25,8 @@ export const Dropdown = ({
           <ChevronDown fontSize={"1rem"} />
         </div>
       </button>
-    </>
+      {showChildren && children}
+    </div>
   );
 };
 
