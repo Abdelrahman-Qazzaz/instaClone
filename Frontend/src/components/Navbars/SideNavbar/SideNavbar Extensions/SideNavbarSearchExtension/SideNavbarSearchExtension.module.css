@@ -6,7 +6,3 @@
   border-right: 1px solid var(--primary-border-color);
   height: 100%;
 }
-
-.text {
-  color: var(--secondary-color);
-}

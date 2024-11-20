@@ -44,6 +44,9 @@ const SetCaptionBody = () => {
   const [showAdditionalSettings, setShowAdditionalSettings] =
     useState<boolean>(false);
 
+  const [hideLikesCount, setHideLikesCount] = useState<boolean>(false);
+  const [disableCommenting, setDisableCommenting] = useState<boolean>(false);
+
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const { value } = e.target;
     setCaption(value);
@@ -67,7 +70,16 @@ const SetCaptionBody = () => {
         setShowChildren={setShowAdditionalSettings}
         buttonText="Additional Settings"
       >
-        <ToggleButton text="sds" />
+        <ToggleButton
+          value={hideLikesCount}
+          setValue={setHideLikesCount}
+          text="Hide likes count on this post"
+        />
+        <ToggleButton
+          value={disableCommenting}
+          setValue={setDisableCommenting}
+          text="Turn off commenting"
+        />
       </Dropdown>
     </div>
   );

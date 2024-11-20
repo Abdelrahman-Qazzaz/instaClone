@@ -33,7 +33,7 @@ export const CreatePostPanel = () => {
   return (
     <Panel>
       <div className={styles.container}>
-        <div className={`${styles.header} ${styles.text}`}>
+        <div className={`${styles.header} text`}>
           <ScaleHoverButton
             style={{
               backgroundColor: "transparent",

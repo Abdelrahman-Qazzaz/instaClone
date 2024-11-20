@@ -70,10 +70,10 @@ export const CreatePostPanelSelectMediaSection = ({
           <ReelsIcon />
         </Rotate>
       </div>
-      <div className={styles.text}>Drag photos and videos here</div>
+      <div className="text">Drag photos and videos here</div>
       <>
         <label
-          className={`btn btn-primary ${styles.selectButton} ${styles.text}`}
+          className={`btn btn-primary ${styles.selectButton} text`}
           htmlFor="Files"
         >
           Select

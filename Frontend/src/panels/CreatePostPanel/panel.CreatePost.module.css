@@ -15,7 +15,3 @@
   grid-template-columns: repeat(3, 33%);
   padding: 0.3rem 0 0.3rem 0;
 }
-
-.text {
-  color: var(--secondary-color);
-}

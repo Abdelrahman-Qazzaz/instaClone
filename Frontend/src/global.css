@@ -1,4 +1,8 @@
 :root {
+  .text {
+    color: var(--secondary-color);
+  }
+
   --primary-body-color: white;
   --primary-body-color2: white;
 
