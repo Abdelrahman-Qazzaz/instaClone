@@ -12,7 +12,7 @@ import styles from "./panel.section.CreatePostSelectMedia.module.css";
 import { useCreatePostStore } from "@/store/useCreatePostStore";
 import { ScaleHoverButton } from "@/assets/animations/animation.ScaleHoverButton";
 import { BlackBackground } from "@/assets/BlackBackground";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { XIconFill } from "@/icons/icon.X";
 import { MediaCarousel } from "@/components/MediaCarousel/MediaCarousel";
 export const CreatePostPanelSelectMediaSection = ({
@@ -24,7 +24,7 @@ export const CreatePostPanelSelectMediaSection = ({
   const pushPreviewFiles = useCreatePostStore(
     (state) => state.pushPreviewFiles
   );
-  function handleFile(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleFiles(event: React.ChangeEvent<HTMLInputElement>) {
     const files = event.target.files;
 
     if (!files) return;
@@ -36,7 +36,7 @@ export const CreatePostPanelSelectMediaSection = ({
       const file = files[i];
       const src = URL.createObjectURL(file);
       const type: string = file.type.startsWith("image") ? "image" : "video";
-      tempPreviewFiles.push({ id: previewFiles.length, src, type });
+      tempPreviewFiles.push({ id: previewFiles.length + i, src, type });
       //
     }
 
@@ -46,6 +46,9 @@ export const CreatePostPanelSelectMediaSection = ({
   const [showMediaCarousel, setShowMediaCarousel] = useState<boolean>(false);
   const BlackBackgroundZIndex = 4;
 
+  useEffect(() => {
+    if (!previewFiles.length) setShowMediaCarousel(false);
+  }, [previewFiles.length]);
   return (
     <div className={styles.createPostPanelBody}>
       <div className={styles.filesPreview}>
@@ -143,7 +146,7 @@ export const CreatePostPanelSelectMediaSection = ({
         >
           Select
         </label>
-        <input onChange={handleFile} type="file" id="Files" hidden multiple />
+        <input onChange={handleFiles} type="file" id="Files" hidden multiple />
       </>
     </div>
   );

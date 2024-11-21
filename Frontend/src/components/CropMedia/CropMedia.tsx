@@ -1,4 +1,5 @@
 import { previewFile } from "@/panels/CreatePostPanel/panel.CreatePost";
+import { useCreatePostStore } from "@/store/useCreatePostStore";
 import { useLoadingStore } from "@/store/useLoadingStore";
 import React, { useState, useRef, CSSProperties, useEffect } from "react";
 import { Button } from "react-bootstrap";
@@ -7,17 +8,18 @@ import ReactCrop, { type Crop } from "react-image-crop";
 export const CropMedia = ({
   mediaStyle,
   previewFile,
-  setPreviewFiles,
 }: {
   mediaStyle: CSSProperties;
   previewFile: previewFile;
-  setPreviewFiles: React.Dispatch<React.SetStateAction<previewFile[]>>;
 }) => {
   const [crop, setCrop] = useState<Crop>();
   const [ReactCropWidth, setReactCropWidth] = useState<number>();
   const imgRef = useRef<HTMLImageElement | null>(null);
   const vidRef = useRef<HTMLVideoElement | null>(null);
   const setIsLoading = useLoadingStore((state) => state.setIsLoading);
+  const updatePreviewFile = useCreatePostStore(
+    (state) => state.updatePreviewFile
+  );
 
   // set ReactCrop's width to exactly mactch the img/video element.
   useEffect(() => {
@@ -67,16 +69,7 @@ export const CropMedia = ({
 
     const croppedImageUrl = URL.createObjectURL(blob);
 
-    setPreviewFiles((prev) => {
-      const filteredArray = prev.filter((elem) => elem.id !== previewFile.id);
-
-      const oldPreviewFile = prev.find((elem) => elem.id === previewFile.id);
-      if (!oldPreviewFile) return [...filteredArray];
-
-      const updatedPreviewFile = { ...oldPreviewFile, src: croppedImageUrl };
-
-      return [...filteredArray, updatedPreviewFile];
-    });
+    updatePreviewFile(previewFile.id, croppedImageUrl);
   };
 
   // const getCroppedVideo = async (previewFile: previewFile) => {
@@ -156,7 +149,6 @@ export const CropMedia = ({
     <>
       <ReactCrop
         style={{
-          border: "2px solid red",
           width: ReactCropWidth,
           display: "flex",
           justifyContent: "center",
@@ -177,7 +169,7 @@ export const CropMedia = ({
       <Button
         style={{
           marginTop: "0.5rem",
-          border: "2px solid red",
+
           position: "relative",
         }}
         onClick={async () => await handleClick()}

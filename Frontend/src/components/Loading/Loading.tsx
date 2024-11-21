@@ -1,5 +1,5 @@
 import { BlackBackground } from "@/assets/BlackBackground";
-import spinner from "../../../public/spinner.svg";
+import spinner from "../spinner.svg";
 
 export const Loading = () => {
   return (

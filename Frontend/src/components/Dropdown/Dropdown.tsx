@@ -13,7 +13,7 @@ export const Dropdown = ({
   buttonText: string;
 }) => {
   return (
-    <div style={{ border: "2px solid red" }}>
+    <div>
       <button
         className={styles.button}
         onClick={() => {

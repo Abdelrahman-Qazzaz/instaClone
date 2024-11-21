@@ -2,6 +2,7 @@ import axios from "axios";
 import { login, signup } from "./Auth";
 import { getByUserId } from "./Stories";
 import { getByUsername } from "@/api/Users";
+import { sharePost } from "@/api/Posts";
 
 class Api {
   request = axios.create({
@@ -29,6 +30,10 @@ class Api {
 
   stories = {
     getByUserId,
+  };
+
+  posts = {
+    sharePost,
   };
 }
 

@@ -15,19 +15,21 @@ import { useCreatePostStore } from "@/store/useCreatePostStore";
 export const MediaCarousel = ({
   mediaStyle,
   previewFiles,
-
-  editMode,
   style,
   controlsFontSize = "2rem",
+
+  editMode,
 }: {
   mediaStyle: CSSProperties;
   previewFiles: previewFile[];
-
-  editMode?: boolean;
   style?: CSSProperties;
   controlsFontSize?: string | number;
+
+  editMode?: boolean;
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(previewFiles[0].id);
+  const [currentIndex, setCurrentIndex] = useState(
+    previewFiles[0] ? previewFiles[0].id : 0
+  );
 
   const nextAndPrevButtonsSharedStyles: CSSProperties = {
     alignItems: "center",
@@ -39,126 +41,125 @@ export const MediaCarousel = ({
   const [cropping, setCropping] = useState<boolean>(false);
 
   return (
-    <div
-      style={{
-        ...style,
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
-      {previewFiles.map((previewFile) => (
-        <>
-          {previewFile.id === currentIndex ? (
-            <div
-              style={{
-                flexGrow: 1,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              {editMode && setPreviewFiles ? (
-                <div
-                  style={{
-                    width: "100%",
-                    border: "2px solid red",
-                  }}
-                >
-                  <EditButtons
-                    previewFile={previewFile}
-                    previewFiles={previewFiles}
-                    setPreviewFiles={setPreviewFiles}
-                    setCurrentIndex={setCurrentIndex}
-                    setCropping={setCropping}
-                  />
-                </div>
-              ) : null}
+    previewFiles.length && (
+      <div
+        style={{
+          ...style,
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        {previewFiles.map((previewFile) => (
+          <>
+            {previewFile.id === currentIndex ? (
               <div
                 style={{
-                  position: "relative",
-
-                  maxHeight: "500px",
-                  overflow: "hidden",
+                  flexGrow: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
                 }}
               >
-                {previewFiles.length > 1 ? (
+                {editMode ? (
                   <div
                     style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      height: "100%",
                       width: "100%",
-                      display: "flex",
-                      alignItems: "center",
                     }}
                   >
-                    <div
-                      style={{
-                        zIndex: 10,
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <ScaleHoverButton
-                        onClick={() => {
-                          setCurrentIndex(
-                            (prev) =>
-                              (((prev - 1) % previewFiles.length) +
-                                previewFiles.length) %
-                              previewFiles.length
-                          );
-                        }}
-                        style={nextAndPrevButtonsSharedStyles}
-                      >
-                        <LeftArrowCircleFillIcon
-                          fontSize={controlsFontSize}
-                          color="var(--primary-color)"
-                        />
-                      </ScaleHoverButton>
-
-                      <ScaleHoverButton
-                        onClick={() => {
-                          setCurrentIndex(
-                            (prev) =>
-                              (((prev + 1) % previewFiles.length) +
-                                previewFiles.length) %
-                              previewFiles.length
-                          );
-                        }}
-                        style={nextAndPrevButtonsSharedStyles}
-                      >
-                        <RightArrowCircleFillIcon
-                          fontSize={controlsFontSize}
-                          color="var(--primary-color)"
-                        />
-                      </ScaleHoverButton>
-                    </div>
+                    <EditButtons
+                      previewFile={previewFile}
+                      previewFiles={previewFiles}
+                      setCurrentIndex={setCurrentIndex}
+                      setCropping={setCropping}
+                    />
                   </div>
                 ) : null}
+                <div
+                  style={{
+                    position: "relative",
 
-                {cropping && setPreviewFiles ? (
-                  <CropMedia
-                    mediaStyle={mediaStyle}
-                    previewFile={previewFile}
-                    setPreviewFiles={setPreviewFiles}
-                  />
-                ) : previewFile.type === "image" ? (
-                  <img src={previewFile.src} style={mediaStyle} />
-                ) : (
-                  <video
-                    src={previewFile.src}
-                    style={mediaStyle}
-                    autoPlay={true}
-                  />
-                )}
+                    maxHeight: "500px",
+                    overflow: "hidden",
+                  }}
+                >
+                  {previewFiles.length > 1 ? (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        height: "100%",
+                        width: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div
+                        style={{
+                          zIndex: 10,
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <ScaleHoverButton
+                          onClick={() => {
+                            setCurrentIndex(
+                              (prev) =>
+                                (((prev - 1) % previewFiles.length) +
+                                  previewFiles.length) %
+                                previewFiles.length
+                            );
+                          }}
+                          style={nextAndPrevButtonsSharedStyles}
+                        >
+                          <LeftArrowCircleFillIcon
+                            fontSize={controlsFontSize}
+                            color="var(--primary-color)"
+                          />
+                        </ScaleHoverButton>
+
+                        <ScaleHoverButton
+                          onClick={() => {
+                            setCurrentIndex(
+                              (prev) =>
+                                (((prev + 1) % previewFiles.length) +
+                                  previewFiles.length) %
+                                previewFiles.length
+                            );
+                          }}
+                          style={nextAndPrevButtonsSharedStyles}
+                        >
+                          <RightArrowCircleFillIcon
+                            fontSize={controlsFontSize}
+                            color="var(--primary-color)"
+                          />
+                        </ScaleHoverButton>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {cropping ? (
+                    <CropMedia
+                      mediaStyle={mediaStyle}
+                      previewFile={previewFile}
+                    />
+                  ) : previewFile.type === "image" ? (
+                    <img src={previewFile.src} style={mediaStyle} />
+                  ) : (
+                    <video
+                      src={previewFile.src}
+                      style={mediaStyle}
+                      autoPlay={true}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-          ) : null}
-        </>
-      ))}
-    </div>
+            ) : null}
+          </>
+        ))}
+      </div>
+    )
   );
 };
 

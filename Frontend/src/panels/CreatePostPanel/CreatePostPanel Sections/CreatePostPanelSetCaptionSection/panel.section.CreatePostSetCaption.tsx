@@ -11,16 +11,15 @@ import { mockUser } from "@/dev/mockUser";
 
 import { ToggleButton } from "@/components/ToggleButton/ToggleButton";
 import { Dropdown } from "@/components/Dropdown/Dropdown";
+import { useCreatePostStore } from "@/store/useCreatePostStore";
 
 export const CreatePostPanelSetCaptionSection = ({
-  previewFiles,
-
   setSection,
 }: {
-  previewFiles: previewFile[];
-
   setSection: React.Dispatch<React.SetStateAction<CreatePostSections>>;
 }) => {
+  const previewFiles = useCreatePostStore((state) => state.previewFiles);
+
   return (
     <div className={styles.container}>
       <MediaCarousel
@@ -40,17 +39,30 @@ export const CreatePostPanelSetCaptionSection = ({
 };
 
 const SetCaptionBody = () => {
-  const [caption, setCaption] = useState<string>("");
-  const [showAdditionalSettings, setShowAdditionalSettings] =
-    useState<boolean>(false);
+  const caption = useCreatePostStore((state) => state.caption);
+  const setCaption = useCreatePostStore((state) => state.setCaption);
+  const hideLikesCount = useCreatePostStore(
+    (state) => state.additionalSettings.hideLikesCount
+  );
 
-  const [hideLikesCount, setHideLikesCount] = useState<boolean>(false);
-  const [disableCommenting, setDisableCommenting] = useState<boolean>(false);
+  const setHideLikesCount = useCreatePostStore(
+    (state) => state.additionalSettings.setHideLikesCount
+  );
+
+  const disableCommenting = useCreatePostStore(
+    (state) => state.additionalSettings.disableCommenting
+  );
+  const setDisableCommenting = useCreatePostStore(
+    (state) => state.additionalSettings.setDisableCommenting
+  );
 
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const { value } = e.target;
     setCaption(value);
   }
+
+  const [showAdditionalSettings, setShowAdditionalSettings] =
+    useState<boolean>(false);
 
   return (
     <div className={styles.setCaptionBody}>

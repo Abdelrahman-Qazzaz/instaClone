@@ -9,10 +9,10 @@ export const ToggleButton = ({
 }: {
   text: string;
   value: boolean;
-  setValue: React.Dispatch<React.SetStateAction<boolean>>;
+  setValue: (arg0: boolean) => void;
 }) => {
   function toggleValue() {
-    setValue((prev) => !prev);
+    setValue(!value);
   }
 
   return (
