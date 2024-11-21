@@ -7,6 +7,7 @@ import Middleware from "src/types/Middleware.ts";
 import { httpResponses } from "src/utils/HTTPResponses.ts";
 import multer from "multer";
 export const upload = multer({ dest: "uploads/" });
+import { fileTypeFromFile } from "file-type";
 
 env.config();
 const serviceAccount = JSON.parse(
@@ -49,21 +50,19 @@ export const uploadFiles: Middleware = async (req, res, next) => {
   if (!req.files) return next();
 
   try {
-    upload.array("files")(req, res, async (err) => {
-      if (err) {
-        console.error("Error handling file(s) upload:", err);
-        return res.status(500).send({ message: "Error uploading files" });
-      }
+    const uploadedFiles: Express.Multer.File[] =
+      req.files as Express.Multer.File[];
 
-      const uploadedFiles: Express.Multer.File[] =
-        req.files as Express.Multer.File[];
+    const [error, firebaseUrls] = await uploadFilesToFirebase(uploadedFiles);
+    if (error) {
+      console.log(error);
+      return httpResponses.InternalServerError(res);
+    }
 
-      const [error, firebaseUrls] = await uploadFilesToFirebase(uploadedFiles);
-      if (error) return httpResponses.InternalServerError(res);
-
-      req.firebaseUrls = firebaseUrls;
-      next();
-    });
+    req.firebaseUrls = firebaseUrls;
+    console.log(firebaseUrls);
+    next();
+    // });
   } catch (err) {
     console.error("Error uploading image:", err);
     return res.status(500).send({ message: "Error uploading image" });
@@ -81,12 +80,13 @@ const uploadFilesToFirebase: UploadFilesToFirebase = async (files) => {
     const { filename, path } = file;
 
     try {
-      const contentType = mime.getType(path);
-      if (!contentType) return [new Error("Invalid file type."), null];
+      const result = await fileTypeFromFile(path);
+
+      if (!result) return [new Error("Invalid file type."), null];
       const [file] = await bucket.upload(path, {
         destination: filename,
         metadata: {
-          contentType: contentType,
+          contentType: result.mime,
         },
       });
 

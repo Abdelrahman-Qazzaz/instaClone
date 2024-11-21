@@ -7,17 +7,25 @@ export async function sharePost(
   caption: string,
   additionalSettings: AdditionalSettings["getters"]
 ): Promise<[null, any] | [unknown, null]> {
+  const formData = new FormData();
+  await appendPreviewFiles(previewFiles, formData);
+
   try {
-    const { data } = await api.request.post("/posts", {
-      params: {
-        previewFiles,
-        caption,
-        additionalSettings,
-      },
-    });
+    const { data } = await api.request.post("/posts", formData);
 
     return [null, data];
   } catch (error) {
     return [error, null];
+  }
+}
+
+async function appendPreviewFiles(
+  previewFiles: previewFile[],
+  formData: FormData
+) {
+  for (const previewFile of previewFiles) {
+    const response = await fetch(previewFile.src);
+    const blob = await response.blob();
+    formData.append("files", blob);
   }
 }

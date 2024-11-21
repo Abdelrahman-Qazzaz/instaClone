@@ -26,6 +26,7 @@
     "express": "^4.19.2",
     "express-rate-limit": "^7.4.0",
     "express-session": "^1.18.0",
+    "file-type": "^19.6.0",
     "firebase": "^10.12.3",
     "firebase-admin": "^12.2.0",
     "ioredis": "^5.4.1",

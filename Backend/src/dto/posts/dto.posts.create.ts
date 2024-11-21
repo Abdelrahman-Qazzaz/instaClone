@@ -8,12 +8,14 @@ export class CreatePostDTO {
   @IsNumber()
   user_id: number;
 
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]), {
+    toClassOnly: true,
+  })
+  previewUrls: string[];
+
   @IsOptional()
   caption: string;
 
   @IsOptional()
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value]), {
-    toClassOnly: true,
-  })
-  urls: string[];
+  additionalSettings: { hideLikesCount: boolean; disableCommenting: boolean };
 }

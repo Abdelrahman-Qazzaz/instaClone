@@ -8,6 +8,10 @@ class Api {
   request = axios.create({
     baseURL: "http://localhost:4000",
     timeout: 10000,
+    headers: {
+      Authorization: "bearer admin",
+      "Content-Type": "multipart/form-data",
+    },
   });
 
   // api.interceptors.request.use(

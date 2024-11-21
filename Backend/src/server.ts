@@ -27,7 +27,7 @@ app.use(
 
 app.use(
   cors({
-    origin: ["https://instaclone-1-jckm.onrender.com", "http://localhost:3000"],
+    origin: ["https://instaclone-1-jckm.onrender.com", "http://localhost:5173"],
     credentials: true,
   })
 );

@@ -27,22 +27,26 @@ export const CreatePostPanel = () => {
   const [section, setSection] = useState<CreatePostSections>("SelectMedia");
   const [disableShareButton, setDisableShareButton] = useState<boolean>(true);
   const xPadding = "1.5rem";
-  const previewFilesLength = useCreatePostStore(
-    (state) => state.previewFiles
-  ).length;
+
+  const previewFiles = useCreatePostStore((state) => state.previewFiles);
+  const caption = useCreatePostStore((state) => state.caption);
+  const additionalSettings = useCreatePostStore(
+    (state) => state.additionalSettings.getters
+  );
+
   useEffect(() => {
-    return previewFilesLength
+    return previewFiles.length
       ? setDisableShareButton(false)
       : setDisableShareButton(true);
-  }, [previewFilesLength]);
+  }, [previewFiles.length]);
 
   async function handleShare() {
-    const previewFiles = useCreatePostStore((state) => state.previewFiles);
-    const caption = useCreatePostStore((state) => state.caption);
-    const additionalSettings = useCreatePostStore(
-      (state) => state.additionalSettings.getters
+    const [error, post] = await api.posts.sharePost(
+      previewFiles,
+      caption,
+      additionalSettings
     );
-    await api.posts.sharePost(previewFiles, caption, additionalSettings);
+    console.log(error, post);
   }
 
   return (
