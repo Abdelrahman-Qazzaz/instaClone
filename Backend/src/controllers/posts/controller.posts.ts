@@ -13,7 +13,7 @@ class PostsController implements ICRUDController {
   create: ReqHandler = async (req, res) => {
     const [typeErrors, data] = await validateAndTypeCast(CreatePostDTO, {
       ...req.body,
-      urls: req.firebaseUrls,
+      urls: req.firebaseFiles,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
@@ -27,7 +27,7 @@ class PostsController implements ICRUDController {
 
     const [typeErrors, data] = await validateAndTypeCast(UpdatePostDTO, {
       ...req.body,
-      urls: req.firebaseUrls,
+      urls: req.firebaseFiles,
     });
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 

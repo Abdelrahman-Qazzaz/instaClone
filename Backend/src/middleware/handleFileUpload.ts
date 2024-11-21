@@ -8,6 +8,7 @@ import { httpResponses } from "src/utils/HTTPResponses.ts";
 import multer from "multer";
 export const upload = multer({ dest: "uploads/" });
 import { fileTypeFromFile } from "file-type";
+import { FirebaseFile } from "src/types/express.js";
 
 env.config();
 const serviceAccount = JSON.parse(
@@ -33,10 +34,12 @@ export const uploadFile: Middleware = async (req, res, next) => {
 
       const uploadedFile: Express.Multer.File = req.file as Express.Multer.File;
 
-      const [error, firebaseUrls] = await uploadFilesToFirebase([uploadedFile]);
+      const [error, firebaseFiles] = await uploadFilesToFirebase([
+        uploadedFile,
+      ]);
       if (error) return httpResponses.InternalServerError(res);
 
-      req.firebaseUrls = firebaseUrls;
+      req.firebaseFiles = firebaseFiles;
 
       next();
     });
@@ -53,14 +56,14 @@ export const uploadFiles: Middleware = async (req, res, next) => {
     const uploadedFiles: Express.Multer.File[] =
       req.files as Express.Multer.File[];
 
-    const [error, firebaseUrls] = await uploadFilesToFirebase(uploadedFiles);
+    const [error, firebaseFiles] = await uploadFilesToFirebase(uploadedFiles);
     if (error) {
       console.log(error);
       return httpResponses.InternalServerError(res);
     }
 
-    req.firebaseUrls = firebaseUrls;
-    console.log(firebaseUrls);
+    req.firebaseFiles = firebaseFiles;
+
     next();
     // });
   } catch (err) {
@@ -71,18 +74,18 @@ export const uploadFiles: Middleware = async (req, res, next) => {
 
 type UploadFilesToFirebase = (
   files: Express.Multer.File[]
-) => Promise<[Error, null] | [null, string[]]>;
+) => Promise<[Error, null] | [null, FirebaseFile[]]>;
 
 const uploadFilesToFirebase: UploadFilesToFirebase = async (files) => {
-  const urls: string[] = [];
+  const firebaseFiles: FirebaseFile[] = [];
 
   for (const file of files) {
     const { filename, path } = file;
 
     try {
       const result = await fileTypeFromFile(path);
-
       if (!result) return [new Error("Invalid file type."), null];
+
       const [file] = await bucket.upload(path, {
         destination: filename,
         metadata: {
@@ -90,16 +93,27 @@ const uploadFilesToFirebase: UploadFilesToFirebase = async (files) => {
         },
       });
 
-      const url = await file.getSignedUrl({
+      const signedUrl = await file.getSignedUrl({
         action: "read",
         expires: "01-01-2025",
       });
+      const url = signedUrl[0];
 
-      urls.push(url[0]);
+      const type: FirebaseFile["type"] | undefined = result.mime.startsWith(
+        "image"
+      )
+        ? "image"
+        : result.mime.startsWith("video")
+        ? "video"
+        : undefined;
+      if (!type) return [new Error("Invalid file type."), null];
+
+      const firebaseFile: FirebaseFile = { url, type };
+      firebaseFiles.push(firebaseFile);
     } catch (error) {
       console.error("Error uploading file:", error);
       return [new Error("Invalid file type."), null];
     }
   }
-  return [null, urls];
+  return [null, firebaseFiles];
 };
