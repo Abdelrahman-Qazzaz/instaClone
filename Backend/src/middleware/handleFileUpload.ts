@@ -8,7 +8,6 @@ import { httpResponses } from "src/utils/HTTPResponses.ts";
 import multer from "multer";
 export const upload = multer({ dest: "uploads/" });
 import { fileTypeFromFile } from "file-type";
-import { FirebaseFile } from "src/types/express.js";
 
 env.config();
 const serviceAccount = JSON.parse(
@@ -39,7 +38,7 @@ export const uploadFile: Middleware = async (req, res, next) => {
       ]);
       if (error) return httpResponses.InternalServerError(res);
 
-      req.firebaseFiles = firebaseFiles;
+      req.media_urls = firebaseFiles;
 
       next();
     });
@@ -62,10 +61,9 @@ export const uploadFiles: Middleware = async (req, res, next) => {
       return httpResponses.InternalServerError(res);
     }
 
-    req.firebaseFiles = firebaseFiles;
+    req.media_urls = firebaseFiles;
 
     next();
-    // });
   } catch (err) {
     console.error("Error uploading image:", err);
     return res.status(500).send({ message: "Error uploading image" });
@@ -74,10 +72,10 @@ export const uploadFiles: Middleware = async (req, res, next) => {
 
 type UploadFilesToFirebase = (
   files: Express.Multer.File[]
-) => Promise<[Error, null] | [null, FirebaseFile[]]>;
+) => Promise<[Error, null] | [null, string[]]>;
 
 const uploadFilesToFirebase: UploadFilesToFirebase = async (files) => {
-  const firebaseFiles: FirebaseFile[] = [];
+  const media_urls: string[] = [];
 
   for (const file of files) {
     const { filename, path } = file;
@@ -99,21 +97,12 @@ const uploadFilesToFirebase: UploadFilesToFirebase = async (files) => {
       });
       const url = signedUrl[0];
 
-      const type: FirebaseFile["type"] | undefined = result.mime.startsWith(
-        "image"
-      )
-        ? "image"
-        : result.mime.startsWith("video")
-        ? "video"
-        : undefined;
-      if (!type) return [new Error("Invalid file type."), null];
-
-      const firebaseFile: FirebaseFile = { url, type };
-      firebaseFiles.push(firebaseFile);
+      media_urls.push(url);
     } catch (error) {
       console.error("Error uploading file:", error);
       return [new Error("Invalid file type."), null];
     }
   }
-  return [null, firebaseFiles];
+
+  return [null, media_urls];
 };

@@ -24,6 +24,7 @@ export const StackedMedia = ({
       >
         {previewFiles.map((objectUrl, idx) => (
           <div
+            key={idx}
             className={styles.mediaContainer}
             style={{
               top: idx * 15,

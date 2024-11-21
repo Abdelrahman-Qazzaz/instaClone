@@ -11,16 +11,15 @@ export const ToggleButton = ({
   value: boolean;
   setValue: (arg0: boolean) => void;
 }) => {
-  function toggleValue() {
+  function handleChange() {
     setValue(!value);
   }
-
   return (
     <div className="d-flex justify-content-between gap-2 text p-2">
       {text}
       <Switch
         checked={value}
-        onChange={toggleValue}
+        onChange={handleChange}
         height={24}
         width={48}
         onColor="#80C4E9"

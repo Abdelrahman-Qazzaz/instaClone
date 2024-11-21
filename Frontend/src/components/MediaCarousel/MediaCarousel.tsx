@@ -49,8 +49,8 @@ export const MediaCarousel = ({
           alignItems: "center",
         }}
       >
-        {previewFiles.map((previewFile) => (
-          <>
+        {previewFiles.map((previewFile, key) => (
+          <div key={key}>
             {previewFile.id === currentIndex ? (
               <div
                 style={{
@@ -156,7 +156,7 @@ export const MediaCarousel = ({
                 </div>
               </div>
             ) : null}
-          </>
+          </div>
         ))}
       </div>
     )

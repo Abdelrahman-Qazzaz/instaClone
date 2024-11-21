@@ -41,6 +41,7 @@ export const CreatePostPanelSetCaptionSection = ({
 const SetCaptionBody = () => {
   const caption = useCreatePostStore((state) => state.caption);
   const setCaption = useCreatePostStore((state) => state.setCaption);
+
   const hideLikesCount = useCreatePostStore(
     (state) => state.additionalSettings.getters.hideLikesCount
   );
