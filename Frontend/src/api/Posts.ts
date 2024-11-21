@@ -5,7 +5,7 @@ import { AdditionalSettings } from "@/store/useCreatePostStore";
 export async function sharePost(
   previewFiles: previewFile[],
   caption: string,
-  additionalSettings: AdditionalSettings
+  additionalSettings: AdditionalSettings["getters"]
 ): Promise<[null, any] | [unknown, null]> {
   try {
     const { data } = await api.request.post("/posts", {

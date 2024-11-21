@@ -40,7 +40,7 @@ export const CreatePostPanel = () => {
     const previewFiles = useCreatePostStore((state) => state.previewFiles);
     const caption = useCreatePostStore((state) => state.caption);
     const additionalSettings = useCreatePostStore(
-      (state) => state.additionalSettings
+      (state) => state.additionalSettings.getters
     );
     await api.posts.sharePost(previewFiles, caption, additionalSettings);
   }

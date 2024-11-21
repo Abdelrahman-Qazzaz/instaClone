@@ -2,11 +2,14 @@ import { previewFile } from "@/panels/CreatePostPanel/panel.CreatePost";
 import { create } from "zustand";
 
 export type AdditionalSettings = {
-  hideLikesCount: boolean;
-  setHideLikesCount: (arg0: boolean) => void;
-
-  disableCommenting: boolean;
-  setDisableCommenting: (arg0: boolean) => void;
+  getters: {
+    hideLikesCount: boolean;
+    disableCommenting: boolean;
+  };
+  setters: {
+    setHideLikesCount: (arg0: boolean) => void;
+    setDisableCommenting: (arg0: boolean) => void;
+  };
 };
 
 export type CreatePostStore = {
@@ -19,7 +22,6 @@ export type CreatePostStore = {
   setCaption: (arg0: string) => void;
 
   additionalSettings: AdditionalSettings;
-  setAdditionalSettings: (arg0: AdditionalSettings) => void;
 };
 
 export const useCreatePostStore = create<CreatePostStore>((set) => ({
@@ -61,20 +63,26 @@ export const useCreatePostStore = create<CreatePostStore>((set) => ({
   },
 
   additionalSettings: {
-    hideLikesCount: false,
-    setHideLikesCount: (hideLikesCount: boolean) => {
-      set((state) => ({
-        ...state,
-        additionalSettings: { ...state.additionalSettings, hideLikesCount },
-      }));
+    getters: {
+      hideLikesCount: false,
+      disableCommenting: false,
     },
-
-    disableCommenting: false,
-    setDisableCommenting: (disableCommenting: boolean) => {
-      set((state) => ({
-        ...state,
-        additionalSettings: { ...state.additionalSettings, disableCommenting },
-      }));
+    setters: {
+      setHideLikesCount: (hideLikesCount: boolean) => {
+        set((state) => ({
+          ...state,
+          additionalSettings: { ...state.additionalSettings, hideLikesCount },
+        }));
+      },
+      setDisableCommenting: (disableCommenting: boolean) => {
+        set((state) => ({
+          ...state,
+          additionalSettings: {
+            ...state.additionalSettings,
+            disableCommenting,
+          },
+        }));
+      },
     },
   },
   setAdditionalSettings: (additionalSettings: AdditionalSettings) => {

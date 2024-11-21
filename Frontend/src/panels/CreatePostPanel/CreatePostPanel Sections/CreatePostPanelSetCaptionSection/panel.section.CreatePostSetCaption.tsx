@@ -42,18 +42,18 @@ const SetCaptionBody = () => {
   const caption = useCreatePostStore((state) => state.caption);
   const setCaption = useCreatePostStore((state) => state.setCaption);
   const hideLikesCount = useCreatePostStore(
-    (state) => state.additionalSettings.hideLikesCount
+    (state) => state.additionalSettings.getters.hideLikesCount
   );
 
   const setHideLikesCount = useCreatePostStore(
-    (state) => state.additionalSettings.setHideLikesCount
+    (state) => state.additionalSettings.setters.setHideLikesCount
   );
 
   const disableCommenting = useCreatePostStore(
-    (state) => state.additionalSettings.disableCommenting
+    (state) => state.additionalSettings.getters.disableCommenting
   );
   const setDisableCommenting = useCreatePostStore(
-    (state) => state.additionalSettings.setDisableCommenting
+    (state) => state.additionalSettings.setters.setDisableCommenting
   );
 
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
