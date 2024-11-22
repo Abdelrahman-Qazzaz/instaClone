@@ -8,6 +8,7 @@ import { Compare_reqUserId_To_postUserId } from "src/middleware/posts/Compare_re
 import multer from "multer";
 export const upload = multer({ dest: "uploads/" });
 import { uploadFile, uploadFiles } from "src/middleware/handleFileUpload.ts";
+import { parseReqBodyJSON } from "src/middleware/parseReqBodyJSON.ts";
 
 export const postsRouter = express.Router();
 
@@ -23,9 +24,7 @@ postsRouter.post(
   checkAuth,
   upload.array("files"),
   uploadFiles,
-  (req) => {
-    req;
-  },
+  parseReqBodyJSON,
   postsController.create
 );
 

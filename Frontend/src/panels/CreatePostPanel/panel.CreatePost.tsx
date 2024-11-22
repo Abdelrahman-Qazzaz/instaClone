@@ -12,6 +12,7 @@ import { ScaleHoverButton } from "@/assets/animations/animation.ScaleHoverButton
 import { usePanelsStore } from "@/store/usePanelsStore";
 import { useCreatePostStore } from "@/store/useCreatePostStore";
 import { api } from "@/api/api";
+import { useLoadingStore } from "@/store/useLoadingStore";
 
 export type previewFile = {
   id: number;
@@ -27,12 +28,13 @@ export const CreatePostPanel = () => {
   const [section, setSection] = useState<CreatePostSections>("SelectMedia");
   const [disableShareButton, setDisableShareButton] = useState<boolean>(true);
   const xPadding = "1.5rem";
-
   const previewFiles = useCreatePostStore((state) => state.previewFiles);
   const caption = useCreatePostStore((state) => state.caption);
   const additionalSettings = useCreatePostStore(
     (state) => state.additionalSettings.getters
   );
+
+  const setIsLoading = useLoadingStore((state) => state.setIsLoading);
 
   useEffect(() => {
     return previewFiles.length
@@ -41,12 +43,14 @@ export const CreatePostPanel = () => {
   }, [previewFiles.length]);
 
   async function handleShare() {
+    setIsLoading(true);
     const [error, post] = await api.posts.sharePost(
       previewFiles,
       caption,
       additionalSettings
     );
-    console.log(error);
+    setIsLoading(false);
+    if (!error) return closeAll();
   }
 
   return (

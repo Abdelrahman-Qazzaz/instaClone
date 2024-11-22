@@ -9,8 +9,7 @@ export async function sharePost(
 ): Promise<[null, any] | [unknown, null]> {
   const formData = new FormData();
   await appendPreviewFiles(previewFiles, formData);
-  formData.append("caption", caption);
-  formData.append("additional_settings", JSON.stringify(additional_settings));
+  formData.append("json", JSON.stringify({ caption, additional_settings }));
 
   try {
     const { data } = await api.request.post("/posts", formData);

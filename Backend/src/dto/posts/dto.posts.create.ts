@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer";
-import { IsNumber, IsOptional } from "class-validator";
+import { IsArray, IsNumber, IsOptional } from "class-validator";
 
 import { transformToNumber } from "../utils/helper functions/transformToNumber.ts";
 
@@ -8,14 +8,12 @@ export class CreatePostDTO {
   @IsNumber()
   user_id: number;
 
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value]), {
-    toClassOnly: true,
-  })
+  @IsArray()
   media_urls: string[];
 
   @IsOptional()
   caption: string;
 
   @IsOptional()
-  additionalSettings: { hideLikesCount: boolean; disableCommenting: boolean };
+  additional_settings: { hideLikesCount: boolean; disableCommenting: boolean };
 }
