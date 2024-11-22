@@ -18,6 +18,9 @@ import { usePanelsStore } from "@/store/usePanelsStore";
 import { useLoadingStore } from "@/store/useLoadingStore";
 import { Loading } from "@/components/Loading/Loading";
 
+import { useToastStore } from "@/store/useToastStore";
+import { Toast } from "@/components/Toast/Toast";
+
 function App() {
   const viewStoryOrVisitProfilePrompt = usePromptsStore(
     (store) => store.viewStoryOrVisitProfilePrompt
@@ -26,12 +29,14 @@ function App() {
   const isLoading = useLoadingStore((state) => state.isLoading);
   const blackBackground =
     viewStoryOrVisitProfilePrompt.display || createPostPanel.display;
-
+  const displayToast = useToastStore((state) => state.display);
   // FixedPosPage zIndex: 1
   // Navbars zIndex: 2
   // BlackBackground zIndex: 2
   // prompts & Panels' zIndex: 3
   // Loading zIndex: 4
+  // Toast zIndex: 5
+
   return (
     <>
       <Router>
@@ -56,6 +61,7 @@ function App() {
         {createPostPanel.display && <CreatePostPanel />}
 
         {isLoading && <Loading />}
+        {displayToast || (1 && <Toast>...</Toast>)}
       </Router>
     </>
   );
