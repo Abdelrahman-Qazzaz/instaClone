@@ -23,6 +23,9 @@ postsRouter.post(
   checkAuth,
   upload.array("files"),
   uploadFiles,
+  (req) => {
+    req;
+  },
   postsController.create
 );
 

@@ -5,12 +5,12 @@ import { AdditionalSettings } from "@/store/useCreatePostStore";
 export async function sharePost(
   previewFiles: previewFile[],
   caption: string,
-  additionalSettings: AdditionalSettings["getters"]
+  additional_settings: AdditionalSettings["getters"]
 ): Promise<[null, any] | [unknown, null]> {
   const formData = new FormData();
   await appendPreviewFiles(previewFiles, formData);
   formData.append("caption", caption);
-  formData.append("additionalSettings", JSON.stringify(additionalSettings));
+  formData.append("additional_settings", JSON.stringify(additional_settings));
 
   try {
     const { data } = await api.request.post("/posts", formData);

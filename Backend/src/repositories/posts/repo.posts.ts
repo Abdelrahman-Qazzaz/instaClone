@@ -18,8 +18,6 @@ class PostsRepo
   create: (args: { data: CreatePostDTO }) => AsyncPostTuple = async (args) => {
     const { data } = args;
     try {
-      console.log(data);
-
       const post = await db.posts.create({ data });
 
       return [null, post];

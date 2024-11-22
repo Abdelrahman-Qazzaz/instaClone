@@ -46,7 +46,7 @@ export const CreatePostPanel = () => {
       caption,
       additionalSettings
     );
-    console.log(error, post);
+    console.log(error);
   }
 
   return (

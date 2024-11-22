@@ -71,15 +71,18 @@ export const useCreatePostStore = create<CreatePostStore>((set) => ({
       setHideLikesCount: (hideLikesCount: boolean) => {
         set((state) => ({
           ...state,
-          additionalSettings: { ...state.additionalSettings, hideLikesCount },
+          additionalSettings: {
+            setters: { ...state.additionalSettings.setters },
+            getters: { ...state.additionalSettings.getters, hideLikesCount },
+          },
         }));
       },
       setDisableCommenting: (disableCommenting: boolean) => {
         set((state) => ({
           ...state,
           additionalSettings: {
-            ...state.additionalSettings,
-            disableCommenting,
+            setters: { ...state.additionalSettings.setters },
+            getters: { ...state.additionalSettings.getters, disableCommenting },
           },
         }));
       },

@@ -16,7 +16,9 @@ class PostsController implements ICRUDController {
       user_id: req.user?.id,
       media_urls: req.media_urls,
     });
-
+    console.log(req.body);
+    console.log(req.user?.id);
+    console.log(req.media_urls);
     if (typeErrors.length) return httpResponses.BadRequest(res, { typeErrors });
 
     const [error, post] = await postsRepo.create({ data });
